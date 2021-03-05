@@ -17,12 +17,12 @@
                 <h1>Log In</h1>
             </span>
         </legend>
-        <form action="#" method="POST">
+        <form action="{{ url_for('login') }}" method="POST">
             <ul>
                 <li>
                     <p>
                         <label for="username">Username:</label>
-                        <input type="text" id="username" name="oginusername">
+                        <input type="text" id="username" name="loginusername">
                     </p>
                 </li>
                 <li>
