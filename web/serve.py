@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jiseufnjbxslue:05457b355e4aabeaeae4a1c17e76c07fde2b7a91c702f91e9be4d1d270d36817@ec2-3-211-245-154.compute-1.amazonaws.com:5432/ddd507tv8dg7mc'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -19,6 +19,7 @@ db.create_all()
 example_user = User(id=1, name="Philip Sterne")
 db.session.merge(example_user)
 db.session.commit()
+db.create_all()
 
 
 @ app.route('/')
