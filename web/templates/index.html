@@ -11,33 +11,23 @@
 <body>
     <p>Hello World!</p>
 
-    <fieldset>
-        <legend>
-            <span>
-                <h1>Log In</h1>
-            </span>
-        </legend>
-        <form action="{{ url_for('login') }}" method="POST">
-            <ul>
-                <li>
-                    <p>
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="loginusername">
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <label for="password">Password:</label>
-                        <input type="text" id="password" name="loginpassword">
-                    </p>
-                </li>
-                <br>
-                <li>
-                    <button type="submit"><strong>Submit</strong></button>
-                </li>
-            </ul>
-        </form>
-    </fieldset>
+    <h1>Sign In</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    
+    </div>
+
 </body>
 
 </html>
