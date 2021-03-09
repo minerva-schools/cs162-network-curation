@@ -68,6 +68,9 @@ def login():
         return redirect(url_for('main'))
     return render_template('index.html', form=form)
 
+@app.route('/main')
+def main():
+    return render_template('main.html')
 
 if __name__ == '__main__':
     app.run()
