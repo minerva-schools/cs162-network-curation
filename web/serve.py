@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, LoginManager, UserMixin, login_required, logout_user
+from flask_login import login_user, LoginManager, UserMixin, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
@@ -55,9 +55,9 @@ def users():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     print("Logging in")
-    #if current_user.is_authenticated:
-        #print("Authenticated")
-       #return redirect(url_for('index'))
+    if current_user.is_authenticated:
+        print("Authenticated")
+        return redirect(url_for('main'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
