@@ -4,10 +4,9 @@ from flask_login import login_user, LoginManager, UserMixin, current_user, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
-from forms import LoginForm
+from .forms import LoginForm
 from dotenv import load_dotenv
 load_dotenv()
-
 app = Flask(__name__)
 login = LoginManager(app)
 login.init_app(app)
@@ -17,6 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +30,7 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+
 db.create_all()
 example_user = User(id=1, name="Philip Sterne", username="username")
 example_user.set_password('mypassword')
@@ -37,14 +38,17 @@ example_user.set_password('mypassword')
 db.session.merge(example_user)
 db.session.commit()
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = LoginForm()
     return render_template('index.html', form=form)
+
 
 @app.route('/users')
 def users():
@@ -68,9 +72,11 @@ def login():
         return redirect(url_for('main'))
     return render_template('index.html', form=form)
 
+
 @app.route('/main')
 def main():
     return render_template('main.html')
+
 
 if __name__ == '__main__':
     app.run()
