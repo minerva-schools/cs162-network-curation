@@ -12,7 +12,7 @@ login = LoginManager(app)
 login.init_app(app)
 login.login_view = 'login'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
@@ -31,12 +31,15 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
+
 db.create_all()
 example_user = User(id=1, name="Philip Sterne", username="username")
 example_user.set_password('mypassword')
 
 db.session.merge(example_user)
 db.session.commit()
+db.create_all()
+
 
 
 @login.user_loader
@@ -50,10 +53,12 @@ def index():
     return render_template('index.html', form=form)
 
 
-@app.route('/users')
+
+@ app.route('/users')
 def users():
     users = User.query.all()
     return render_template('users.html', users=users)
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -76,7 +81,6 @@ def login():
 @app.route('/main')
 def main():
     return render_template('main.html')
-
 
 if __name__ == '__main__':
     app.run()
