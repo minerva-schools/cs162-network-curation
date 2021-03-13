@@ -1,7 +1,6 @@
 *{
     box-sizing: border-box;
     margin = 0;
-
 }
 
 body {
@@ -15,9 +14,18 @@ body {
     right: 0px;
     top: 0px;
     bottom: 0px;
-
     background: #FFFFFF;    
 }
+
+.nav-container .logo{
+    font-family: Bahnschrift SemiLighth;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 32px;
+    color: #EB5757;
+}
+
 .wrapper {
     width: 1200px;
     margin: 0 auto;
@@ -43,6 +51,20 @@ nav .logo{
     line-height: 32px;
     color: #EB5757;
 
+}
+
+nav a:hover{
+  background: #EB5757;
+  opacity: 0.75;
+  transition: 0.25s;
+}
+
+.logo img{
+  position:absolute;
+  height: 80px;
+  width: 80px;
+  margin-top: 0px;
+  margin-left: 10px;
 }
 
 .nav-items li{

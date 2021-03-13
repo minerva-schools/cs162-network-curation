@@ -54,7 +54,7 @@ def index():
 
 
 
-@ app.route('/users')
+@app.route('/users')
 def users():
     users = User.query.all()
     return render_template('users.html', users=users)
