@@ -1,39 +1,33 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_user, LoginManager, UserMixin, current_user, login_required, logout_user
-from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
 from .forms import LoginForm
 from dotenv import load_dotenv
+from .models import db, User
+from flask import current_app as app
+
+db = SQLAlchemy(app)
+
 load_dotenv()
-app = Flask(__name__)
 login = LoginManager(app)
 login.init_app(app)
 login.login_view = 'login'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = LoginForm()
     return render_template('index.html', form=form)
 
-
-
-@ app.route('/users')
+@app.route('/users')
 def users():
     users = User.query.all()
     return render_template('users.html', users=users)
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -50,7 +44,6 @@ def login():
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('main'))
     return render_template('index.html', form=form)
-
 
 @app.route('/main')
 def main():
