@@ -1,1 +1,2 @@
-from .serve import app, db
+from .serve import app
+from .models import db

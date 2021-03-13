@@ -12,6 +12,18 @@ login = LoginManager(app)
 login.init_app(app)
 login.login_view = 'login'
 
+
+db = SQLAlchemy(app)
+
+
+db.create_all()
+example_user = User(id=1, name="Philip Sterne", username="username")
+example_user.set_password('mypassword')
+
+db.session.merge(example_user)
+db.session.commit()
+db.create_all()
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
