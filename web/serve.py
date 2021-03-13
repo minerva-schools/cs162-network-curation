@@ -23,7 +23,7 @@ def load_user(id):
 def index():
     form = LoginForm()
     return render_template('index.html', form=form)
-
+  
 @app.route('/users')
 def users():
     users = User.query.all()
