@@ -6,8 +6,9 @@ import tempfile
 
 import pytest
 
-from web import app, db
+from web import db, create_app
 
+app = create_app()
 
 @pytest.fixture
 def client():
