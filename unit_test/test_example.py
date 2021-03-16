@@ -6,8 +6,7 @@ import tempfile
 
 import pytest
 
-from web import db
-from web import create_app
+from web import db, create_app
 
 app = create_app()
 
