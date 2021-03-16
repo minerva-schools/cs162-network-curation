@@ -6,10 +6,11 @@ import tempfile
 
 import pytest
 
-# from web import db
-from .models import db, User
-from flask import current_app as app
+from web import db
+from web import create_app
 
+app = create_app()
+app.app_context().push()
 
 
 @pytest.fixture

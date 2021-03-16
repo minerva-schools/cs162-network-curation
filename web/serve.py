@@ -4,16 +4,9 @@ from flask_login import login_user, LoginManager, UserMixin, current_user, login
 from datetime import datetime
 import os
 from .forms import LoginForm
-from dotenv import load_dotenv
-from .models import db, User
 from flask import current_app as app
-
-db = SQLAlchemy(app)
-
-load_dotenv()
-login = LoginManager(app)
-login.init_app(app)
-login.login_view = 'login'
+from . import db, login
+from .models import User
 
 @login.user_loader
 def load_user(id):

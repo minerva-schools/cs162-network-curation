@@ -1,8 +1,7 @@
-from . import db
 from flask_login import login_user, LoginManager, UserMixin, current_user, login_required, logout_user
 from .forms import LoginForm
-from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
+from .serve import db
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
