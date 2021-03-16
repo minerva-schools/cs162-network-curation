@@ -10,8 +10,6 @@ from web import db
 from web import create_app
 
 app = create_app()
-app.app_context().push()
-
 
 @pytest.fixture
 def client():
