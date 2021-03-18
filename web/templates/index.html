@@ -1,3 +1,31 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+    <ul class="nav-items">
+        <li>
+            <a href="#">About</a>
+        </li>
+        <li>
+            <a href="#">Contact</a>
+        </li>
+        <li>
+            <a href="#">Help</a>
+        </li>
+        <li>
+            <a href="{{ url_for('logout') }}">Log out</a>
+        </li>
+    </ul>
+
+{% endblock %}
+
 {% block content %}
-    <h1>Main page</h1>
+    <div class="header-container">
+        <div class="wrapper">
+            <header>
+                <div class="center">
+                    <h1 class="LOGO_login">Main page</h1>
+                </div>
+            </header>
+        </div>
+    </div>
 {% endblock %}

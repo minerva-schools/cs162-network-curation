@@ -6,13 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plink</title>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" >
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
 </head>
 
 <body>
 
-{% block navigation %}
-{% endblock %}
+<div class="nav-container">
+    <div class="wrapper">
+        <nav>
+            <div class="logo">
+                <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo"
+                                 class="img-responsive"></a>
+            </div>
+
+            {% block navigation %}
+                <!-- Navigation options -->
+            {% endblock %}
+        </nav>
+    </div>
+</div>
 
 <main>
     {% block content %}
