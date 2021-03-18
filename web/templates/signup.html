@@ -37,28 +37,45 @@
                 <div class="center">
                     <h1 class="LOGO_login">Plink</h1>
 
-                    <form action="#" method="POST" novalidate>
+                    <form action="{{ url_for('signup') }}" method="POST">
+                        {{ form.hidden_tag() }}
+
                         <div class="field">
-                            <input type="text" required>
-                            <label>Email address</label>
+                            {{ form.username.label }}
+                            {{ form.username() }}
                         </div>
                         <div class="field">
-                            <input type="text" required>
-                            <label>Username</label>
+                            {{ form.password.label }}
+                            {{ form.password() }}
                         </div>
                         <div class="field">
-                            <input type="password" required>
-                            <label>Password</label>
+                            {{ form.confirm_password.label }}
+                            {{ form.confirm_password() }}
+                        </div>
+
+                        <div class="field">
+                            {{ form.remember_me.label }}
+                            {{ form.remember_me() }}
                         </div>
 
                         <div class="pass-link">
 
                         </div>
                         <div class="field">
-                            <input type="submit" value="Sign up">
+                            {{ form.submit() }}
                         </div>
 
                     </form>
+
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
                 </div>
 
             </header>

@@ -5,10 +5,11 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 login = LoginManager()
 
+
 def create_app():
     """Construct the core application."""
     app = Flask(__name__)
-    
+
     # Run the configurations to setup the URIs 
     # before initializing the db and other variables
     app.config.from_object('config.Config')
@@ -25,5 +26,3 @@ def create_app():
         db.create_all()
 
         return app
-
-

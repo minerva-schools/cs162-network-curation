@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField
-from wtforms.validators import DataRequired, Length, InputRequired
+from wtforms.validators import DataRequired, Length, InputRequired, EqualTo, ValidationError
+
+
+# from .models import User
 
 
 class LoginForm(FlaskForm):
@@ -10,9 +13,11 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 
-# ToDO: update signup form instead of having the copy pasted login form
 class SignupForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    username = StringField('Username',
+                           validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
     remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Sign Up')
