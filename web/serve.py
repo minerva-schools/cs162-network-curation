@@ -26,9 +26,6 @@ def index():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    # Clear the flash stream
-    session.pop('_flashes', None)
-
     # TODO: switch to a logging framework
     print("Signing up")
 
@@ -60,9 +57,6 @@ def users():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # Clear the flash stream
-    session.pop('_flashes', None)
-
     # TODO: switch to a logging framework
     print("Logging in")
     if current_user is not None and current_user.is_authenticated:
