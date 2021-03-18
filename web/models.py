@@ -3,6 +3,7 @@ from .forms import LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from .serve import db
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
@@ -14,6 +15,7 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
 
 db.create_all()
 example_user = User(id=1, name="Philip Sterne", username="username")

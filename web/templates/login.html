@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+    <div class="nav-container">
+        <div class="wrapper">
+            <nav>
+                <div class="logo">
+                    <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo" class="img-responsive"></a>
+                </div>
+
+                <ul class="nav-items">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#">Help</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('signup') }}">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="header-container">
+        <div class="wrapper">
+            <header>
+                <div class="center">
+                    <h1 class="LOGO_login">Plink</h1>
+                    <form action="{{ url_for('login') }}" method="POST">
+                        {{ form.hidden_tag() }}
+
+                        <div class="field">
+                            {{ form.username.label }}
+                            {{ form.username(size=32) }}
+                        </div>
+                        <div class="field">
+                            {{ form.password.label }}
+                            {{ form.password(size=32) }}
+                        </div>
+                        <div class="field">
+                            {{ form.remember_me.label }}
+                            {{ form.remember_me() }}
+                        </div>
+                        <div class="content">
+                            <div class="pass-link">
+                                <a href="#">Forgot password?</a></div>
+                        </div>
+                        <div class="field">
+                            {{ form.submit() }}
+                        </div>
+
+                    </form>
+
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+            </header>
+        </div>
+    </div>
+
+{% endblock %}

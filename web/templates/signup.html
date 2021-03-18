@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+    <div class="nav-container">
+        <div class="wrapper">
+            <nav>
+                <div class="logo">
+                    <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo"
+                                     class="img-responsive"></a>
+                </div>
+
+                <ul class="nav-items">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#">Help</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('login') }}">Login</a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div class="header-container">
+        <div class="wrapper">
+            <header>
+                <div class="center">
+                    <h1 class="LOGO_login">Plink</h1>
+
+                    <form action="#" method="POST" novalidate>
+                        <div class="field">
+                            <input type="text" required>
+                            <label>Email address</label>
+                        </div>
+                        <div class="field">
+                            <input type="text" required>
+                            <label>Username</label>
+                        </div>
+                        <div class="field">
+                            <input type="password" required>
+                            <label>Password</label>
+                        </div>
+
+                        <div class="pass-link">
+
+                        </div>
+                        <div class="field">
+                            <input type="submit" value="Sign up">
+                        </div>
+
+                    </form>
+                </div>
+
+            </header>
+        </div>
+    </div>
+
+{% endblock %}

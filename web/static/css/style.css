@@ -1,6 +1,6 @@
-*{
+* {
     box-sizing: border-box;
-    margin = 0;
+    margin: 0;
 }
 
 body {
@@ -10,15 +10,15 @@ body {
 /* Navigation */
 
 .nav-container {
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background: #FFFFFF;    
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFFFFF;
 }
 
-.nav-container .logo{
-    font-family: Bahnschrift SemiLighth;
+.nav-container .logo {
+    font-family: Bahnschrift SemiLighth, serif;
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
@@ -31,7 +31,7 @@ body {
     margin: 0 auto;
 }
 
-nav{
+nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -42,9 +42,8 @@ nav ul {
     display: flex;
 }
 
-nav .logo{
-
-    font-family: Lato;
+nav .logo {
+    font-family: Lato, serif;
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
@@ -53,33 +52,33 @@ nav .logo{
 
 }
 
-nav a:hover{
-  background: #EB5757;
-  opacity: 0.75;
-  transition: 0.25s;
+nav a:hover {
+    background: #EB5757;
+    opacity: 0.75;
+    transition: 0.25s;
 }
 
-.logo img{
-  position:absolute;
-  height: 80px;
-  width: 80px;
-  margin-top: 0px;
-  margin-left: 10px;
+.logo img {
+    position: absolute;
+    height: 80px;
+    width: 80px;
+    margin-top: 0;
+    margin-left: 10px;
 }
 
-.nav-items li{
+.nav-items li {
     list-style: none;
     margin-right: 100px;
 }
 
-.nav-items li:nth-last-of-type(1){
+.nav-items li:nth-last-of-type(1) {
     margin: 0;
 }
 
-.nav-items li a{
+.nav-items li a {
     color: #EB5757;
     font-size: 16px;
-    font-family: "Mulish"
+    font-family: "Mulish", serif
 }
 
 
@@ -88,9 +87,9 @@ header {
     align-items: center;
     justify-content: space-between;
 }
- 
 
-.center{
+
+.center {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -100,7 +99,7 @@ header {
 }
 
 
-  .wrapper .title{
+.wrapper .title {
     font-size: 35px;
     font-weight: 600;
     text-align: center;
@@ -109,17 +108,20 @@ header {
     user-select: none;
     border-radius: 15px 15px 0 0;
     background: linear-gradient(-135deg, #111011, #4158d0);
-  }
-  .wrapper form{
+}
+
+.wrapper form {
     padding: 10px 30px 50px 30px;
-  }
-  .wrapper form .field{
+}
+
+.wrapper form .field {
     height: 50px;
     width: 100%;
     margin-top: 20px;
     position: relative;
-  }
-  .wrapper form .field input{
+}
+
+.wrapper form .field input {
     height: 100%;
     width: 100%;
     outline: none;
@@ -128,12 +130,14 @@ header {
     border: 1px solid lightgrey;
     border-radius: 25px;
     transition: all 0.3s ease;
-  }
-  .wrapper form .field input:focus,
-  form .field input:valid{
+}
+
+.wrapper form .field input:focus,
+form .field input:valid {
     border-color: #4158d0;
-  }
-  .wrapper form .field label{
+}
+
+.wrapper form .field label {
     position: absolute;
     top: 50%;
     left: 20px;
@@ -143,42 +147,49 @@ header {
     pointer-events: none;
     transform: translateY(-50%);
     transition: all 0.3s ease;
-  }
-  form .field input:focus ~ label,
-  form .field input:valid ~ label{
-    top: 0%;
+}
+
+form .field input:focus ~ label,
+form .field input:valid ~ label {
+    top: 0;
     font-size: 16px;
     color: #4158d0;
     background: #fff;
     transform: translateY(-50%);
-  }
-  form .content{
+}
+
+form .content {
     display: flex;
     width: 100%;
     height: 50px;
     font-size: 16px;
     align-items: center;
     justify-content: space-around;
-  }
-  form .content .checkbox{
+}
+
+form .content .checkbox {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  form .content input{
+}
+
+form .content input {
     width: 15px;
     height: 15px;
     background: red;
-  }
-  form .content label{
+}
+
+form .content label {
     color: #262626;
     user-select: none;
     padding-left: 5px;
-  }
-  form .content .pass-link{
-    color: "";
-  }
-  form .field input[type="submit"]{
+}
+
+form .content .pass-link {
+    color: inherit;
+}
+
+form .field input[type="submit"] {
     color: #fff;
     border: none;
     padding-left: 0;
@@ -188,34 +199,38 @@ header {
     cursor: pointer;
     background: #2D9CDB;
     transition: all 0.3s ease;
-  }
-  form .field input[type="submit"]:active{
+}
+
+form .field input[type="submit"]:active {
     transform: scale(0.95);
-  }
-  form .signup-link{
+}
+
+form .signup-link {
     color: #262626;
     margin-top: 20px;
     text-align: center;
-  }
-  form .pass-link a,
-  form .signup-link a{
+}
+
+form .pass-link a,
+form .signup-link a {
     color: #4158d0;
     text-decoration: none;
-  }
-  form .pass-link a:hover,
-  form .signup-link a:hover{
+}
+
+form .pass-link a:hover,
+form .signup-link a:hover {
     text-decoration: underline;
-  }
+}
 
 
-.LOGO_login{
-position: absolute;
-height: 100px;
-left: 100px;
-right: -96px;
-top: -80px;
-font-size: 70px;
+.LOGO_login {
+    position: absolute;
+    height: 100px;
+    left: 100px;
+    right: -96px;
+    top: -80px;
+    font-size: 70px;
 
-/* Red */
-color: #EB5757;
+    /* Red */
+    color: #EB5757;
 }
