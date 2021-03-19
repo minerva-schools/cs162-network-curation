@@ -3,7 +3,6 @@ name: Task
 about: An task to be completed
 title: ''
 labels: enhancement
-projects: PLINK
 assignees: ''
 
 ---
