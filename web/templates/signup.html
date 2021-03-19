@@ -30,16 +30,16 @@
                         {{ form.hidden_tag() }}
 
                         <div class="field">
+                            {{ form.username(size=32) }}
                             {{ form.username.label }}
-                            {{ form.username() }}
                         </div>
                         <div class="field">
+                            {{ form.password(size=32) }}
                             {{ form.password.label }}
-                            {{ form.password() }}
                         </div>
                         <div class="field">
+                            {{ form.confirm_password(size=32) }}
                             {{ form.confirm_password.label }}
-                            {{ form.confirm_password() }}
                         </div>
                         
                         <!-- I don't think we need a remember me check box on a signup page  -->
