@@ -42,7 +42,7 @@ def signup():
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
-            login_user(user)
+            login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main'))
         else:
             flash('That username is taken. Please choose another.')
@@ -68,7 +68,7 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('index'))
-        login_user(user)
+        login_user(user, remember=form.remember_me.data)
         return redirect(url_for('main'))
     return render_template('login.html', form=form)
 
