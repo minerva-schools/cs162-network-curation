@@ -28,11 +28,11 @@
                         {{ form.hidden_tag() }}
 
                         <div class="field">
-                            {{ form.username.label }}
                             {{ form.username(size=32) }}
+                            {{ form.username.label }}
                         </div>
                         <div class="field">
-                            {{ form.password() }}
+                            {{ form.password(size=32) }}
                             {{ form.password.label }}
                         </div>
 
