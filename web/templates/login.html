@@ -32,12 +32,14 @@
                             {{ form.username(size=32) }}
                         </div>
                         <div class="field">
+                            {{ form.password() }}
                             {{ form.password.label }}
-                            {{ form.password(size=32) }}
                         </div>
-                        <div class="field">
+
+                        <div class="checkbox">
                             {{ form.remember_me() }}
                             {{ form.remember_me.label }}
+
                         </div>
                         <div class="content">
                             <div class="pass-link">
