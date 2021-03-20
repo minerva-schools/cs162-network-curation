@@ -1,42 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CS162 Final Project</title>
-</head>
-
-<body>
-    <p>Hello World!</p>
-
-    <h1>Sign In</h1>
-    <form action="/login" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
-
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
+{% block navigation %}
+    <ul class="nav-items">
+        <li>
+            <a href="#">About</a>
+        </li>
+        <li>
+            <a href="#">Contact</a>
+        </li>
+        <li>
+            <a href="#">Help</a>
+        </li>
+        <li>
+            <a href="{{ url_for('logout') }}">Log out</a>
+        </li>
     </ul>
-    {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
 
-</body>
+{% endblock %}
 
-</html>
+{% block content %}
+    <div class="header-container">
+        <div class="wrapper">
+
+            <div class="center">
+                <h1 class="LOGO_login">Main page</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
