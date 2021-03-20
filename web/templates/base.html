@@ -11,20 +11,22 @@
 
 <body>
 
-<div class="nav-container">
-    <div class="wrapper">
-        <nav>
-            <div class="logo">
-                <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo"
-                                 class="img-responsive"></a>
-            </div>
+<header>
+    <div class="nav-container">
+        <div class="wrapper">
+            <nav>
+                <div class="logo">
+                    <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo"
+                                     class="img-responsive"></a>
+                </div>
 
-            {% block navigation %}
-                <!-- Navigation options -->
-            {% endblock %}
-        </nav>
+                {% block navigation %}
+                    <!-- Navigation options -->
+                {% endblock %}
+            </nav>
+        </div>
     </div>
-</div>
+</header>
 
 <main>
     {% block content %}

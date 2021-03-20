@@ -21,49 +21,48 @@
 
     <div class="header-container">
         <div class="wrapper">
-            <header>
-                <div class="center">
-                    <h1 class="LOGO_login">Plink</h1>
-                    <form action="{{ url_for('login') }}" method="POST">
-                        {{ form.hidden_tag() }}
 
-                        <div class="field">
-                            {{ form.username(size=32) }}
-                            {{ form.username.label }}
-                        </div>
-                        <div class="field">
-                            {{ form.password(size=32) }}
-                            {{ form.password.label }}
-                        </div>
+            <div class="center">
+                <h1 class="LOGO_login">Plink</h1>
+                <form action="{{ url_for('login') }}" method="POST">
+                    {{ form.hidden_tag() }}
 
-                        <div class="checkbox">
-                            {{ form.remember_me() }}
-                            {{ form.remember_me.label }}
+                    <div class="field">
+                        {{ form.username(size=32) }}
+                        {{ form.username.label }}
+                    </div>
+                    <div class="field">
+                        {{ form.password(size=32) }}
+                        {{ form.password.label }}
+                    </div>
 
-                        </div>
-                        <div class="content">
-                            <div class="pass-link">
-                                <!-- TODO: Make forgot password work -->
-                                <a href="#">Forgot password?</a></div>
-                        </div>
-                        <div class="field">
-                            {{ form.submit() }}
-                        </div>
+                    <div class="checkbox">
+                        {{ form.remember_me() }}
+                        {{ form.remember_me.label }}
 
-                    </form>
+                    </div>
+                    <div class="content">
+                        <div class="pass-link">
+                            <!-- TODO: Make forgot password work -->
+                            <a href="#">Forgot password?</a></div>
+                    </div>
+                    <div class="field">
+                        {{ form.submit() }}
+                    </div>
 
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            <ul>
-                                {% for message in messages %}
-                                    <li>{{ message }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    {% endwith %}
-                </div>
+                </form>
 
-            </header>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+
         </div>
     </div>
 
