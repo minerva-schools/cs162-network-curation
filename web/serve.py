@@ -1,11 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, LoginManager, UserMixin, current_user, login_required, logout_user
-from datetime import datetime
-import os
-from .forms import LoginForm, SignupForm
 from flask import current_app as app, session
+from flask import render_template, redirect, url_for, flash
+from flask_login import login_user, current_user, login_required, logout_user
+
 from . import db, login
+from .forms import LoginForm, SignupForm
 from .models import User
 
 

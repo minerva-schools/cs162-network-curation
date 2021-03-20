@@ -1,5 +1,6 @@
-from flask_login import login_user, LoginManager, UserMixin, current_user, login_required, logout_user
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+
 from .serve import db
 
 
