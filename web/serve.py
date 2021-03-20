@@ -17,7 +17,6 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print(current_user)
     if current_user is not None and current_user.is_authenticated:
         print("Authenticated")
         return redirect(url_for('main'))
