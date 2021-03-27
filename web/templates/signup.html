@@ -30,13 +30,30 @@
                         {{ form.hidden_tag() }}
 
                         <div class="field">
+                            {{ form.name(size=32) }}
+                            {{ form.name.label }}
+                        </div>
+
+                        <div class="field">
                             {{ form.username(size=32) }}
                             {{ form.username.label }}
                         </div>
+
+                        <div class="field">
+                            {{ form.email(size=32) }}
+                            {{ form.email.label }}
+                        </div>
+
+                        <div class="field">
+                            {{ form.phone(size=32) }}
+                            {{ form.phone.label }}
+                        </div>
+
                         <div class="field">
                             {{ form.password(size=32) }}
                             {{ form.password.label }}
                         </div>
+
                         <div class="field">
                             {{ form.confirm_password(size=32) }}
                             {{ form.confirm_password.label }}

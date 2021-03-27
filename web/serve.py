@@ -35,7 +35,7 @@ def signup():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None:
             # Create a new user
-            user = User(username=form.username.data)
+            user = User(username=form.username.data, name=form.name.data, email=form.email.data, phone=form.phone.data)
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
