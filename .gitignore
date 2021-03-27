@@ -116,3 +116,4 @@ venv.bak/
 users.db
 web/.vscode/settings.json
 *env
+.vscode/settings.json
