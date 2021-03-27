@@ -12,23 +12,22 @@
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-
-<header>
-    <div class="nav-container">
-        <div class="wrapper">
+    <header class="navbar-default" role="banner">
+        <div class="container">
+            <!-- <div class="wrapper"> -->
             <nav>
-                <div class="logo">
-                    <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo"
-                                     class="img-responsive"></a>
-                </div>
+                    <!-- <div class="logo">
+                        <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo"
+                                        class="img-responsive"></a>
+                    </div> -->
 
-                {% block navigation %}
-                    <!-- Navigation options -->
-                {% endblock %}
+                    {% block navigation %}
+                        <!-- Navigation options -->
+                    {% endblock %}
             </nav>
+            <!-- </div> -->
         </div>
-    </div>
-</header>
+    </header>
 
 <main>
     {% block content %}
