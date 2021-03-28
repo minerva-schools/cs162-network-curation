@@ -28,3 +28,13 @@ class SignupForm(FlaskForm):
                                     Length(min=6, max=35)])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign Up')
+
+
+class AddConnectionForm(FlaskForm):
+    name = StringField('Full Name', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired()])
+    phone = StringField('Phone', validators=[DataRequired()])
+    email = StringField('Email Address',
+                        validators=[DataRequired(),
+                                    Length(min=6, max=35)])
+    submit = SubmitField('Add Connection')

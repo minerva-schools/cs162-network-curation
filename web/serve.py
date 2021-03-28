@@ -3,8 +3,8 @@ from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, current_user, login_required, logout_user
 
 from . import db, login
-from .forms import LoginForm, SignupForm
-from .models import User
+from .forms import LoginForm, SignupForm, AddConnectionForm
+from .models import User, UserConnection
 
 
 @login.user_loader
@@ -46,10 +46,28 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route('/users')
-def users():
-    users = User.query.all()
-    return render_template('users.html', users=users)
+@app.route('/addconnection', methods=['GET', 'POST'])
+@login_required
+def addconnection():
+    print("Adding Connection")
+
+    form = AddConnectionForm()
+    if form.validate_on_submit():
+        connection = UserConnection.query.filter_by(email=form.email.data).first() #change
+
+        if connection is None:
+            # Create a new connection
+            connection = UserConnection(userid=current_user.id,
+                        name=form.name.data,
+                        title=form.title.data,
+                        email=form.email.data,
+                        phone=form.phone.data)
+            db.session.add(connection)
+            db.session.commit()
+            return redirect(url_for('main'))
+        else:
+            flash('Test')
+    return redirect(url_for('main'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -82,7 +100,10 @@ def logout():
 @app.route('/main')
 @login_required
 def main():
-    return render_template('index.html')
+    print(current_user.id)
+    connections = UserConnection.query.filter_by(userid=current_user.id).all()
+    form = AddConnectionForm()
+    return render_template('index.html', connections=connections, form=form)
 
 
 if __name__ == '__main__':
