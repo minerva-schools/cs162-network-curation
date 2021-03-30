@@ -37,12 +37,15 @@
                     <div class="field">
                         {{ form.name(size=32) }} {{ form.name.label }}
                     </div>
+
                     <div class="field">
                         {{ form.title(size=32) }} {{ form.title.label }}
                     </div>
+
                     <div class="field">
                         {{ form.phone(size=32) }} {{ form.phone.label }}
                     </div>
+
                     <div class="field">
                         {{ form.email(size=32) }} {{ form.email.label }}
                     </div>
@@ -55,5 +58,12 @@
 
         </div>
     </div>
-    {% endblock %}
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} {% endwith %} {% endblock %}
 </main>
