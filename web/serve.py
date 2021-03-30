@@ -64,9 +64,6 @@ def addconnection():
                         phone=form.phone.data)
             db.session.add(connection)
             db.session.commit()
-            return redirect(url_for('main'))
-        else:
-            flash('Test')
     return redirect(url_for('main'))
 
 

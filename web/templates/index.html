@@ -22,8 +22,7 @@
         <div class="wrapper">
 
             <div class="center">
-                <h1 class="LOGO_login">Welcome {{ current_user.username }}</h1>
-                <h1> All your connections: </h1>
+                <h1> All {{ current_user.username }} 's connections: </h1>
                 <ul>
                     {% for connection in connections %}
                     <li>{{ connection.name }} {{ connection.userid }} </li>

@@ -35,6 +35,5 @@ class AddConnectionForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     phone = StringField('Phone', validators=[DataRequired()])
     email = StringField('Email Address',
-                        validators=[DataRequired(),
-                                    Length(min=6, max=35)])
+                        validators=[DataRequired()])
     submit = SubmitField('Add Connection')
