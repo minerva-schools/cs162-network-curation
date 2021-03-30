@@ -16,16 +16,21 @@ class LoginForm(FlaskForm):
 class SignupForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(),
-                                       Length(min=4, max=25)])
+                                       Length(min=4, message="Your username is too short.")])
     name = StringField('Full Name',
                            validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password',
+                             validators=[
+                                 DataRequired(),
+                                 Length(min=8,
+                                        message="Your password is too short.")
+                             ])
     confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+                                     validators=[DataRequired(), EqualTo('password', message="Passwords are not equal.")])
     phone = StringField('Phone', validators=[DataRequired()])
     email = StringField('Email Address',
                         validators=[DataRequired(),
-                                    Length(min=6, max=35)])
+                                    Length(min=6, message='Your email is too short.')])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign Up')
 
