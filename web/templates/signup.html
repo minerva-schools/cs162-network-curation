@@ -1,78 +1,41 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block navbutton %}
+<li><a href="{{ url_for('login') }}">Log in</a></li>
+{% endblock %} {% block content %}
+<div class="header-container">
+  <div class="wrapper">
+    <div class="center">
+      <h1 class="LOGO_login">Plink</h1>
 
-{% block navigation %}
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">PLINK</a>
-    </div>
+      <form action="{{ url_for('signup') }}" method="POST">
+        {{ form.hidden_tag() }}
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Help</a></li>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-        </ul>
-    </div><!-- /.navbar-collapse -->
-{% endblock %}
-
-{% block content %}
-    <div class="header-container">
-        <div class="wrapper">
-
-                <div class="center">
-                    <h1 class="LOGO_login">Plink</h1>
-
-                    <form action="{{ url_for('signup') }}" method="POST">
-                        {{ form.hidden_tag() }}
-
-                        <div class="field">
-                            {{ form.username(size=32) }}
-                            {{ form.username.label }}
-                        </div>
-                        <div class="field">
-                            {{ form.password(size=32) }}
-                            {{ form.password.label }}
-                        </div>
-                        <div class="field">
-                            {{ form.confirm_password(size=32) }}
-                            {{ form.confirm_password.label }}
-                        </div>
-                        
-                        <div class="checkbox">
-                            {{ form.remember_me() }}
-                            {{ form.remember_me.label }}
-                        </div>
-
-                        <div class="pass-link">
-
-                        </div>
-                        <div class="field">
-                            {{ form.submit() }}
-                        </div>
-
-                    </form>
-
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            <ul>
-                                {% for message in messages %}
-                                    <li>{{ message }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    {% endwith %}
-                </div>
-
+        <div class="field">
+          {{ form.username(size=32) }} {{ form.username.label }}
         </div>
+        <div class="field">
+          {{ form.password(size=32) }} {{ form.password.label }}
+        </div>
+        <div class="field">
+          {{ form.confirm_password(size=32) }} {{ form.confirm_password.label }}
+        </div>
+
+        <div class="checkbox">
+          {{ form.remember_me() }} {{ form.remember_me.label }}
+        </div>
+
+        <div class="pass-link"></div>
+        <div class="field">{{ form.submit() }}</div>
+      </form>
+
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
     </div>
+  </div>
+</div>
 
 {% endblock %}
