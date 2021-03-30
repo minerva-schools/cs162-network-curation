@@ -25,7 +25,7 @@
                 <h1> All {{ current_user.username }} 's connections: </h1>
                 <ul>
                     {% for connection in connections %}
-                    <li>{{ connection.name }} {{ connection.userid }} </li>
+                    <li>{{ connection.name }} {{ connection.title }} {{ connection.phone }} {{connection.email }} {{ connection.contactby }} {{ connection.lastcontacted }} {{ connection.tag }} {{ connection.note }}</li>
                     {% endfor %}
                 </ul>
 
@@ -48,6 +48,22 @@
 
                     <div class="field">
                         {{ form.email(size=32) }} {{ form.email.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.contactby(size=32) }} {{ form.contactby.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.lastcontacted(size=32) }} {{ form.lastcontacted.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.tag(size=32) }} {{ form.tag.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.note(size=64) }} {{ form.note.label }}
                     </div>
 
                     <div class="field">

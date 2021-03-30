@@ -41,4 +41,11 @@ class AddConnectionForm(FlaskForm):
     phone = StringField('Phone', validators=[DataRequired()])
     email = StringField('Email Address',
                         validators=[DataRequired()])
+    tag = StringField('Tag',
+                        validators=[DataRequired()])
+    contactby = StringField('Contact By',
+                        validators=[DataRequired()])
+    lastcontacted = StringField('Last Contacted',
+                        validators=[DataRequired()])
+    note = StringField('Note', validators=[])
     submit = SubmitField('Add Connection')

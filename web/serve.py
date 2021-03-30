@@ -57,7 +57,11 @@ def addconnection():
                         name=form.name.data,
                         title=form.title.data,
                         email=form.email.data,
-                        phone=form.phone.data)
+                        phone=form.phone.data,
+                        contactby=form.contactby.data,
+                        lastcontacted=form.lastcontacted.data,
+                        tag=form.tag.data,
+                        note=form.note.data)
     db.session.add(connection)
     db.session.commit()
     return redirect(url_for('main'))

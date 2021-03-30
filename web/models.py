@@ -34,18 +34,6 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-'''
-class Note(db.Model):
-    __tablename__ = 'notes'
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(600))
-    locationmet = db.Column(db.String(200))
-    label = db.Column(db.String(10))
-    userabout = db.Column(db.Integer,
-                          db.ForeignKey('users.id'))
-    users = db.relationship('User', foreign_keys=userabout)
-'''
-
 class UserConnection(db.Model):
     __tablename__ = 'userconnections'
     id = db.Column(db.Integer, primary_key=True)
@@ -54,4 +42,8 @@ class UserConnection(db.Model):
     title = db.Column(db.String(600))
     email = db.Column(db.String(128), unique=True)
     phone = db.Column(db.Integer)
+    tag = db.Column(db.String(200))
+    contactby = db.Column(db.String(200))
+    lastcontacted = db.Column(db.String(200))
+    note = db.Column(db.String(2000))
     users = db.relationship('User', foreign_keys=userid)
