@@ -32,7 +32,9 @@ def signup():
 
     form = SignupForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(
+            username=form.username.data).first() or User.query.filter_by(
+                username=form.email.data).first()
         if user is None:
             # Create a new user
             user = User(username=form.username.data, name=form.name.data, email=form.email.data, phone=form.phone.data)
@@ -50,20 +52,14 @@ def signup():
 @login_required
 def addconnection():
     print("Adding Connection")
-
     form = AddConnectionForm()
-    if form.validate_on_submit():
-        connection = UserConnection.query.filter_by(email=form.email.data).first() #change
-
-        if connection is None:
-            # Create a new connection
-            connection = UserConnection(userid=current_user.id,
+    connection = UserConnection(userid=current_user.id,
                         name=form.name.data,
                         title=form.title.data,
                         email=form.email.data,
                         phone=form.phone.data)
-            db.session.add(connection)
-            db.session.commit()
+    db.session.add(connection)
+    db.session.commit()
     return redirect(url_for('main'))
 
 
