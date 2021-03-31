@@ -1,5 +1,7 @@
 {% extends "base.html" %} {% block navbutton %}
-<li><a href="{{ url_for('login') }}">Log in</a></li>
+<a href="{{ url_for('login') }}" class="btn btn-info" id="navbar-button"
+  >Log In</a
+>
 {% endblock %} {% block content %}
 <div class="header-container">
   <div class="wrapper">

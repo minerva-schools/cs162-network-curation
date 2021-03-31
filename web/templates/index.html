@@ -1,6 +1,11 @@
 {% extends "base.html" %} 
 {% block navbutton %} 
-  <li><a href="{{ url_for('logout') }}">Log out</a></li>
+<a>
+<span class="fa fa-bell" id = "notification"></span>
+</a>
+
+  <a href="{{ url_for('logout') }}"   class="btn btn-info my-2 my-sm-0"
+  id="navbar-button">Log Out</a>
 {% endblock %}
 
 
