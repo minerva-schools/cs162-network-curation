@@ -7,17 +7,14 @@ from wtforms.validators import DataRequired, Length, EqualTo
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email Address', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 
 class SignupForm(FlaskForm):
-    username = StringField('Username',
-                           validators=[DataRequired(),
-                                       Length(min=4, message="Your username is too short.")])
-    name = StringField('Full Name',
+    name = StringField('First Name',
                            validators=[DataRequired()])
     password = PasswordField('Password',
                              validators=[
@@ -27,7 +24,6 @@ class SignupForm(FlaskForm):
                              ])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password', message="Passwords are not equal.")])
-    phone = StringField('Phone', validators=[DataRequired()])
     email = StringField('Email Address',
                         validators=[DataRequired(),
                                     Length(min=6, message='Your email is too short.')])

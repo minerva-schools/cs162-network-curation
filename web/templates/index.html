@@ -22,7 +22,7 @@
         <div class="wrapper">
 
             <div class="center">
-                <h1> All {{ current_user.username }} 's connections: </h1>
+                <h1> All {{ current_user.email }} 's connections: </h1>
                 <ul>
                     {% for connection in connections %}
                     <li>{{ connection.name }} {{ connection.title }} {{ connection.phone }} {{connection.email }} {{ connection.contactby }} {{ connection.lastcontacted }} {{ connection.tag }} {{ connection.note }}</li>

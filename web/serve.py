@@ -33,18 +33,17 @@ def signup():
     form = SignupForm()
     if form.validate_on_submit():
         user = User.query.filter_by(
-            username=form.username.data).first() or User.query.filter_by(
-                username=form.email.data).first()
+                email=form.email.data).first()
         if user is None:
             # Create a new user
-            user = User(username=form.username.data, name=form.name.data, email=form.email.data, phone=form.phone.data)
+            user = User(name=form.name.data, email=form.email.data)
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main'))
         else:
-            flash('That username is taken. Please choose another.')
+            flash('That email is taken. Please choose another.')
     return render_template('signup.html', form=form)
 
 
@@ -76,9 +75,9 @@ def login():
         return redirect(url_for('main'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
+            flash('Invalid email or password')
             return redirect(url_for('index'))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('main'))
