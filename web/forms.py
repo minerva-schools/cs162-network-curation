@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 
 # from .models import User
@@ -26,7 +26,7 @@ class SignupForm(FlaskForm):
                                      validators=[DataRequired(), Length(min=8)])
     email = StringField('Email Address',
                         validators=[DataRequired(),
-                                    Length(min=6, message='Your email is too short.')])
+                                    Email(' Enter a valid email.')])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign Up')
 
