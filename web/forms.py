@@ -14,7 +14,7 @@ class LoginForm(FlaskForm):
 
 
 class SignupForm(FlaskForm):
-    name = StringField('First Name',
+    user_name = StringField('User Name',
                        validators=[DataRequired(), Regexp('^\w+$', message="Username must contain only letters, numbers or underscore"), Length(min=5, max=25, message="Username must be betwen 5 & 25 characters")])
     password = PasswordField('Password',
                              validators=[
@@ -26,7 +26,7 @@ class SignupForm(FlaskForm):
                                      validators=[DataRequired(), Length(min=8)])
     email = StringField('Email Address',
                         validators=[DataRequired(),
-                                    Email(' Enter a valid email')])
+                                    Email('Enter a valid email')])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign Up')
 
