@@ -15,15 +15,15 @@ class LoginForm(FlaskForm):
 
 class SignupForm(FlaskForm):
     name = StringField('First Name',
-                           validators=[DataRequired()])
+                       validators=[DataRequired()])
     password = PasswordField('Password',
                              validators=[
                                  DataRequired(),
                                  Length(min=8,
-                                        message="Your password is too short.")
+                                        message="Your password is too short."), EqualTo('confirm_password', message='Passwords must match')
                              ])
     confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password', message="Passwords are not equal.")])
+                                     validators=[DataRequired(), Length(min=8)])
     email = StringField('Email Address',
                         validators=[DataRequired(),
                                     Length(min=6, message='Your email is too short.')])
@@ -38,10 +38,10 @@ class AddConnectionForm(FlaskForm):
     email = StringField('Email Address',
                         validators=[DataRequired()])
     tag = StringField('Tag',
-                        validators=[DataRequired()])
+                      validators=[DataRequired()])
     contactby = StringField('Contact By',
-                        validators=[DataRequired()])
+                            validators=[DataRequired()])
     lastcontacted = StringField('Last Contacted',
-                        validators=[DataRequired()])
+                                validators=[DataRequired()])
     note = StringField('Note', validators=[])
     submit = SubmitField('Add Connection')
