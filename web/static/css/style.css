@@ -221,6 +221,14 @@ form .signup-link a:hover {
   text-decoration: underline;
 }
 
+.form-feedback {
+  color: red;
+  text-align: left;
+  font-size: 12px;
+  display: list-item;
+  margin-left: 25px;
+}
+
 .LOGO_login {
   position: absolute;
   height: 100px;
@@ -228,7 +236,6 @@ form .signup-link a:hover {
   right: -96px;
   top: -80px;
   font-size: 70px;
-
   /* Red */
   color: #eb5757;
 }

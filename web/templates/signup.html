@@ -28,21 +28,21 @@
           {{ form.user_name(size=32) }} {{ form.user_name.label }}
         </div>
         {% for error in form.user_name.errors %}
-        <span style="color: red">{{ error }}</span>
+        <div class="form-feedback">{{ error }}</div>
         {% endfor %}
 
         <div class="field">
           {{ form.email(size=32) }} {{ form.email.label }}
         </div>
         {% for error in form.email.errors %}
-        <span style="color: red">{{ error }}</span>
+        <div class="form-feedback">{{ error }}</div>
         {% endfor %}
 
         <div class="field">
           {{ form.password(size=32) }} {{ form.password.label }}
         </div>
         {% for error in form.password.errors %}
-        <span style="color: red">{{ error }}</span>
+        <div class="form-feedback">{{ error }}</div>
         {% endfor %}
 
         <div class="field">
