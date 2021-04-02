@@ -15,7 +15,7 @@ body {
 }
 
 #navbar-button {
-  background-color: #2d9cdb;
+  background-color: #2d9cdb !important;
   color: white;
 }
 
