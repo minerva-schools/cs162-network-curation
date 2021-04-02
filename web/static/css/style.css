@@ -226,6 +226,7 @@ form .signup-link a:hover {
   text-align: left;
   font-size: 12px;
   margin-left: 25px;
+  display: list-item;
 }
 
 .LOGO_login {
