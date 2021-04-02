@@ -32,18 +32,24 @@ def signup():
 
     form = SignupForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(
+        user_name = User.query.filter_by(
+                name=form.user_name.data).first()
+        user_email = User.query.filter_by(
                 email=form.email.data).first()
-        if user is None:
+        if user_name:
+            flash('That username is taken. Please choose another one.')
+        elif user_email:
+            flash('That email is taken. Please choose another one.')
+        else:
             # Create a new user
-            user = User(name=form.name.data, email=form.email.data)
+            user = User(name=form.user_name.data, email=form.email.data)
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main'))
-        else:
-            flash('That email is taken. Please choose another.')
+
+            
     return render_template('signup.html', form=form)
 
 
