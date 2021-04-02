@@ -6,7 +6,7 @@ from . import db, login
 from .forms import LoginForm, SignupForm, AddConnectionForm
 from .models import User, UserConnection
 
-
+from sqlalchemy import or_
 @login.user_loader
 def load_user(user_id):
     """Finds the user given their id"""
