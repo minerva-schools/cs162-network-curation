@@ -81,14 +81,18 @@ def login():
         return redirect(url_for('main'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid email or password')
+        user_name = User.query.filter_by(name=form.email.data).first()
+        user_email = User.query.filter_by(email=form.email.data).first()
+        user = user_name or user_email
+        if user is None:
+            flash('Invalid email or username')
+            return redirect(url_for('index'))
+        elif not user.check_password(form.password.data):
+            flash('Invalid password')
             return redirect(url_for('index'))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('main'))
     return render_template('login.html', form=form)
-
 
 @app.route("/logout")
 @login_required
