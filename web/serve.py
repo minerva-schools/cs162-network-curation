@@ -81,8 +81,8 @@ def login():
         return redirect(url_for('main'))
     form = LoginForm()
     if form.validate_on_submit():
-        user_name = User.query.filter_by(name=form.email.data).first()
-        user_email = User.query.filter_by(email=form.email.data).first()
+        user_name = User.query.filter_by(name=form.email_or_username.data).first()
+        user_email = User.query.filter_by(email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
             flash('Invalid email or username')
