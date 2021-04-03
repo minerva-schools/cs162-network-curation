@@ -82,7 +82,7 @@ def logout():
 @app.route('/main')
 @login_required
 def main():
-    return render_template('index.html')
+    return render_template('MainPage.html')
 
 
 if __name__ == '__main__':
