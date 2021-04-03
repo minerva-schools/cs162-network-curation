@@ -6,6 +6,7 @@ from . import db, login, mail
 from .forms import LoginForm, SignupForm, AddConnectionForm, RequestResetForm, ResetPasswordForm
 from .models import User, UserConnection
 from flask_mail import Message
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from sqlalchemy import or_
 @login.user_loader
@@ -147,10 +148,9 @@ def reset_token(token):
         return redirect(url_for('reset_request'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        hashed_password = bcyptuser.generate_password_hash(form.password.data)
-        user.password = hashed_password
+        user.password = generate_password_hash(form.password.data)
         db.session.commit()
-        flask('Your password has been updated!')
+        flash('Your password has been updated!')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title="Reset Password", form=form)
 
