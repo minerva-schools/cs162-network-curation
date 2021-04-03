@@ -36,7 +36,7 @@
         <div class="content">
           <div class="pass-link">
             <!-- TODO: Make forgot password work -->
-            <a href="#">Forgot password?</a>
+            <a href="{{ url_for('reset_request')}}">Forgot password?</a>
           </div>
         </div>
         <div class="field">{{ form.submit() }}</div>
