@@ -1,30 +1,85 @@
-{% extends "base.html" %}
-
-{% block navigation %}
-    <ul class="nav-items">
-        <li>
-            <a href="#">About</a>
-        </li>
-        <li>
-            <a href="#">Contact</a>
-        </li>
-        <li>
-            <a href="#">Help</a>
-        </li>
-        <li>
-            <a href="{{ url_for('logout') }}">Log out</a>
-        </li>
-    </ul>
+{% extends "base.html" %} {% block navigation %}
+<ul class="nav-items">
+    <li>
+        <a href="#">About</a>
+    </li>
+    <li>
+        <a href="#">Contact</a>
+    </li>
+    <li>
+        <a href="#">Help</a>
+    </li>
+    <li>
+        <a href="{{ url_for('logout') }}">Log out</a>
+    </li>
+</ul>
 
 {% endblock %}
 
-{% block content %}
+<main>
+    {% block content %}
     <div class="header-container">
         <div class="wrapper">
 
             <div class="center">
-                <h1 class="LOGO_login">Main page</h1>
+                <h1> All {{ current_user.email }} 's connections: </h1>
+                <ul>
+                    {% for connection in connections %}
+                    <li>{{ connection.name }} {{ connection.title }} {{ connection.phone }} {{connection.email }} {{ connection.contactby }} {{ connection.lastcontacted }} {{ connection.tag }} {{ connection.note }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h1>Add Connection</h1>
+
+                <form action="{{ url_for('addconnection') }}" method="POST">
+                    {{ form.hidden_tag() }}
+
+                    <div class="field">
+                        {{ form.name(size=32) }} {{ form.name.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.title(size=32) }} {{ form.title.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.phone(size=32) }} {{ form.phone.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.email(size=32) }} {{ form.email.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.contactby(size=32) }} {{ form.contactby.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.lastcontacted(size=32) }} {{ form.lastcontacted.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.tag(size=32) }} {{ form.tag.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.note(size=64) }} {{ form.note.label }}
+                    </div>
+
+                    <div class="field">
+                        {{ form.submit() }}
+                    </div>
+                </form>
             </div>
+
         </div>
     </div>
-{% endblock %}
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} {% endwith %} {% endblock %}
+</main>
