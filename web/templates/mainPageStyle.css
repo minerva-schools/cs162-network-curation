@@ -20,7 +20,6 @@ a:focus{
 /* Side Bar*/
 
 
-
 #sidebar.active {
     margin-left: -250px;
 }
@@ -37,7 +36,6 @@ a:focus{
 	color: #fff;
 	transition: all 0.3s;
 }
-
 
 #sidebar .sidebar-header{
 	padding: 20px;
@@ -73,13 +71,6 @@ a[data-toggle="collapse"]{
 	position: relative;
 }
 
-.dropdown-toggle::after{
-	display: block;
-	position: absolute;
-	top: 50%;
-	right: 20%;
-	transform: translateY(-50%);
-}
 ul ul a{
 	font-size: 0.9em !important;
 	padding-left: 30px !important;
