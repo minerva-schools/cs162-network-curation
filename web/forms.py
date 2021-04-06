@@ -3,7 +3,7 @@ from wtforms import StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
 
 
-# from .models import User
+# from .models import Users
 
 
 class LoginForm(FlaskForm):
@@ -14,14 +14,30 @@ class LoginForm(FlaskForm):
 
 
 class SignupForm(FlaskForm):
-    user_name = StringField('Username',
-                       validators=[DataRequired(), Regexp('^\w+$', message="Username must contain only letters, numbers or underscore"), Length(min=5, max=25, message="Username must be between 5 & 25 characters")])
-    password = PasswordField('Password',
-                             validators=[
-                                 DataRequired(),
-                                 Length(min=8,
-                                        message="Your password must have at least 8 characters"), EqualTo('confirm_password', message='Passwords must match')
-                             ])
+    user_name = StringField(
+        'Username',
+        validators=[
+            DataRequired(),
+            Regexp(
+                r'^\w+$',
+                message="Username must contain only letters, numbers or underscore"
+            ),
+            Length(
+                min=5,
+                max=25,
+                message="Username must be between 5 & 25 characters"
+            )
+        ]
+    )
+    password = PasswordField(
+        'Password',
+        validators=[
+            DataRequired(),
+            Length(min=8,
+                   message="Your password must have at least 8 characters"),
+            EqualTo('confirm_password', message='Passwords must match')
+        ]
+    )
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), Length(min=8)])
     email = StringField('Email Address',
@@ -37,11 +53,11 @@ class AddConnectionForm(FlaskForm):
     phone = StringField('Phone', validators=[DataRequired()])
     email = StringField('Email Address',
                         validators=[DataRequired()])
-    tag = StringField('Tag',
-                      validators=[DataRequired()])
-    contactby = StringField('Contact By',
-                            validators=[DataRequired()])
-    lastcontacted = StringField('Last Contacted',
-                                validators=[DataRequired()])
+    tags = StringField('Tag',
+                       validators=[DataRequired()])
+    contact_by = StringField('Contact By',
+                             validators=[DataRequired()])
+    last_contacted = StringField('Last Contacted',
+                                 validators=[DataRequired()])
     note = StringField('Note', validators=[])
     submit = SubmitField('Add Connection')
