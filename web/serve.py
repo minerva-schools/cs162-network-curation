@@ -2,8 +2,8 @@ from flask import current_app as app, session
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, login_required, logout_user
 
-from .models import Users, UserConnections
-from . import db, login, mail
+from .models import Users, UserConnections, db
+from . import login, mail
 from .forms import LoginForm, SignupForm, AddConnectionForm, RequestResetForm, ResetPasswordForm
 from flask_mail import Message
 
