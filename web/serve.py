@@ -1,5 +1,5 @@
 from flask import current_app as app, session
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, login_required, logout_user
 
 from . import db, login, mail
@@ -136,7 +136,7 @@ def reset_request():
         user = user_name or user_email
         if user is None:
             flash("Invalid email or username. If you don't have an account yet, you must sign up first.")
-            return redirect(url_for('reset_request'))
+            return redirect(request.url)
         send_reset_email(user)
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('login'))
