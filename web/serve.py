@@ -7,6 +7,8 @@ from .forms import LoginForm, SignupForm, AddConnectionForm
 from .models import Users, UserConnections
 
 from sqlalchemy import or_
+
+
 @login.user_loader
 def load_user(user_id):
     """Finds the user given their id"""
@@ -49,7 +51,6 @@ def signup():
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main'))
 
-            
     return render_template('signup.html', form=form)
 
 
@@ -63,9 +64,9 @@ def addconnection():
                                  title=form.title.data,
                                  email=form.email.data,
                                  phone=form.phone.data,
-                                 contactby=form.contact_by.data,
-                                 lastcontacted=form.last_contacted.data,
-                                 tag=form.tags.data,
+                                 contact_by=form.contact_by.data,
+                                 last_contacted=form.last_contacted.data,
+                                 tags=form.tags.data,
                                  note=form.note.data)
     db.session.add(connection)
     db.session.commit()
@@ -93,6 +94,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('main'))
     return render_template('login.html', form=form)
+
 
 @app.route("/logout")
 @login_required
