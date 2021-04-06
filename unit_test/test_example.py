@@ -6,21 +6,22 @@ import tempfile
 
 import pytest
 
-from web import db, create_app
+from web import create_app
 
 app = create_app()
 
 
-def signup(client, username, password):
+def signup(client, username, email, password):
     return client.post('/signup', data=dict(
         username=username,
+        email=email,
         password=password
     ), follow_redirects=True)
 
 
-def login(client, username, password):
+def login(client, email_or_username, password):
     return client.post('/login', data=dict(
-        username=username,
+        email_or_username=email_or_username,
         password=password
     ), follow_redirects=True)
 
@@ -36,6 +37,7 @@ def client():
 
     # User used for test
     app.config['USERNAME'] = 'philip'
+    app.config['EMAIL'] = 'sterne@rome.empire'
     app.config['PASSWORD'] = 'myPassword'
 
     client = app.test_client()
@@ -51,17 +53,24 @@ def test_signup_login_logout(client):
 
     # TODO: ADD Assertion statements to carry out the test
 
-    rv = signup(client, app.config['USERNAME'], app.config['PASSWORD'])
+    rv = signup(client, app.config['USERNAME'], app.config['EMAIL'], app.config['PASSWORD'])
     # assert b'You were logged in' in rv.data
 
     rv = logout(client)
     # assert b'You were logged out' in rv.data
 
+    # LOGIN VIA USERNAME
     rv = login(client, app.config['USERNAME'], app.config['PASSWORD'])
     # assert b'You were logged in' in rv.data
 
     rv = logout(client)
     # assert b'You were logged out' in rv.data
+
+    # LOGIN VIA EMAIL
+    rv = login(client, app.config['EMAIL'], app.config['PASSWORD'])
+    # assert b'You were logged in' in rv.data
+
+    rv = logout(client)
 
     rv = login(client, app.config['USERNAME'] + 'x', app.config['PASSWORD'])
     # assert b'Invalid username' in rv.data
