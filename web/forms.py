@@ -3,7 +3,7 @@ from wtforms import StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
 
 
-# from .models import User
+from .models import User
 
 
 class LoginForm(FlaskForm):
@@ -45,3 +45,22 @@ class AddConnectionForm(FlaskForm):
                                 validators=[DataRequired()])
     note = StringField('Note', validators=[])
     submit = SubmitField('Add Connection')
+
+class RequestResetForm(FlaskForm):
+    email_or_username = StringField('Email Address or Username', validators=[DataRequired()])
+    submit = SubmitField('Request Password Reset')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password',
+                             validators=[
+                                 DataRequired(),
+                                 Length(min=8,
+                                        message="Your password must have at least 8 characters"), EqualTo('confirm_password', message='Passwords must match')
+                             ])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), Length(min=8)])
+    submit = SubmitField('Reset Password')
+
+            
+
+

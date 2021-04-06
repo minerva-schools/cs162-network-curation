@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block navigation %}
+<ul class="nav-items">
+    <li>
+        <a href="#">About</a>
+    </li>
+    <li>
+        <a href="#">Contact</a>
+    </li>
+    <li>
+        <a href="#">Help</a>
+    </li>
+    <li>
+        <a href="{{ url_for('signup') }}">Sign Up</a>
+    </li>
+</ul>
+{% endblock %} {% block content %}
+
+<div class="header-container">
+    <div class="wrapper">
+        <div class="center">
+            <h1 class="LOGO_login">Plink</h1>
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="field">
+                    {{ form.password(size=32) }} {{ form.password.label }}
+                </div>
+                <div class="field">
+                    {{ form.confirm_password(size=32) }} {{ form.confirm_password.label }}
+                </div>
+                <div class="field">{{ form.submit() }}</div>
+            </form>
+
+            {% with messages = get_flashed_messages() %} {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %} {% endwith %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
