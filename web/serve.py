@@ -148,7 +148,7 @@ def reset_token(token):
         return redirect(url_for('reset_request'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        user.password = generate_password_hash(form.password.data)
+        user.password = user.set_password(form.password.data)
         db.session.commit()
         flash('Your password has been updated!')
         return redirect(url_for('login'))
