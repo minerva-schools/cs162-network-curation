@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, PasswordField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField, DateField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
 
 
@@ -49,15 +49,15 @@ class SignupForm(FlaskForm):
 
 class AddConnectionForm(FlaskForm):
     name = StringField('Full Name', validators=[DataRequired()])
-    title = StringField('Title', validators=[DataRequired()])
-    phone = StringField('Phone', validators=[DataRequired()])
+    title = StringField('Title', validators=[])
+    phone = StringField('Phone', validators=[])
     email = StringField('Email Address',
-                        validators=[DataRequired()])
+                        validators=[])
     tags = StringField('Tag',
-                       validators=[DataRequired()])
+                       validators=[])
     contact_by = StringField('Contact By',
-                             validators=[DataRequired()])
+                             validators=[])
     last_contacted = StringField('Last Contacted',
-                                 validators=[DataRequired()])
+                                 validators=[])
     note = StringField('Note', validators=[])
     submit = SubmitField('Add Connection')
