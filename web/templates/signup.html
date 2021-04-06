@@ -10,7 +10,9 @@
 
       <form action="{{ url_for('signup') }}" method="POST">
         {{ form.hidden_tag() }}
-
+        <div class="field">
+          {{ form.email(size=32) }} {{ form.email.label }}
+        </div>
         <div class="field">
           {{ form.user_name(size=32) }} {{ form.user_name.label }}
         </div>
