@@ -54,7 +54,7 @@ class UserConnections(db.Model):
     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
     name = db.Column(db.String(200))
     title = db.Column(db.String(600))
-    email = db.Column(db.String(128), unique=True)
+    email = db.Column(db.String(128))
     phone = db.Column(db.Integer)
     tags = db.Column(db.String(200))
     contact_by = db.Column(db.Date())
