@@ -47,10 +47,12 @@ class AddConnectionForm(FlaskForm):
     submit = SubmitField('Add Connection')
 
 class RequestResetForm(FlaskForm):
-    email = StringField('Email Address', validators=[DataRequired()])
+    email_or_username = StringField('Email Address or Username', validators=[DataRequired()])
     submit = SubmitField('Request Password Reset')
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+    def validate_email(self, email_or_username):
+        user_name = User.query.filter_by(name=form.email_or_username.data).first()
+        user_email = User.query.filter_by(email=form.email_or_username.data).first()
+        user = user_name or user_email
         if user is None:
             raise ValidationError('There is no account with that email. You must register first.')
 
