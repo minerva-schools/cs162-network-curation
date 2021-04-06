@@ -1,20 +1,7 @@
-{% extends "base.html" %} {% block navigation %}
-
-<ul class="nav-items">
-  <li>
-    <a href="#">About</a>
-  </li>
-  <li>
-    <a href="#">Contact</a>
-  </li>
-  <li>
-    <a href="#">Help</a>
-  </li>
-  <li>
-    <a href="{{ url_for('login') }}">Login</a>
-  </li>
-</ul>
-
+{% extends "base.html" %} {% block navbutton %}
+<a href="{{ url_for('login') }}" class="btn btn-info" id="navbar-button"
+  >Log In</a
+>
 {% endblock %} {% block content %}
 <div class="header-container">
   <div class="wrapper">
@@ -27,24 +14,9 @@
         <div class="field">
           {{ form.user_name(size=32) }} {{ form.user_name.label }}
         </div>
-        {% for error in form.user_name.errors %}
-        <div class="form-feedback">{{ error }}</div>
-        {% endfor %}
-
-        <div class="field">
-          {{ form.email(size=32) }} {{ form.email.label }}
-        </div>
-        {% for error in form.email.errors %}
-        <div class="form-feedback">{{ error }}</div>
-        {% endfor %}
-
         <div class="field">
           {{ form.password(size=32) }} {{ form.password.label }}
         </div>
-        {% for error in form.password.errors %}
-        <div class="form-feedback">{{ error }}</div>
-        {% endfor %}
-
         <div class="field">
           {{ form.confirm_password(size=32) }} {{ form.confirm_password.label }}
         </div>

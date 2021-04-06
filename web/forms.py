@@ -1,9 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField, TextAreaField
 from wtforms.fields.html5 import EmailField, TelField, DateField
-from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp, ValidationError
-
-import datetime
+from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
 
 
 class LoginForm(FlaskForm):
@@ -36,10 +34,6 @@ class SignupForm(FlaskForm):
             Length(
                 min=8,
                 message="Your password must have at least 8 characters"
-            ),
-            EqualTo(
-                'confirm_password',
-                message='Passwords must match'
             )
         ]
     )
@@ -47,7 +41,11 @@ class SignupForm(FlaskForm):
         'Confirm Password',
         validators=[
             DataRequired(),
-            Length(min=8)
+            Length(min=8),
+            EqualTo(
+                'password',
+                message='Passwords must match'
+            )
         ]
     )
     email = StringField(
@@ -83,3 +81,38 @@ class AddConnectionForm(FlaskForm):
     )
     note = TextAreaField('Note')
     submit = SubmitField('Add Connection')
+
+
+class RequestResetForm(FlaskForm):
+    email_or_username = StringField(
+        'Email Address or Username',
+        validators=[
+            DataRequired()
+        ]
+    )
+    submit = SubmitField('Request Password Reset')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(
+        'Password',
+        validators=[
+            DataRequired(),
+            Length(
+                min=8,
+                message="Your password must have at least 8 characters"
+            )
+        ]
+    )
+    confirm_password = PasswordField(
+        'Confirm Password',
+        validators=[
+            DataRequired(),
+            Length(min=8),
+            EqualTo(
+                'confirm_password',
+                message='Passwords must match'
+            )
+        ]
+    )
+    submit = SubmitField('Reset Password')

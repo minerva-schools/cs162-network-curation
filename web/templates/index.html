@@ -1,23 +1,15 @@
-{% extends "base.html" %} {% block navigation %}
-<ul class="nav-items">
-    <li>
-        <a href="#">About</a>
-    </li>
-    <li>
-        <a href="#">Contact</a>
-    </li>
-    <li>
-        <a href="#">Help</a>
-    </li>
-    <li>
-        <a href="{{ url_for('logout') }}">Log out</a>
-    </li>
-</ul>
+{% extends "base.html" %}
+{% block navbutton %}
+    <a>
+        <span class="fa fa-bell" id="notification"></span>
+    </a>
 
+    <a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0"
+       id="navbar-button">Log Out</a>
 {% endblock %}
 
-<main>
-    {% block content %}
+
+{% block content %}
     <div class="header-container">
         <div class="wrapper">
 
@@ -25,7 +17,7 @@
                 <h1> All {{ current_user.email }} 's connections: </h1>
                 <ul>
                     {% for connection in connections %}
-                    <li>{{ connection.name }} {{ connection.title }} {{ connection.phone }} {{connection.email }} {{ connection.contactby }} {{ connection.lastcontacted }} {{ connection.tag }} {{ connection.note }}</li>
+                        <li>{{ connection.name }} {{ connection.title }} {{ connection.phone }} {{ connection.email }} {{ connection.contactby }} {{ connection.lastcontacted }} {{ connection.tag }} {{ connection.note }}</li>
                     {% endfor %}
                 </ul>
 
@@ -76,10 +68,10 @@
     </div>
 
     {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %} {% endwith %} {% endblock %}
-</main>
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %} {% endwith %}
+{% endblock %}
