@@ -9,7 +9,33 @@ body {
 
 /* Navigation */
 
-.nav-container {
+#navbar-custom {
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+  background-color: white !important;
+}
+
+#navbar-button {
+  background-color: #2d9cdb !important;
+  color: white;
+}
+
+#navbar-button:hover {
+  background-color: #197bb4;
+}
+
+.navbar-brand {
+  color: #eb5757 !important;
+}
+
+#notification {
+  text-decoration: none;
+  padding: 10px 20px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+/* .nav-container {
   left: 0;
   right: 0;
   top: 0;
@@ -78,13 +104,7 @@ nav a:hover {
   color: #eb5757;
   font-size: 16px;
   font-family: "Mulish", serif;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+} */
 
 .center {
   position: absolute;
