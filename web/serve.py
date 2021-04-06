@@ -134,6 +134,9 @@ def reset_request():
         user_name = User.query.filter_by(name=form.email_or_username.data).first()
         user_email = User.query.filter_by(email=form.email_or_username.data).first()
         user = user_name or user_email
+        if user is None:
+            flash('Invalid email or username. You must sign up first.')
+            return redirect(url_for('signup'))
         send_reset_email(user)
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('login'))
