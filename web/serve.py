@@ -55,9 +55,9 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route('/addconnection', methods=['GET', 'POST'])
+@app.route('/add_connection', methods=['GET', 'POST'])
 @login_required
-def addconnection():
+def add_connection():
     print("Adding Connection")
     form = AddConnectionForm()
     connection = UserConnections(
