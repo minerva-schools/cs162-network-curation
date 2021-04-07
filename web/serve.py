@@ -9,6 +9,8 @@ from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from sqlalchemy import or_
+
+
 @login.user_loader
 def load_user(user_id):
     """Finds the user given their id"""
@@ -35,9 +37,9 @@ def signup():
     form = SignupForm()
     if form.validate_on_submit():
         user_name = User.query.filter_by(
-                name=form.user_name.data).first()
+            name=form.user_name.data).first()
         user_email = User.query.filter_by(
-                email=form.email.data).first()
+            email=form.email.data).first()
         if user_name:
             flash('That username is taken. Please choose another one.')
         elif user_email:
@@ -51,7 +53,6 @@ def signup():
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main'))
 
-            
     return render_template('signup.html', form=form)
 
 
@@ -61,14 +62,14 @@ def addconnection():
     print("Adding Connection")
     form = AddConnectionForm()
     connection = UserConnection(userid=current_user.id,
-                        name=form.name.data,
-                        title=form.title.data,
-                        email=form.email.data,
-                        phone=form.phone.data,
-                        contactby=form.contactby.data,
-                        lastcontacted=form.lastcontacted.data,
-                        tag=form.tag.data,
-                        note=form.note.data)
+                                name=form.name.data,
+                                title=form.title.data,
+                                email=form.email.data,
+                                phone=form.phone.data,
+                                contactby=form.contactby.data,
+                                lastcontacted=form.lastcontacted.data,
+                                tag=form.tag.data,
+                                note=form.note.data)
     db.session.add(connection)
     db.session.commit()
     return redirect(url_for('main'))
@@ -83,8 +84,10 @@ def login():
         return redirect(url_for('main'))
     form = LoginForm()
     if form.validate_on_submit():
-        user_name = User.query.filter_by(name=form.email_or_username.data).first()
-        user_email = User.query.filter_by(email=form.email_or_username.data).first()
+        user_name = User.query.filter_by(
+            name=form.email_or_username.data).first()
+        user_email = User.query.filter_by(
+            email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
             flash('Invalid email or username')
@@ -95,6 +98,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('main'))
     return render_template('login.html', form=form)
+
 
 @app.route("/logout")
 @login_required
@@ -108,20 +112,20 @@ def logout():
 @app.route('/main')
 @login_required
 def main():
-    print(current_user.id)
-    connections = UserConnection.query.filter_by(userid=current_user.id).all()
-    form = AddConnectionForm()
-    return render_template('index.html', connections=connections, form=form)
+
+    # print(current_user.id)
+    # connections = UserConnection.query.filter_by(userid=current_user.id).all()
+    # form = AddConnectionForm()
+    # return render_template('index.html', connections=connections, form=form)
+    return render_template('MainPage.html')
+
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = Message('Password Reset Request', 
-        sender = 'projectplink@gmail.com', 
-        recipients = [user.email])
-
-    msg.body = f''' To reset your password, visit the following link
-{url_for('reset_token', token=token, _external=True)}
-If you did not make this request then simply ignore this email.'''
+    msg = Message('Password Reset Request',
+                  sender='projectplink@gmail.com',
+                  recipients=[user.email])
+    msg.body = f''' To reset your password, visit the following link{url_for('reset_token', token=token, _external=True)}If you did not make this request then simply ignore this email.'''
     mail.send(msg)
 
 
@@ -131,16 +135,20 @@ def reset_request():
         return redirect(url_for('main'))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user_name = User.query.filter_by(name=form.email_or_username.data).first()
-        user_email = User.query.filter_by(email=form.email_or_username.data).first()
+        user_name = User.query.filter_by(
+            name=form.email_or_username.data).first()
+        user_email = User.query.filter_by(
+            email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
-            flash("Invalid email or username. If you don't have an account yet, you must sign up first.")
+            flash(
+                "Invalid email or username. If you don't have an account yet, you must sign up first.")
             return redirect(request.url)
         send_reset_email(user)
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('login'))
-    return render_template('reset_request.html', title = "Reset Password", form=form)
+    return render_template('reset_request.html', title="Reset Password", form=form)
+
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
@@ -157,6 +165,7 @@ def reset_token(token):
         flash('Your password has been updated!')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title="Reset Password", form=form)
+
 
 if __name__ == '__main__':
     app.run()

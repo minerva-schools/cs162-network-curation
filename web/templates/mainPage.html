@@ -1,85 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <script src="http://ajaz.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainPageStyle.css') }}">
-    
-</head>
-<body>
+{% extends "base.html" %} {% block navbutton %}
+<a>
+  <span class="fa fa-bell" id="notification"></span>
+</a>
 
-
-    <div class="wrapper">
-        
-     <nav id="sidebar">
-         
-          <div class="sidebar-header">
-              <h3>User Information</h3>
-          </div>
-          <ul class="lisst-unstyled components">
-    
-            <li class="active">
-                
-            </li>
-            <li>
-                <a href="#">Contacts</a>
-            </li>
-            <li>
-                <a href="#">Search</a>
-                  
-            </li>
-            <li>
-                <a href="#">Reminders</a>
-            </li>
-    
-            <li>
-                <a href="#">Template</a>
-            </li>
-    
-          </ul>
-     </nav>
-    
-    
-    <div id="content">
-        
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="container-fluid">
-              <button type="button" id="sidebarCollapse" class="btn  btn-info">
-                  <i class="fas fa-align-left"></i>
-                  <span>Toggle Sidebar</span>
-                  
-              </button>
-          </div>
-            </nav>
-    
-    <br><br>
-        
-
+<a
+  href="{{ url_for('logout') }}"
+  class="btn btn-info my-2 my-sm-0"
+  id="navbar-button"
+  >Log Out</a
+>
+{% endblock %} {% block content %}
+<div class="wrapper">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>User Information</h3>
     </div>
-    
-    
-    </div>
-    
+    <ul class="lisst-unstyled components">
+      <li class="active"></li>
+      <li>
+        <a href="#">Contacts</a>
+      </li>
+      <li>
+        <a href="#">Search</a>
+      </li>
+      <li>
+        <a href="#">Reminders</a>
+      </li>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
-    <script>
-    
-    $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
-                });
-            });
-    
-    </script>
-    
-    
-    </body>
-    </html>
+      <li>
+        <a href="#">Template</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <button type="button" id="sidebarCollapse" class="btn btn-info">
+          <i class="fas fa-align-left"></i>
+          <span>Toggle Sidebar</span>
+        </button>
+      </div>
+    </nav>
+
+    <br /><br />
+  </div>
+</div>
+{% endblock %}
