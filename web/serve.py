@@ -7,6 +7,8 @@ from . import login, mail
 from .forms import LoginForm, SignupForm, AddConnectionForm, RequestResetForm, ResetPasswordForm
 from flask_mail import Message
 
+import datetime
+
 
 @login.user_loader
 def load_user(user_id):
@@ -64,8 +66,8 @@ def addconnection():
         title=form.title.data,
         email=form.email.data,
         phone=form.phone.data,
-        contact_by=form.contact_by.data,
-        last_contacted=form.last_contacted.data,
+        contact_by=datetime.datetime.strptime(form.contact_by.data, '%Y-%m-%d'),
+        last_contacted=datetime.datetime.strptime(form.last_contacted.data, '%Y-%m-%d'),
         tags=form.tags.data,
         note=form.note.data
     )

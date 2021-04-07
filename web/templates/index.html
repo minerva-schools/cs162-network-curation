@@ -43,11 +43,11 @@
                     </div>
 
                     <div class="field">
-                        {{ form.contact_by(size=32) }} {{ form.contact_by.label }}
+                        {{ form.contact_by(size=32, placeholder="yyyy-mm-dd", class="datepicker") }} {{ form.contact_by.label }}
                     </div>
 
                     <div class="field">
-                        {{ form.last_contacted(size=32) }} {{ form.last_contacted.label }}
+                        {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd", class="datepicker") }} {{ form.last_contacted.label }}
                     </div>
 
                     <div class="field">
@@ -74,4 +74,16 @@
             {% endfor %}
         </ul>
     {% endif %} {% endwith %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const elems = document.querySelectorAll('.datepicker');
+            options = {
+                container: "body",
+                format: "%Y-%m-%d"
+            }
+            const instances = M.Datepicker.init(elems, options);
+        });
+    </script>
 {% endblock %}
+
