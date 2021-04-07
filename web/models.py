@@ -55,7 +55,7 @@ class UserConnections(db.Model):
     name = db.Column(db.String(200))
     title = db.Column(db.String(600))
     email = db.Column(db.String(128))
-    phone = db.Column(db.Integer)
+    phone = db.Column(db.String(50))
     tags = db.Column(db.String(200))
     contact_by = db.Column(db.Date())
     last_contacted = db.Column(db.Date())
