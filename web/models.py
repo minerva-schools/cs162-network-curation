@@ -16,7 +16,7 @@ Current models:
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .serve import db
+from . import db
 
 
 class User(UserMixin, db.Model):

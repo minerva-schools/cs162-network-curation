@@ -9,6 +9,7 @@ from web import create_app, db
 class BasicTests(unittest.TestCase):
     def setUp(self):
         self.app = create_app()
+        self.app.config['TESTING'] = True
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
@@ -20,6 +21,9 @@ class BasicTests(unittest.TestCase):
 
     def test_app_existence(self):
         self.assertTrue(current_app is not None)
+
+    def test_app_testing(self):
+        self.assertTrue(current_app.config['TESTING'])
 
 if __name__ == "__main__":
     unittest.main()
