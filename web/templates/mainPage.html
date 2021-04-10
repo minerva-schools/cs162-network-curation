@@ -3,7 +3,6 @@
 <a
   href="{{ url_for('logout') }}"
   class="btn btn-info my-2 my-sm-0"
-  id="navbar-button"
   >Log Out</a
 >
 {% endblock %} {% block content %}
@@ -15,17 +14,21 @@
     <ul class="lisst-unstyled components">
       <li class="active"></li>
       <li>
-        <a href="#"><span class="fa fa-address-book"></span>Contacts</a>
+        <a href="#"
+          ><span class="fa fa-address-book sidebar-icons"></span>Contacts</a
+        >
       </li>
       <li>
-        <a href="#"><span class="fa fa-search"></span>Search</a>
+        <a href="#"><span class="fa fa-search sidebar-icons"></span>Search</a>
       </li>
       <li>
-        <a href="#"><span class="fa fa-clock-o"></span>Reminders</a>
+        <a href="#"
+          ><span class="fa fa-clock-o sidebar-icons"></span>Reminders</a
+        >
       </li>
 
       <li>
-        <a href="#"><span class="fa fa-file"></span>Template</a>
+        <a href="#"><span class="fa fa-file sidebar-icons"></span>Template</a>
       </li>
     </ul>
   </nav>
@@ -35,8 +38,6 @@
       <i class="fa fa-bars"></i>
       <span>Toggle Sidebar</span>
     </button>
-
-    <br /><br />
   </div>
 </div>
 {% endblock %}

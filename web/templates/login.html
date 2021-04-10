@@ -1,7 +1,5 @@
 {% extends "base.html" %} {% block navbutton %}
-<a href="{{ url_for('signup') }}" class="btn btn-info" id="navbar-button"
-  >Sign Up</a
->
+<a href="{{ url_for('signup') }}" class="btn btn-info">Sign Up</a>
 
 {% endblock %} {% block content %}
 
@@ -13,7 +11,8 @@
         {{ form.hidden_tag() }}
 
         <div class="field">
-          {{ form.email_or_username(size=32) }} {{ form.email_or_username.label}}
+          {{ form.email_or_username(size=32) }} {{
+          form.email_or_username.label}}
         </div>
         <div class="field">
           {{ form.password(size=32) }} {{ form.password.label }}

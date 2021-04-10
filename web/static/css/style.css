@@ -15,11 +15,6 @@ body {
   background-color: white !important;
 }
 
-#navbar-button {
-  background-color: #2d9cdb !important;
-  color: white;
-}
-
 #navbar-button:hover {
   background-color: #197bb4;
 }
@@ -27,7 +22,9 @@ body {
 .navbar-brand {
   color: #eb5757 !important;
 }
-
+.btn-info {
+  background-color: #2d9cdb !important;
+}
 #notification {
   text-decoration: none;
   padding: 10px 20px;
@@ -36,7 +33,7 @@ body {
   border-radius: 2px;
 }
 
- /* from  */
+/* from  */
 .center {
   position: absolute;
   top: 50%;
@@ -229,9 +226,12 @@ a:focus {
   padding: 20px;
   background: #2d9cdb;
 }
+
+.sidebar-icons {
+  margin-right: 10px;
+}
 #sidebar ul.components {
   padding: 20px 0;
-  border-bottom: 1px solid #47748b;
 }
 
 #sidebar ul p {
