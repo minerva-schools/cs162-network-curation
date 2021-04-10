@@ -23,8 +23,8 @@
           {{ form.confirm_password(size=32) }} {{ form.confirm_password.label }}
         </div>
 
-        <div class="checkbox">
-          {{ form.remember_me() }} {{ form.remember_me.label }}
+        <div class="form-check checkbox">
+          {{ form.remember_me(class="form-check-input") }} {{ form.remember_me.label(class="form-check-label") }}
         </div>
 
         <div class="pass-link"></div>
