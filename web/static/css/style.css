@@ -182,11 +182,6 @@ form .signup-link a:hover {
 }
 
 .LOGO_login {
-    position: absolute;
-    height: 100px;
-    left: 100px;
-    right: -96px;
-    top: -80px;
     font-size: 70px;
     /* Red */
     color: #eb5757;
