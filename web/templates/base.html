@@ -28,22 +28,7 @@
       id="navbar-custom"
     >
       <a class="navbar-brand" href="#">Plink</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav ml-auto">
-          {% block navbutton%} {% endblock %}
-        </div>
-      </div>
+      <div class="navbar-nav ml-auto">{% block navbutton%} {% endblock %}</div>
     </nav>
 
     <main>{% block content %} {% endblock %}</main>
