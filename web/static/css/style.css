@@ -36,77 +36,7 @@ body {
   border-radius: 2px;
 }
 
-/* .nav-container {
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: #ffffff;
-}
-
-.nav-container .logo {
-  font-family: Bahnschrift SemiLight, serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 32px;
-  color: #eb5757;
-}
-
-.wrapper {
-  width: 1200px;
-  margin: 0 auto;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-}
-
-nav ul {
-  display: flex;
-}
-
-nav .logo {
-  font-family: Lato, serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 32px;
-  color: #eb5757;
-}
-
-nav a:hover {
-  background: #eb5757;
-  opacity: 0.75;
-  transition: 0.25s;
-}
-
-.logo img {
-  position: absolute;
-  height: 80px;
-  width: 80px;
-  margin-top: 0;
-  margin-left: 10px;
-}
-
-.nav-items li {
-  list-style: none;
-  margin-right: 100px;
-}
-
-.nav-items li:nth-last-of-type(1) {
-  margin: 0;
-}
-
-.nav-items li a {
-  color: #eb5757;
-  font-size: 16px;
-  font-family: "Mulish", serif;
-} */
-
+ /* from  */
 .center {
   position: absolute;
   top: 50%;
@@ -261,7 +191,7 @@ form .signup-link a:hover {
   color: #eb5757;
 }
 
-/* p {
+p {
   font-family: "Poppins", sans-serif;
   font-size: 1.1em;
   font-weight: 300;
@@ -274,7 +204,7 @@ a:focus {
   color: inherit;
   text-decoration: none;
   transition: all 0.3s;
-} */
+}
 
 /* Side Bar*/
 
