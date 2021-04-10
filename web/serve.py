@@ -2,9 +2,9 @@ from flask import current_app as app, session
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, current_user, login_required, logout_user
 
-from . import db, login
+from . import login
 from .forms import LoginForm, SignupForm, AddConnectionForm
-from .models import User, UserConnection
+from .models import User, UserConnection, db
 
 from sqlalchemy import or_
 @login.user_loader

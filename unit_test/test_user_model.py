@@ -13,7 +13,6 @@ class UserModelTest(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
-        # Some line about creating a user
 
     def tearDown(self):
         db.session.remove()
@@ -21,7 +20,8 @@ class UserModelTest(unittest.TestCase):
         self.app_context.pop()
 
     def test_pw_set(self):
-        user = User(password_hash = generate_password_hash('pwd'))
+        user = User()
+        user.set_password('pwd123')
         self.assertTrue(user.password_hash is not None)
 
     def test_pwd_verification(self):
