@@ -1,10 +1,6 @@
 {% extends "base.html" %} {% block navbutton %}
 
-<a
-  href="{{ url_for('logout') }}"
-  class="btn btn-info my-2 my-sm-0"
-  >Log Out</a
->
+<a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
 {% endblock %} {% block content %}
 <div class="wrapper">
   <nav id="sidebar">
@@ -36,7 +32,6 @@
   <div id="content">
     <button type="button" id="sidebarCollapse" class="btn btn-info">
       <i class="fa fa-bars"></i>
-      <span>Toggle Sidebar</span>
     </button>
   </div>
 </div>
