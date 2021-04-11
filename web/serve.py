@@ -7,7 +7,7 @@ from . import login, mail
 from .forms import LoginForm, SignupForm, AddConnectionForm, RequestResetForm, ResetPasswordForm
 from flask_mail import Message
 
-import datetime
+from datetime import datetime
 
 
 @login.user_loader
@@ -60,14 +60,27 @@ def signup():
 def add_connection():
     print("Adding Connection")
     form = AddConnectionForm()
+
+    # Prevent raising errors when optional fields are not filled
+    filled_contact_by = None
+    try:
+        filled_contact_by = datetime.strptime(form.contact_by.data, '%Y-%m-%d')
+    except ValueError:
+        pass
+    filled_last_contacted = None
+    try:
+        filled_last_contacted = datetime.strptime(form.last_contacted.data, '%Y-%m-%d')
+    except ValueError:
+        pass
+
     connection = UserConnections(
         userid=current_user.id,
         name=form.name.data,
         title=form.title.data,
         email=form.email.data,
         phone=form.phone.data,
-        contact_by=datetime.datetime.strptime(form.contact_by.data, '%Y-%m-%d'),
-        last_contacted=datetime.datetime.strptime(form.last_contacted.data, '%Y-%m-%d'),
+        contact_by=filled_contact_by,
+        last_contacted=filled_last_contacted,
         tags=form.tags.data,
         note=form.note.data
     )
