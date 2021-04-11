@@ -8,8 +8,6 @@ from .models import User, UserConnection
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from sqlalchemy import or_
-
 
 @login.user_loader
 def load_user(user_id):
