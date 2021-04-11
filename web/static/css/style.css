@@ -66,8 +66,7 @@ body {
     position: relative;
 }
 
-.wrapper form .field input,
-.wrapper form .field textarea {
+.wrapper form .field input {
     height: 100%;
     width: 100%;
     outline: none;
@@ -79,9 +78,7 @@ body {
 }
 
 .wrapper form .field input:focus,
-.wrapper form .field textarea:focus,
-form .field input:valid,
-form .field textarea:valid {
+form .field input:valid {
     border-color: #4158d0;
 }
 
@@ -98,9 +95,7 @@ form .field textarea:valid {
 }
 
 form .field input:focus ~ label,
-form .field textarea:focus ~ label,
-form .field input:valid ~ label,
-form .field textarea:valid ~ label {
+form .field input:valid ~ label {
     top: 0;
     font-size: 16px;
     color: #4158d0;
@@ -128,8 +123,7 @@ form .checkbox {
     pointer-events: auto;
 }
 
-form .content input,
-form .content textarea {
+form .content input {
     width: 15px;
     height: 15px;
     background: red;
