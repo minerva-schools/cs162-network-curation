@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, PasswordField, TextAreaField, TextField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField, TextAreaField, HiddenField
 from wtforms.fields.html5 import EmailField, TelField, DateField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
 
@@ -70,7 +70,7 @@ class AddConnectionForm(FlaskForm):
         'Email Address',
         validators=[Email('Enter a valid email')]
     )
-    tags = StringField('Tags')
+    tags = HiddenField('Tags')
     contact_by = StringField(
         'Contact By',
     )
