@@ -1,45 +1,47 @@
 {% extends "base.html" %} {% block navbutton %}
-<a href="{{ url_for('signup') }}" class="btn btn-info" id="navbar-button"
-  >Sign Up</a
->
+    <a href="{{ url_for('signup') }}" class="btn btn-info" id="navbar-button"
+    >Sign Up</a
+    >
 
 {% endblock %} {% block content %}
 
-<div class="header-container">
-  <div class="wrapper">
-    <div class="center">
-      <h1 class="LOGO_login">Plink</h1>
-      <form action="{{ url_for('login') }}" method="POST">
-        {{ form.hidden_tag() }}
+    <div class="header-container">
+        <div class="wrapper">
+            <div class="center">
+                <h1 class="LOGO_login">Plink</h1>
+                <form action="{{ url_for('login') }}" method="POST">
+                    {{ form.hidden_tag() }}
 
-        <div class="field">
-          {{ form.email_or_username(size=32) }} {{ form.email_or_username.label}}
-        </div>
-        <div class="field">
-          {{ form.password(size=32) }} {{ form.password.label }}
-        </div>
+                    <div class="field mb-3">
+                        {{ form.email_or_username(size=32, class="form-control") }} {{ form.email_or_username.label }}
+                    </div>
+                    <div class="field mb-3">
+                        {{ form.password(size=32, class="form-control") }} {{ form.password.label }}
+                    </div>
 
-        <div class="checkbox">
-          {{ form.remember_me() }} {{ form.remember_me.label }}
-        </div>
-        <div class="content">
-          <div class="pass-link">
-            <!-- TODO: Make forgot password work -->
-            <a href="{{ url_for('reset_request')}}">Forgot password?</a>
-          </div>
-        </div>
-        <div class="field">{{ form.submit() }}</div>
-      </form>
+                    <div class="mb-3 form-check checkbox">
+                        {{ form.remember_me(class="form-check-input") }} {{ form.remember_me.label(class="form-check-label") }}
+                    </div>
 
-      {% with messages = get_flashed_messages() %} {% if messages %}
-      <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %} {% endwith %}
+                    <div class="content">
+                        <div class="pass-link">
+                            <a href="{{ url_for('reset_request') }}">Forgot password?</a>
+                        </div>
+                    </div>
+                    <div class="field">{{ form.submit() }}</div>
+                </form>
+
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %} {% endwith %}
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+
+
 
 {% endblock %}

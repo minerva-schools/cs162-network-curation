@@ -7,6 +7,7 @@ db = SQLAlchemy()
 login = LoginManager()
 mail = Mail()
 
+
 def create_app():
     """Construct the core application."""
     app = Flask(__name__)
