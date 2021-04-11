@@ -79,7 +79,9 @@ body {
 }
 
 .wrapper form .field input:focus,
-.wrapper form .field textarea:focus {
+.wrapper form .field textarea:focus,
+form .field input:valid,
+form .field textarea:valid {
     border-color: #4158d0;
 }
 
@@ -95,8 +97,10 @@ body {
     transition: all 0.3s ease;
 }
 
-form .field input:focus~label,
-form .field textarea:focus~label {
+form .field input:focus ~ label,
+form .field textarea:focus ~ label,
+form .field input:valid ~ label,
+form .field textarea:valid ~ label {
     top: 0;
     font-size: 16px;
     color: #4158d0;
