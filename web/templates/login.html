@@ -15,9 +15,16 @@
                     <div class="field mb-3">
                         {{ form.email_or_username(size=32, class="form-control") }} {{ form.email_or_username.label }}
                     </div>
+                    {% for error in form.email_or_username.errors %}
+                        <div class="form-feedback">{{ error }}</div>
+                    {% endfor %}
+
                     <div class="field mb-3">
                         {{ form.password(size=32, class="form-control") }} {{ form.password.label }}
                     </div>
+                    {% for error in form.password.errors %}
+                        <div class="form-feedback">{{ error }}</div>
+                    {% endfor %}
 
                     <div class="mb-3 form-check checkbox">
                         {{ form.remember_me(class="form-check-input") }} {{ form.remember_me.label(class="form-check-label") }}
