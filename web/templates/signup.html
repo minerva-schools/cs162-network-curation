@@ -13,15 +13,27 @@
                     <div class="field mb-3">
                         {{ form.email(size=32, class="form-control") }} {{ form.email.label }}
                     </div>
+                    {% for error in form.email.errors %}
+                        <div class="form-feedback">{{ error }}</div>
+                    {% endfor %}
                     <div class="field mb-3">
                         {{ form.user_name(size=32, class="form-control") }} {{ form.user_name.label }}
                     </div>
+                    {% for error in form.user_name.errors %}
+                        <div class="form-feedback">{{ error }}</div>
+                    {% endfor %}
                     <div class="field mb-3">
                         {{ form.password(size=32, class="form-control") }} {{ form.password.label }}
                     </div>
+                    {% for error in form.password.errors %}
+                        <div class="form-feedback">{{ error }}</div>
+                    {% endfor %}
                     <div class="field mb-3">
                         {{ form.confirm_password(size=32, class="form-control") }} {{ form.confirm_password.label }}
                     </div>
+                    {% for error in form.confirm_password.errors %}
+                        <div class="form-feedback">{{ error }}</div>
+                    {% endfor %}
 
                     <div class="form-check checkbox">
                         {{ form.remember_me(class="form-check-input") }} {{ form.remember_me.label(class="form-check-label") }}
