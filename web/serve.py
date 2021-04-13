@@ -126,7 +126,7 @@ def main():
     print(current_user.id)
     connections = UserConnections.query.filter_by(userid=current_user.id).all()
     form = AddConnectionForm()
-    return render_template('mainPage.html', connections=connections, form=form)
+    return render_template('index.html', connections=connections, form=form)
 
 
 def send_reset_email(user):
