@@ -39,6 +39,7 @@
     </style>
 
     <div class="container">
+
         {% if connections|length > 0 %}
             <table class="table table-hover table-striped">
                 <thead>
@@ -62,8 +63,8 @@
                         <td>{{ connection.name }}</td>
                         <td>{{ connection.phone }}</td>
                         <td>{{ connection.email }}</td>
-                        <td>{{ connection.lastcontacted }}</td>
-                        <td>{{ connection.contactby }}</td>
+                        <td>{{ connection.last_contacted }}</td>
+                        <td>{{ connection.contact_by }}</td>
                         <td>{{ connection.tag }}</td>
                         <td>{{ connection.note }}</td>
                     </tr>
@@ -176,7 +177,6 @@
             </div>
         </div>
 
-
     </div>
 
     <script>
@@ -209,7 +209,6 @@
             );
 
             let connectionsCount = '{{ connections | length }}'
-            console.log(connectionsCount);
             if (connectionsCount < 1) {
                 setTimeout(() => {
                     addConnectionTapTargetInstance.open();
