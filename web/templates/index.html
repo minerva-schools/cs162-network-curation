@@ -24,7 +24,15 @@
 
         .empty-table {
             display: grid;
+            height: 80vh;
             justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .empty-table-child {
+            display: grid;
+            justify-content: center;
+            align-items: center;
             text-align: center;
         }
     </style>
@@ -64,8 +72,10 @@
             </table>
         {% else %}
             <div class="empty-table">
-                <i class="large material-icons">face</i>
-                <p class="flow-text">There is nothing in here</p>
+                <div class="empty-table-child">
+                    <i class="large material-icons-two-tone">face</i>
+                    <p class="flow-text">There is nothing in here</p>
+                </div>
             </div>
         {% endif %}
         <div class="row">
