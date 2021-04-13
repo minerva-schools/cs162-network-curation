@@ -7,8 +7,8 @@ from . import login, mail
 from .forms import LoginForm, SignupForm, AddConnectionForm, RequestResetForm, ResetPasswordForm
 from flask_mail import Message
 
-from datetime import datetime
 
+from datetime import datetime
 
 @login.user_loader
 def load_user(user_id):
@@ -60,7 +60,6 @@ def signup():
 def add_connection():
     print("Adding Connection")
     form = AddConnectionForm()
-
     # Prevent raising errors when optional fields are not filled
     filled_contact_by = None
     try:
@@ -154,7 +153,8 @@ def reset_request():
         user_email = Users.query.filter_by(email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
-            flash("Invalid email or username. If you don't have an account yet, you must sign up first.")
+            flash(
+                "Invalid email or username. If you don't have an account yet, you must sign up first.")
             return redirect(request.url)
         send_reset_email(user)
         flash('An email has been sent with instructions to reset your password.', 'info')

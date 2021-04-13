@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block navbutton %}
+
+<a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
+{% endblock %} {% block content %}
+<div class="wrapper">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>User Information</h3>
+    </div>
+    <ul class="lisst-unstyled components">
+      <li class="active"></li>
+      <li>
+        <a href="#"
+          ><span class="fa fa-address-book sidebar-icons"></span>Contacts</a
+        >
+      </li>
+      <li>
+        <a href="#"><span class="fa fa-search sidebar-icons"></span>Search</a>
+      </li>
+      <li>
+        <a href="#"
+          ><span class="fa fa-clock-o sidebar-icons"></span>Reminders</a
+        >
+      </li>
+
+      <li>
+        <a href="#"><span class="fa fa-file sidebar-icons"></span>Template</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="content">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+      <i class="fa fa-bars"></i>
+    </button>
+  </div>
+</div>
+{% endblock %}

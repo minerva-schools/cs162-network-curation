@@ -1,14 +1,8 @@
-{% extends "base.html" %}
-{% block navbutton %}
-    <a>
-        <span class="fa fa-bell" id="notification"></span>
-    </a>
+{% extends "base.html" %} 
+{% block navbutton %} 
 
-    <a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0"
-       id="navbar-button">Log Out</a>
+  <a href="{{ url_for('logout') }}"   class="btn btn-info my-2 my-sm-0">Log Out</a>
 {% endblock %}
-
-
 {% block content %}
     <!-- Compiled and minified CSS Materialize Used for the Date Picker -->
     <link
