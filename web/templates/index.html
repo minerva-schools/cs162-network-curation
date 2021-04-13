@@ -237,7 +237,7 @@
             let connectionsCount = '{{ connections | length }}'
             console.log(connectionsCount);
             if (connectionsCount < 1) {
-                addConnectionTapTargetInstance.open()
+                setTimeout(() => {  addConnectionTapTargetInstance.open(); }, 1000);
             }
         });
     </script>
