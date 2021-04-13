@@ -78,8 +78,8 @@ def add_connection():
         title=form.title.data,
         email=form.email.data,
         phone=form.phone.data,
-        contact_by=filled_contact_by,
-        last_contacted=filled_last_contacted,
+        contact_by=filled_contact_by.date(),
+        last_contacted=filled_last_contacted.date(),
         tags=form.tags.data,
         note=form.note.data
     )
