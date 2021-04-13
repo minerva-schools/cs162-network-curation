@@ -1,19 +1,159 @@
 {% extends "base.html" %} 
 {% block navbutton %} 
 
-
   <a href="{{ url_for('logout') }}"   class="btn btn-info my-2 my-sm-0">Log Out</a>
 {% endblock %}
 {% block content %}
+    <!-- Compiled and minified CSS Materialize Used for the Date Picker -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    >
+    <style>
+        .modal {
+            /* Override Boostrap options for Materialize CSS to work */
+            height: auto;
+        }
 
-  <div class="header-container">
-    <div class="wrapper">
-      <header>
-        <div class="center">
-          <h1 class="LOGO_login">Main page</h1>
+        nav {
+            /* Override Materialize CSS options for Bootstrap to work*/
+            color: #111011;
+            height: auto;
+            line-height: normal;
+        }
+    </style>
+
+    <h1> All {{ current_user.email }} 's connections: </h1>
+    <ul>
+        {% for connection in connections %}
+            <li>{{ connection.name }} {{ connection.title }} {{ connection.phone }} {{ connection.email }} {{ connection.contactby }} {{ connection.lastcontacted }} {{ connection.tag }} {{ connection.note }}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="container">
+        <div class="row">
+            <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <h1>Add Connection</h1>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">person</i>
+                        {{ form.title(size=32, class="validate") }}
+                        {{ form.title.label }}
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">person</i>
+                        {{ form.name(size=32, class="validate") }}
+                        {{ form.name.label }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">email</i>
+                        {{ form.email(size=32, class="validate") }}
+                        {{ form.email.label }}
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">phone</i>
+                        {{ form.phone(size=32, class="validate") }}
+                        {{ form.phone.label }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">date_range</i>
+                        {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
+                        {{ form.last_contacted.label }}
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">date_range</i>
+                        {{ form.contact_by(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
+                        {{ form.contact_by.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">label</i>
+                        <div id="tags-chips" class="chips"></div>
+                        {{ form.tags() }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">description</i>
+                        {{ form.note(size=64, class="materialize-textarea") }}
+                        {{ form.note.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </div>
+
+            </form>
+
         </div>
-      </header>
+
+        {% with messages = get_flashed_messages() %} {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %} {% endwith %}
     </div>
-  </div>
-  {% endblock %}
-</ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const datePickerElems = document.querySelectorAll('.datepicker');
+            datePickerOptions = {
+                container: "body",
+                format: "yyyy-mm-dd"
+            }
+            const datePickerInstances = M.Datepicker.init(datePickerElems, datePickerOptions);
+
+            const chipElems = document.querySelectorAll('.chips');
+            chipOptions = {
+                placeholder: "Tags",
+                secondaryPlaceholder: "+ Add a tag"
+            }
+            const chipInstances = M.Chips.init(chipElems, chipOptions);
+
+            const formElem = document.getElementById("connection-form");
+            formElem.addEventListener('submit', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const tagsChipsElem = document.getElementById('tags-chips');
+                const tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
+                const tagData = tagsChipsInstance.chipsData.reduce((accumulator, current_value, i, array) => {
+                    accumulator += current_value.tag
+                    if (i !== array.length - 1) {
+                        accumulator += ','
+                    }
+                    return accumulator;
+                }, '');
+
+                const tagsElem = document.getElementById('tags');
+                tagsElem.value = tagData
+                fetch(formElem.action, {
+                    method: 'POST',
+                    body: new URLSearchParams(new FormData(formElem))
+                }).then((res) => {
+                    console.log(res);
+                    formElem.reset();
+                    M.Chips.init(chipElems, chipOptions);
+                });
+                return true;
+            })
+        });
+    </script>
+
+    <!-- Compiled and minified JavaScript Materialize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+{% endblock %}
+
