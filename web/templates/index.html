@@ -29,6 +29,7 @@
             align-items: center;
             text-align: center;
         }
+
         .empty-table-child {
             display: grid;
             justify-content: center;
@@ -37,7 +38,6 @@
         }
     </style>
 
-    <h1> All {{ current_user.email }} 's connections: </h1>
     <div class="container">
         {% if connections|length > 0 %}
             <table class="table table-hover table-striped">
@@ -74,97 +74,109 @@
             <div class="empty-table">
                 <div class="empty-table-child">
                     <i class="large material-icons-two-tone">face</i>
-                    <p class="flow-text">There is nothing in here</p>
+                    <p class="flow-text">There are no connections here yet ...</p>
                 </div>
             </div>
         {% endif %}
-        <div class="row">
-            <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
-                {{ form.hidden_tag() }}
-                <h1>Add Connection</h1>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">person</i>
-                        {{ form.title(size=32, class="validate") }}
-                        {{ form.title.label }}
-                    </div>
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">person</i>
-                        {{ form.name(size=32, class="validate") }}
-                        {{ form.name.label }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">email</i>
-                        {{ form.email(size=32, class="validate") }}
-                        {{ form.email.label }}
-                    </div>
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">phone</i>
-                        {{ form.phone(size=32, class="validate") }}
-                        {{ form.phone.label }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">date_range</i>
-                        {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
-                        {{ form.last_contacted.label }}
-                    </div>
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">date_range</i>
-                        {{ form.contact_by(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
-                        {{ form.contact_by.label }}
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">label</i>
-                        <div id="tags-chips" class="chips"></div>
-                        {{ form.tags() }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">description</i>
-                        {{ form.note(size=64, class="materialize-textarea") }}
-                        {{ form.note.label }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div>
-                        {{ form.submit(class="btn btn-primary") }}
-                    </div>
-                </div>
-
-            </form>
-
+        <!-- Modal Trigger -->
+        <div
+                class="fixed-action-btn"
+        >
+            <a
+                    id="add-connection-btn"
+                    class="btn-floating btn-large red modal-trigger light-blue accent-3"
+                    href="#connection-modal"
+            >
+                <i class="large material-icons">add</i>
+            </a>
         </div>
 
-        {% with messages = get_flashed_messages() %} {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %} {% endwith %}
+        <!-- Modal Structure -->
+        <div id="connection-modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
+                    {{ form.hidden_tag() }}
+                    <h2>Add a Connection</h2>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">person</i>
+                            {{ form.title(size=32, class="validate") }}
+                            {{ form.title.label }}
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">person</i>
+                            {{ form.name(size=32, class="validate") }}
+                            {{ form.name.label }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">email</i>
+                            {{ form.email(size=32, class="validate") }}
+                            {{ form.email.label }}
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">phone</i>
+                            {{ form.phone(size=32, class="validate") }}
+                            {{ form.phone.label }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">date_range</i>
+                            {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
+                            {{ form.last_contacted.label }}
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">date_range</i>
+                            {{ form.contact_by(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
+                            {{ form.contact_by.label }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">label</i>
+                            <div id="tags-chips" class="chips"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">description</i>
+                            {{ form.note(size=64, class="materialize-textarea") }}
+                            {{ form.note.label }}
+                        </div>
+                    </div>
+                    {% with messages = get_flashed_messages() %} {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %} {% endwith %}
+                </form>
+            </div>
+            <div class="modal-footer">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </div>
+
+
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const datePickerElems = document.querySelectorAll('.datepicker');
-            datePickerOptions = {
+            const datePickerOptions = {
                 container: document.querySelector('body'),
                 format: "yyyy-mm-dd"
             }
             const datePickerInstances = M.Datepicker.init(datePickerElems, datePickerOptions);
 
             const chipElems = document.querySelectorAll('.chips');
-            chipOptions = {
+            const chipOptions = {
                 placeholder: "Tags",
                 secondaryPlaceholder: "+ Add a tag"
             }
@@ -197,6 +209,10 @@
                 });
                 return true;
             })
+
+            const modalElems = document.querySelectorAll('.modal');
+            const modalInstances = M.Modal.init(modalElems);
+
         });
     </script>
 
