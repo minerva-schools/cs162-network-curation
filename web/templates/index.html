@@ -41,36 +41,38 @@
     <div class="container">
 
         {% if connections|length > 0 %}
-            <table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Last Contacted</th>
-                    <th scope="col">Contact By</th>
-                    <th scope="col">Tags</th>
-                    <th scope="col">Note</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for connection in connections %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
                     <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        <td>{{ connection.title }}</td>
-                        <td>{{ connection.name }}</td>
-                        <td>{{ connection.phone }}</td>
-                        <td>{{ connection.email }}</td>
-                        <td>{{ connection.last_contacted }}</td>
-                        <td>{{ connection.contact_by }}</td>
-                        <td>{{ connection.tags }}</td>
-                        <td>{{ connection.note }}</td>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Last Contacted</th>
+                        <th scope="col">Contact By</th>
+                        <th scope="col">Tags</th>
+                        <th scope="col">Note</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for connection in connections %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ connection.title }}</td>
+                            <td>{{ connection.name }}</td>
+                            <td>{{ connection.phone }}</td>
+                            <td>{{ connection.email }}</td>
+                            <td>{{ connection.last_contacted }}</td>
+                            <td>{{ connection.contact_by }}</td>
+                            <td>{{ connection.tags }}</td>
+                            <td>{{ connection.note }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
             <div class="empty-table">
                 <div class="empty-table-child">
