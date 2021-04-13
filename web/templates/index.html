@@ -79,9 +79,20 @@
             </div>
         {% endif %}
 
+        <!-- Tap Target Structure -->
+        <div id="add-connection-tap-target" class="tap-target light-blue accent-3" data-target="add-connection-btn">
+            <div class="tap-target-content">
+                <h5>Add a connection</h5>
+                <p class="text-body">Click to add a connection that you care about. We will make sure to help follow up
+                    with them.</p>
+            </div>
+        </div>
+
         <!-- Modal Trigger -->
         <div
-                class="fixed-action-btn"
+                class="fixed-action-btn tooltipped"
+                data-position="left"
+                data-tooltip="Add a connection"
         >
             <a
                     id="add-connection-btn"
@@ -213,6 +224,21 @@
             const modalElems = document.querySelectorAll('.modal');
             const modalInstances = M.Modal.init(modalElems);
 
+            const toolTipElems = document.querySelectorAll('.tooltipped');
+            const toolTipInstances = M.Tooltip.init(toolTipElems);
+
+            const tapTargetElems = document.querySelectorAll('.tap-target');
+            const tapTargetInstances = M.TapTarget.init(tapTargetElems);
+
+            const addConnectionTapTargetInstance = M.TapTarget.getInstance(
+                document.getElementById('add-connection-tap-target')
+            );
+
+            let connectionsCount = '{{ connections | length }}'
+            console.log(connectionsCount);
+            if (connectionsCount < 1) {
+                addConnectionTapTargetInstance.open()
+            }
         });
     </script>
 
