@@ -1,7 +1,7 @@
-{% extends "base.html" %} 
-{% block navbutton %} 
+{% extends "base.html" %}
+{% block navbutton %}
 
-  <a href="{{ url_for('logout') }}"   class="btn btn-info my-2 my-sm-0">Log Out</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
 {% endblock %}
 {% block content %}
     <!-- Compiled and minified CSS Materialize Used for the Date Picker -->
@@ -21,16 +21,53 @@
             height: auto;
             line-height: normal;
         }
+
+        .empty-table {
+            display: grid;
+            justify-content: center;
+            text-align: center;
+        }
     </style>
 
     <h1> All {{ current_user.email }} 's connections: </h1>
-    <ul>
-        {% for connection in connections %}
-            <li>{{ connection.name }} {{ connection.title }} {{ connection.phone }} {{ connection.email }} {{ connection.contactby }} {{ connection.lastcontacted }} {{ connection.tag }} {{ connection.note }}</li>
-        {% endfor %}
-    </ul>
-
     <div class="container">
+        {% if connections|length > 0 %}
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Last Contacted</th>
+                    <th scope="col">Contact By</th>
+                    <th scope="col">Tags</th>
+                    <th scope="col">Note</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for connection in connections %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ connection.title }}</td>
+                        <td>{{ connection.name }}</td>
+                        <td>{{ connection.phone }}</td>
+                        <td>{{ connection.email }}</td>
+                        <td>{{ connection.lastcontacted }}</td>
+                        <td>{{ connection.contactby }}</td>
+                        <td>{{ connection.tag }}</td>
+                        <td>{{ connection.note }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="empty-table">
+                <i class="large material-icons">face</i>
+                <p class="flow-text">There is nothing in here</p>
+            </div>
+        {% endif %}
         <div class="row">
             <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
                 {{ form.hidden_tag() }}
@@ -111,7 +148,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const datePickerElems = document.querySelectorAll('.datepicker');
             datePickerOptions = {
-                container: "body",
+                container: document.querySelector('body'),
                 format: "yyyy-mm-dd"
             }
             const datePickerInstances = M.Datepicker.init(datePickerElems, datePickerOptions);
