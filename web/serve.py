@@ -63,12 +63,12 @@ def add_connection():
     # Prevent raising errors when optional fields are not filled
     filled_contact_by = None
     try:
-        filled_contact_by = datetime.strptime(form.contact_by.data, '%Y-%m-%d')
+        filled_contact_by = datetime.strptime(form.contact_by.data, '%Y-%m-%d').date()
     except ValueError:
         pass
     filled_last_contacted = None
     try:
-        filled_last_contacted = datetime.strptime(form.last_contacted.data, '%Y-%m-%d')
+        filled_last_contacted = datetime.strptime(form.last_contacted.data, '%Y-%m-%d').date()
     except ValueError:
         pass
 
@@ -78,8 +78,8 @@ def add_connection():
         title=form.title.data,
         email=form.email.data,
         phone=form.phone.data,
-        contact_by=filled_contact_by.date(),
-        last_contacted=filled_last_contacted.date(),
+        contact_by=filled_contact_by,
+        last_contacted=filled_last_contacted,
         tags=form.tags.data,
         note=form.note.data
     )

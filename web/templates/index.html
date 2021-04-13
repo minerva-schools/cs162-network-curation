@@ -104,7 +104,7 @@
         </div>
 
         <!-- Modal Structure -->
-        <div id="connection-modal" class="modal modal-fixed-footer">
+        <div id="connection-modal" class="modal">
             <div class="modal-content">
                 <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
                     {{ form.hidden_tag() }}
@@ -160,6 +160,11 @@
                             {{ form.note.label }}
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </div>
                     {% with messages = get_flashed_messages() %} {% if messages %}
                         <ul>
                             {% for message in messages %}
@@ -168,9 +173,6 @@
                         </ul>
                     {% endif %} {% endwith %}
                 </form>
-            </div>
-            <div class="modal-footer">
-                {{ form.submit(class="btn btn-primary") }}
             </div>
         </div>
 
@@ -181,7 +183,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const datePickerElems = document.querySelectorAll('.datepicker');
             const datePickerOptions = {
-                container: document.querySelector('body'),
+                container: document.getElementsByTagName('body'),
                 format: "yyyy-mm-dd"
             }
             const datePickerInstances = M.Datepicker.init(datePickerElems, datePickerOptions);
@@ -192,6 +194,27 @@
                 secondaryPlaceholder: "+ Add a tag"
             }
             const chipInstances = M.Chips.init(chipElems, chipOptions);
+
+            const modalElems = document.querySelectorAll('.modal');
+            const modalInstances = M.Modal.init(modalElems);
+
+            const toolTipElems = document.querySelectorAll('.tooltipped');
+            const toolTipInstances = M.Tooltip.init(toolTipElems);
+
+            const tapTargetElems = document.querySelectorAll('.tap-target');
+            const tapTargetInstances = M.TapTarget.init(tapTargetElems);
+
+            const addConnectionTapTargetInstance = M.TapTarget.getInstance(
+                document.getElementById('add-connection-tap-target')
+            );
+
+            let connectionsCount = '{{ connections | length }}'
+            console.log(connectionsCount);
+            if (connectionsCount < 1) {
+                setTimeout(() => {
+                    addConnectionTapTargetInstance.open();
+                }, 1000);
+            }
 
             const formElem = document.getElementById("connection-form");
             formElem.addEventListener('submit', (e) => {
@@ -217,28 +240,16 @@
                     console.log(res);
                     formElem.reset();
                     M.Chips.init(chipElems, chipOptions);
+                    const addConnectionModalForm = M.Modal.getInstance(
+                        document.getElementById('connection-modal')
+                    );
+                    addConnectionModalForm.close();
+                    if (res.redirected) {
+                        window.location.href = res.url;
+                    }
                 });
                 return true;
             })
-
-            const modalElems = document.querySelectorAll('.modal');
-            const modalInstances = M.Modal.init(modalElems);
-
-            const toolTipElems = document.querySelectorAll('.tooltipped');
-            const toolTipInstances = M.Tooltip.init(toolTipElems);
-
-            const tapTargetElems = document.querySelectorAll('.tap-target');
-            const tapTargetInstances = M.TapTarget.init(tapTargetElems);
-
-            const addConnectionTapTargetInstance = M.TapTarget.getInstance(
-                document.getElementById('add-connection-tap-target')
-            );
-
-            let connectionsCount = '{{ connections | length }}'
-            console.log(connectionsCount);
-            if (connectionsCount < 1) {
-                setTimeout(() => {  addConnectionTapTargetInstance.open(); }, 1000);
-            }
         });
     </script>
 
