@@ -31,7 +31,7 @@
 </head>
 <body>
 <nav
-        class="navbar sticky-top navbar-light bg-light navbar-expand-lg navbar-light bg-light"
+        class="navbar sticky-top navbar-light bg-light navbar-expand-lg navbar-light"
         id="navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Plink</a>
@@ -41,26 +41,14 @@
 
 <main>{% block content %} {% endblock %}</main>
 
-<footer class="page-footer">
+<footer class="footer mt-auto py-3 bg-light">
     <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Plink</h5>
-                <p class="grey-text text-lighten-4">Network Curation made easy</p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="/">Home</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="footer-copyright">
+    <span class="text-muted">
         <div class="container">
             © 2021 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="https://minerva.kgi.edu">Minerva Institute</a>
+            <a class="right" href="https://minerva.kgi.edu">Minerva Institute</a>
         </div>
+    </span>
     </div>
 </footer>
 
