@@ -11,8 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.x
-    - uses: actions/setup-python@v2
-    - uses: psf/black@stable
+      uses: actions/setup-python@v2
       with:
         # Semantic version range syntax or exact version of a Python version
         python-version: '3.x'
@@ -27,6 +26,11 @@ jobs:
         pip install -r requirements.txt
         pip install -r requirements-integration.txt
         pip install -r requirements-unit.txt
+    # Lint the python code using the Black formatter
+    - name: Lint
+      uses: psf/black@stable
+      with:
+        args: ". --check"
     - name: Bring Server up
       run: |
         python3 -m flask run > /dev/null &
