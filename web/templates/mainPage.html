@@ -1,6 +1,10 @@
 {% extends "base.html" %} {% block navbutton %}
 
+<a href="#" class="btn btn-info my-2 my-sm-0 notifications">Notifications<span class="badge badge-light">9</span></a>
+
+
 <a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
+
 {% endblock %} {% block content %}
 <div class="wrapper">
   <nav id="sidebar">
