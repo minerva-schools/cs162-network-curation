@@ -49,12 +49,15 @@
     font-size: 16px;
   }
   .table th {
-    min-width: 100px;
     background-color: #eb5757;
     color: white;
   }
   .page-link {
     size: 10px;
+  }
+
+  .table th:nth-child(n):not(:first-child) {
+    min-width: 100px;
   }
 </style>
 <!-- Table skeleton  -->
@@ -64,6 +67,7 @@
     <table class="table table-hover connections-table">
       <thead>
         <tr>
+          <th></th>
           <th>Name</th>
           <th>Title</th>
           <th>Email</th>
@@ -72,12 +76,12 @@
           <th>Contact By</th>
           <th>Tags</th>
           <th>Note</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
         {% for connection in connections %}
         <tr>
+          <td><span class="fa fa-trash"></span></td>
           <td>{{ connection.name }}</td>
           <td>{{ connection.title }}</td>
           <td>{{ connection.email }}</td>
@@ -86,7 +90,6 @@
           <td>{{ connection.contact_by }}</td>
           <td>{{ connection.tags }}</td>
           <td>{{ connection.note }}</td>
-          <td><span class="fa fa-trash"></span></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -216,14 +219,14 @@
 <script>
   $(".connections-table").DataTable({
     fixedHeader: true,
-    order: [[0, "asc"]],
+    order: [[1, "asc"]],
     info: false,
     ordering: true,
     lengthChange: false,
     pageLength: 10,
     columnDefs: [
       {
-        targets: 8,
+        targets: 0,
         orderable: false,
       },
     ],
