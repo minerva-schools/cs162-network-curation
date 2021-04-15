@@ -10,6 +10,7 @@ from flask_mail import Message
 
 from datetime import datetime
 
+
 @login.user_loader
 def load_user(user_id):
     """Finds the user given their id"""
@@ -63,12 +64,14 @@ def add_connection():
     # Prevent raising errors when optional fields are not filled
     filled_contact_by = None
     try:
-        filled_contact_by = datetime.strptime(form.contact_by.data, '%Y-%m-%d').date()
+        filled_contact_by = datetime.strptime(
+            form.contact_by.data, '%Y-%m-%d').date()
     except ValueError:
         pass
     filled_last_contacted = None
     try:
-        filled_last_contacted = datetime.strptime(form.last_contacted.data, '%Y-%m-%d').date()
+        filled_last_contacted = datetime.strptime(
+            form.last_contacted.data, '%Y-%m-%d').date()
     except ValueError:
         pass
 
@@ -97,8 +100,10 @@ def login():
         return redirect(url_for('main'))
     form = LoginForm()
     if form.validate_on_submit():
-        user_name = Users.query.filter_by(name=form.email_or_username.data).first()
-        user_email = Users.query.filter_by(email=form.email_or_username.data).first()
+        user_name = Users.query.filter_by(
+            name=form.email_or_username.data).first()
+        user_email = Users.query.filter_by(
+            email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
             flash('Invalid email or username')
@@ -149,8 +154,10 @@ def reset_request():
         return redirect(url_for('main'))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user_name = Users.query.filter_by(name=form.email_or_username.data).first()
-        user_email = Users.query.filter_by(email=form.email_or_username.data).first()
+        user_name = Users.query.filter_by(
+            name=form.email_or_username.data).first()
+        user_email = Users.query.filter_by(
+            email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
             flash(
