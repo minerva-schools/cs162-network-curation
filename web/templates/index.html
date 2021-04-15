@@ -40,28 +40,28 @@
     text-align: center;
   }
 </style>
-
+<!-- Table skeleton  -->
 <div class="container">
   {% if connections|length > 0 %}
   <div class="table-responsive">
-    <table class="table table-hover table-striped">
+    <table id="example" class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Title</th>
-          <th scope="col">Name</th>
-          <th scope="col">Phone</th>
-          <th scope="col">Email</th>
-          <th scope="col">Last Contacted</th>
-          <th scope="col">Contact By</th>
-          <th scope="col">Tags</th>
-          <th scope="col">Note</th>
+          <th>#</th>
+          <th>Title</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Last Contacted</th>
+          <th>Contact By</th>
+          <th>Tags</th>
+          <th>Note</th>
         </tr>
       </thead>
       <tbody>
         {% for connection in connections %}
         <tr>
-          <th scope="row">{{ loop.index }}</th>
+          <th>{{ loop.index }}</th>
           <td>{{ connection.title }}</td>
           <td>{{ connection.name }}</td>
           <td>{{ connection.phone }}</td>
