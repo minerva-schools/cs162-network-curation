@@ -186,5 +186,13 @@ def reset_token(token):
     return render_template('reset_token.html', title="Reset Password", form=form)
 
 
+@app.route("/delete/<int:connection_id>")
+def delete_connection(connection_id):
+    connection = UserConnections.query.filter_by(id=connection_id).first()
+    db.session.delete(connection)
+    db.session.commit()
+    return redirect(url_for("index"))
+
+
 if __name__ == '__main__':
     app.run()
