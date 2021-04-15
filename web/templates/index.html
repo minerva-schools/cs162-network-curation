@@ -221,6 +221,12 @@
     ordering: true,
     lengthChange: false,
     pageLength: 10,
+    columnDefs: [
+      {
+        targets: 8,
+        orderable: false,
+      },
+    ],
   });
   document.addEventListener("DOMContentLoaded", function () {
     const datePickerElems = document.querySelectorAll(".datepicker");
