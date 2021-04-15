@@ -8,7 +8,7 @@ from .forms import LoginForm, SignupForm, AddConnectionForm, RequestResetForm, R
 from flask_mail import Message
 
 
-from datetime import datetime
+from datetime import datetime, date
 
 @login.user_loader
 def load_user(user_id):
@@ -123,7 +123,7 @@ def logout():
 @app.route('/main')
 @login_required
 def main():
-    print(current_user.id)
+    print('user: ', current_user.id)
     connections = UserConnections.query.filter_by(userid=current_user.id).all()
     form = AddConnectionForm()
     return render_template('index.html', connections=connections, form=form)
@@ -178,6 +178,15 @@ def reset_token(token):
         return redirect(url_for('login'))
     return render_template('reset_token.html', title="Reset Password", form=form)
 
+
+@app.route('/get_reminders')
+@login_required
+def get_reminders():
+    connections = UserConnections.query.filter_by(userid=current_user.id).all()
+    for connection in connections:
+        if connection.contact_by is not None and connection.contact_by <= date.today():
+            print('yes', connection)
+    return redirect(url_for('main'))
 
 if __name__ == '__main__':
     app.run()
