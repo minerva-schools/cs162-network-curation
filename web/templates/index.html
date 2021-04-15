@@ -2,7 +2,7 @@
 
 <div class="dropdown-container">
     <a href="#" class="btn btn-info my-2 my-sm-0 notifications" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notifications 
-    <span class="badge badge-light">9</span></a>
+    <span class="badge badge-light">{{ badge_num }}</span></a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {% for connection in overdue_connections %}
         <a class="dropdown-item" href="#">You need to contact {{ connection.name }}!</a> {% endfor %}

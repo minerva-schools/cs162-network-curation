@@ -127,7 +127,8 @@ def main():
     connections = UserConnections.query.filter_by(userid=current_user.id).all()
     form = AddConnectionForm()
     overdue_connections = get_overdue(connections)
-    return render_template('index.html', connections=connections, overdue_connections=overdue_connections, form=form)
+    badge_num = len(overdue_connections)
+    return render_template('index.html', connections=connections, overdue_connections=overdue_connections, badge_num=badge_num, form=form)
 
 
 def send_reset_email(user):
