@@ -60,6 +60,12 @@
     min-width: 100px;
   }
   a { color: inherit; } 
+  .pagination li a{
+    font-size: 12px;
+  }
+  .page-item.active .page-link{
+    background-color: grey;
+  }
 </style>
 <!-- Table skeleton  -->
 <div class="container-md">
@@ -83,7 +89,7 @@
       <tbody>
         {% for connection in connections %}
         <tr>
-          <td><a><span class="fa fa-edit"></a></td>
+          <td><a href="#connection-modal"class = "modal-trigger"><span class="fa fa-edit "></a></td>
           <td><a href="/delete/{{connection.id}}"><span class="fa fa-trash"></a></td>
           <td>{{ connection.name }}</td>
           <td>{{ connection.title }}</td>
