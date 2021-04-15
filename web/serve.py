@@ -188,6 +188,7 @@ def reset_token(token):
 
 @app.route("/delete/<int:connection_id>")
 def delete_connection(connection_id):
+    """Delete connection row from connections table"""
     connection = UserConnections.query.filter_by(id=connection_id).first()
     db.session.delete(connection)
     db.session.commit()
