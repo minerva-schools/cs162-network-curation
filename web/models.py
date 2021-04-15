@@ -17,6 +17,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app as app
+from datetime import datetime
 
 from . import db
 
@@ -26,6 +27,9 @@ class Users(UserMixin, db.Model):
     name = db.Column(db.String(35), unique=True)
     password_hash = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
+    date_registered = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    email_confirmed = db.Column(db.Boolean(), nullable=False, default=False)
+    email_confirm_date = db.Column(db.DateTime)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -36,6 +40,9 @@ class Users(UserMixin, db.Model):
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
+    def get_mail_confirm_token(self, expires_sec=1800):
+        s = Serializer(app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({'user_id': self.email}).decode('utf-8')
 
     @staticmethod
     def verify_reset_token(token):
@@ -47,7 +54,15 @@ class Users(UserMixin, db.Model):
         except Exception:
             return None
         return Users.query.get(user_id)
-
+    
+    def verify_mail_confirm_token(token):
+        try:
+            s = URLSafeTimedSerializer(
+                current_app.config["SECRET_KEY"])
+            email = s.loads(token)
+            return email
+        except (SignatureExpired, BadSignature):
+            return None
 
 class UserConnections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
