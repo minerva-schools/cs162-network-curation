@@ -23,6 +23,17 @@ def index():
         return redirect(url_for('main'))
     return redirect(url_for('login'))
 
+def send_mail_confirmation(user):
+    token = user.get_mail_confirm_token()
+    msg = Message(
+        "Please Confirm Your Email",
+        sender="projectplink@gmail.com",
+        recipients=[user.email],
+    )
+    msg.body = f'''Welcome! Thanks for signing up. Please follow this link to activate your account: \
+    {url_for('login', token=token, _external=True)} \
+    If you did not make this request then simply ignore this email.'''
+    mail.send(msg)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -49,10 +60,32 @@ def signup():
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
-            login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('main'))
+            send_mail_confirmation(user)
+            # login_user(user, remember=form.remember_me.data)
+            return redirect(url_for('login'))
 
     return render_template('signup.html', form=form)
+
+@app.route('/welcome')
+def welcome():
+    return render_template("login.html")
+
+@app.route('/confirm_email/<token>')
+def confirm_email(token):
+    email = User.verify_mail_confirm_token(token)
+    if email:
+        user = db.session.query(User).filter(User.email == email).one_or_none()
+        user.email_confirmed = True
+        user.email_confirm_date = datetime.utcnow()
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for("login"))
+        flash(
+            f"Your email has been verified and you can now login to your account",
+            "success",
+        )
+    else:
+        return render_template("errors/token_invalid.html")
 
 
 @app.route('/add_connection', methods=['GET', 'POST'])
@@ -141,7 +174,6 @@ def send_reset_email(user):
     {url_for('reset_token', token=token, _external=True)} \
     If you did not make this request then simply ignore this email.'''
     mail.send(msg)
-
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
