@@ -60,7 +60,7 @@ class Users(UserMixin, db.Model):
             return email
         except (SignatureExpired, BadSignature):
             return None
-
+            
 class UserConnections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
