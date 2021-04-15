@@ -123,10 +123,11 @@ def logout():
 @app.route('/main')
 @login_required
 def main():
-    print('user: ', current_user.id)
+    print('user:', current_user.id)
     connections = UserConnections.query.filter_by(userid=current_user.id).all()
     form = AddConnectionForm()
-    return render_template('index.html', connections=connections, form=form)
+    overdue_connections = get_overdue(connections)
+    return render_template('index.html', connections=connections, overdue_connections=overdue_connections, form=form)
 
 
 def send_reset_email(user):
@@ -179,14 +180,13 @@ def reset_token(token):
     return render_template('reset_token.html', title="Reset Password", form=form)
 
 
-@app.route('/get_reminders')
-@login_required
-def get_reminders():
-    connections = UserConnections.query.filter_by(userid=current_user.id).all()
+def get_overdue(connections):
+    overdue_connections = []
     for connection in connections:
         if connection.contact_by is not None and connection.contact_by <= date.today():
-            print('yes', connection)
-    return redirect(url_for('main'))
+            overdue_connections.append(connection)
+    return overdue_connections
+            
 
 if __name__ == '__main__':
     app.run()

@@ -1,12 +1,11 @@
 {% extends "base.html" %} {% block navbutton %}
 
 <div class="dropdown-container">
-    <a href="{{ url_for('get_reminders') }}" class="btn btn-info my-2 my-sm-0 notifications" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notifications 
+    <a href="#" class="btn btn-info my-2 my-sm-0 notifications" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notifications 
     <span class="badge badge-light">9</span></a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+        {% for connection in overdue_connections %}
+        <a class="dropdown-item" href="#">You need to contact {{ connection.name }}!</a> {% endfor %}
     </div>
 </div>
 
