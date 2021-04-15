@@ -56,18 +56,19 @@
     size: 10px;
   }
 
-  .table th:nth-child(n):not(:first-child) {
+  .table th:nth-child(n):not(:first-child):not(:second-child) {
     min-width: 100px;
   }
   a { color: inherit; } 
 </style>
 <!-- Table skeleton  -->
-<div class="container">
+<div class="container-md">
   {% if connections|length > 0 %}
   <div class="table-responsive">
     <table class="table table-hover connections-table">
       <thead>
         <tr>
+          <th></th>
           <th></th>
           <th>Name</th>
           <th>Title</th>
@@ -82,7 +83,8 @@
       <tbody>
         {% for connection in connections %}
         <tr>
-          <td><a href="/delete/{{connection.id}}"><span class="fa fa-trash" id="delete-button"></a></td>
+          <td><a><span class="fa fa-edit"></a></td>
+          <td><a href="/delete/{{connection.id}}"><span class="fa fa-trash"></a></td>
           <td>{{ connection.name }}</td>
           <td>{{ connection.title }}</td>
           <td>{{ connection.email }}</td>
@@ -220,7 +222,7 @@
 <script>
   $(".connections-table").DataTable({
     fixedHeader: true,
-    order: [[1, "asc"]],
+    order: [[2, "asc"]],
     info: false,
     ordering: true,
     lengthChange: false,
@@ -228,6 +230,10 @@
     columnDefs: [
       {
         targets: 0,
+        orderable: false,
+      },
+        {
+        targets: 1,
         orderable: false,
       },
     ],
