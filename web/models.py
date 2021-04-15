@@ -46,19 +46,16 @@ class Users(UserMixin, db.Model):
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
         try:
+            s = Serializer(app.config['SECRET_KEY'])
             user_id = s.loads(token)['user_id']
-
-        # TODO: use a narrower exception
-        except Exception:
+            return Users.query.get(user_id)
+        except (SignatureExpired, BadSignature):
             return None
-        return Users.query.get(user_id)
     
     def verify_mail_confirm_token(token):
         try:
-            s = URLSafeTimedSerializer(
-                current_app.config["SECRET_KEY"])
+            s = Serializer(app.config["SECRET_KEY"])
             email = s.loads(token)
             return email
         except (SignatureExpired, BadSignature):
