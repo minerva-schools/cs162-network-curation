@@ -44,17 +44,24 @@
     align-items: center;
     text-align: center;
   }
+  label {
+    color: black;
+    font-size: 16px;
+  }
   .table th {
     min-width: 100px;
     background-color: #eb5757;
     color: white;
+  }
+  .page-link {
+    size: 10px;
   }
 </style>
 <!-- Table skeleton  -->
 <div class="container">
   {% if connections|length > 0 %}
   <div class="table-responsive">
-    <table id="example" class="table table-hover connections-table">
+    <table class="table table-hover connections-table">
       <thead>
         <tr>
           <th>Name</th>
@@ -65,6 +72,7 @@
           <th>Contact By</th>
           <th>Tags</th>
           <th>Note</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -78,6 +86,7 @@
           <td>{{ connection.contact_by }}</td>
           <td>{{ connection.tags }}</td>
           <td>{{ connection.note }}</td>
+          <td><span class="fa fa-trash"></span></td>
         </tr>
         {% endfor %}
       </tbody>
