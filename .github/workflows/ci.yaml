@@ -28,7 +28,7 @@ jobs:
         pip install -r requirements-unit.txt
     # Lint the python code using the Black formatter
     - name: Lint
-      uses: psf/black@stable
+      uses: psf/black@fcf97961061982656a1384ecc1628e217a52a88c
       with:
         args: ". --check"
     - name: Bring Server up
