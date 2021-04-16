@@ -42,7 +42,7 @@ def send_mail_confirmation(user):
     )
     msg.body =f'''Welcome! Thanks for signing up. Please follow this link to activate your account: \
 {url_for('login', token=token, _external=True)} \
-If you did not make this request then simply ignore this email.\
+If you did not make this request then simply ignore this email. \
 Cheers!'''
     mail.send(msg)
 

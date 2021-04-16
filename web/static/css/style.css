@@ -4,7 +4,6 @@
     margin: 0;
 }
 
-
 body {
     font-family: "Roboto", "sans-serif";
 }
@@ -287,9 +286,4 @@ ul ul a {
   #sidebarCollapse span {
     display: none;
   }
-}
-
-#unconfirmed {
-  h2 {text-align: center; margin: 20px; color: #eb5757;}
-  p {text-align: center; margin: 20px;}
 }
