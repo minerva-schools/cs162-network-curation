@@ -40,10 +40,17 @@ class Users(UserMixin, db.Model):
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
+
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"user_id": self.id}).decode("utf-8")
+  
     def get_mail_confirm_token(self, expires_sec=1800):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)
         return s.dumps({'user_id': self.email}).decode('utf-8')
-
+      
     @staticmethod
     def verify_reset_token(token):
         try:
@@ -63,7 +70,7 @@ class Users(UserMixin, db.Model):
             
 class UserConnections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userid = db.Column(db.Integer, db.ForeignKey('users.id'))
+    userid = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String(200))
     title = db.Column(db.String(600))
     email = db.Column(db.String(128))
@@ -72,4 +79,4 @@ class UserConnections(db.Model):
     contact_by = db.Column(db.Date())
     last_contacted = db.Column(db.Date())
     note = db.Column(db.String(2000))
-    users = db.relationship('Users', foreign_keys=userid)
+    users = db.relationship("Users", foreign_keys=userid)
