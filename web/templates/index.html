@@ -55,10 +55,6 @@
   .page-link {
     size: 10px;
   }
-
-  /* .table th:nth-child(n):not(:first-child):not(:second-child) {
-    min-width: 160px;
-  } */
   a { color: inherit; } 
   .pagination li a{
     font-size: 12px;
@@ -66,7 +62,9 @@
   .page-item.active .page-link{
     background-color: grey;
   }
- 
+ .table-icon{
+   font-size: 10x;
+ }
 </style>
 <!-- Table skeleton  -->
 <div class="container-md">
@@ -90,8 +88,8 @@
       <tbody>
         {% for connection in connections %}
         <tr>
-          <td><a href="#connection-modal"class = "modal-trigger"><span class="fa fa-edit "></a></td>
-          <td><a href="/delete/{{connection.id}}"><span class="fa fa-trash"></a></td>
+          <td><a href="#connection-modal"class = "modal-trigger"><span class="fa fa-edit table-icon"></a></td>
+          <td><a href="/delete/{{connection.id}}"><span class="fa fa-trash table-icon"></a></td>
           <td>{{ connection.name }}</td>
           <td>{{ connection.title }}</td>
           <td>{{ connection.email }}</td>
@@ -234,7 +232,8 @@
     ordering: true,
     lengthChange: false,
     pageLength: 10,
-    scrollX: true, 
+    autoWidth: false,
+    scrollX: false, 
     columnDefs: [
       {
         targets: 0,
