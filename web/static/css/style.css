@@ -312,3 +312,7 @@ ul ul a {
     margin-left: -100px;
     /* More to the left */
 }
+
+.reminders .badge {
+    margin-top: 7px;
+}
