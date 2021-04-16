@@ -30,9 +30,10 @@ def send_mail_confirmation(user):
         sender="projectplink@gmail.com",
         recipients=[user.email],
     )
-    msg.body = f'''Welcome! Thanks for signing up. Please follow this link to activate your account: \
-    {url_for('login', token=token, _external=True)} \
-    If you did not make this request then simply ignore this email.'''
+    msg.body =f'''Welcome! Thanks for signing up. Please follow this link to activate your account: \
+{url_for('login', token=token, _external=True)} \
+If you did not make this request then simply ignore this email.\
+Cheers!'''
     mail.send(msg)
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -61,14 +62,11 @@ def signup():
             db.session.add(user)
             db.session.commit()
             send_mail_confirmation(user)
-            # login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('login'))
+            login_user(user, remember=form.remember_me.data)
+            flash('A confirmation email has been sent via email.', 'success')
+            return redirect(url_for('unconfirmed'))
 
     return render_template('signup.html', form=form)
-
-@app.route('/welcome')
-def welcome():
-    return render_template("login.html")
 
 @app.route('/confirm_email/<token>')
 def confirm_email(token):
@@ -79,14 +77,16 @@ def confirm_email(token):
         user.email_confirm_date = datetime.utcnow()
         db.session.add(user)
         db.session.commit()
+        flash(f"Your email has been verified and you can now login to your account", "success")
         return redirect(url_for("login"))
-        flash(
-            f"Your email has been verified and you can now login to your account",
-            "success",
-        )
-    else:
-        return render_template("errors/token_invalid.html")
 
+@app.route('/unconfirmed')
+@login_required
+def unconfirmed():
+    if current_user.email_confirmed:
+        return redirect('main')
+    flash('Please confirm your account!', 'warning')
+    return render_template('unconfirmed.html')
 
 @app.route('/add_connection', methods=['GET', 'POST'])
 @login_required
@@ -170,7 +170,7 @@ def send_reset_email(user):
         recipients=[user.email]
     )
 
-    msg.body = f'''To reset your password, visit the following link \
+    msg.body =f'''To reset your password, visit the following link \
     {url_for('reset_token', token=token, _external=True)} \
     If you did not make this request then simply ignore this email.'''
     mail.send(msg)

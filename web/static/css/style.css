@@ -1,8 +1,12 @@
+h1 {text-align: center; margin: 20px; color: #eb5757;}
+p {text-align: center; margin: 30px;}
+
 /* Body of the page */
 * {
     box-sizing: border-box;
     margin: 0;
 }
+
 
 body {
     font-family: "Roboto", "sans-serif";
