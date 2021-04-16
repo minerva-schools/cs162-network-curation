@@ -50,8 +50,5 @@ jobs:
   lint:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: psf/black@stable
-        with:
-          args: ". --check"
+      - name: Black Code Formatter
+        uses: lgeiger/black-action@v1.0.1
