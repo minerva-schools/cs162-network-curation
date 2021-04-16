@@ -46,4 +46,12 @@ jobs:
         pytest integration_test
       env:
         DATABASE_URL: 'sqlite:///web.db'
-        SECRET_KEY: 'e9cac0f3f4Yd47a3be91d7b8f5'    
+        SECRET_KEY: 'e9cac0f3f4Yd47a3be91d7b8f5'
+  lint:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: psf/black@stable
+        with:
+          args: ". --check"
