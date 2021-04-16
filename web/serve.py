@@ -128,6 +128,10 @@ def main():
     form = AddConnectionForm()
     return render_template('index.html', connections=connections, form=form)
 
+@app.route("/message-templates")
+@login_required
+def msg_templates():
+    return render_template('msg_templates.html')
 
 def send_reset_email(user):
     token = user.get_reset_token()
