@@ -27,10 +27,10 @@ jobs:
         pip install -r requirements-integration.txt
         pip install -r requirements-unit.txt
     # Lint the python code using the Black formatter
-    - name: Lint
-      uses: psf/black@fcf97961061982656a1384ecc1628e217a52a88c
-      with:
-        args: ". --check"
+#    - name: Lint
+#      uses: psf/black@fcf97961061982656a1384ecc1628e217a52a88c
+#      with:
+#        args: ". --check"
     - name: Bring Server up
       run: |
         python3 -m flask run > /dev/null &
