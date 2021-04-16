@@ -10,14 +10,21 @@
         {% if badge_num != 0 %}
         <a class="dropdown-item-text" href="#">Click after you have contacted each person.</a>
         <div class="dropdown-divider"></div>
-        {% endif %} {% for connection in overdue_connections %}
+        {% endif %} 
+        {% for connection in overdue_connections %}
         <a class="dropdown-item" href="{{ url_for('contact', contactid=connection.id) }}">You need to contact {{
-            connection.name }}!</a> {% endfor %} {% if badge_num == 0 %}
-        <a class="dropdown-item" href="#">All cleared!</a> {% endif %}
+            connection.name }}!</a> 
+        {% endfor %} 
+        
+        {% if badge_num == 0 %}
+        <a class="dropdown-item" href="#">All cleared!</a> 
+        {% endif %}
     </div>
 </div>
 
-<a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a> {% endblock %} {% block content %}
+<a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a> 
+{% endblock %} 
+{% block content %}
 <!-- Compiled and minified CSS Materialize Used for the Date Picker -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <style>
@@ -157,13 +164,15 @@
                         {{ form.submit(class="btn btn-primary") }}
                     </div>
                 </div>
-                {% with messages = get_flashed_messages() %} {% if messages %}
+                {% with messages = get_flashed_messages() %} 
+                {% if messages %}
                 <ul>
                     {% for message in messages %}
                     <li>{{ message }}</li>
                     {% endfor %}
                 </ul>
-                {% endif %} {% endwith %}
+                {% endif %} 
+                {% endwith %}
             </form>
         </div>
     </div>

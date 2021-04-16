@@ -1,7 +1,8 @@
 {% extends "base.html" %} {% block navbutton %}
 
 <div class="dropdown-container">
-    <button type="button" class="btn btn-info my-2 my-sm-0 reminders" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn btn-info my-2 my-sm-0 reminders" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
         Reminders
         <span class="badge badge-light">{{ badge_num }}</span>
         <span class="sr-only">unread reminders</span>
@@ -10,10 +11,15 @@
         {% if badge_num != 0 %}
         <a class="dropdown-item-text" href="#">Click after you have contacted each person.</a>
         <div class="dropdown-divider"></div>
-        {% endif %} {% for connection in overdue_connections %}
+        {% endif %}
+        {% for connection in overdue_connections %}
         <a class="dropdown-item" href="{{ url_for('contact', contactid=connection.id) }}">You need to contact {{
-            connection.name }}!</a> {% endfor %} {% if badge_num == 0 %}
-        <a class="dropdown-item" href="#">All cleared!</a> {% endif %}
+            connection.name }}!</a>
+        {% endfor %}
+
+        {% if badge_num == 0 %}
+        <a class="dropdown-item" href="#">All cleared!</a>
+        {% endif %}
     </div>
 </div>
 
