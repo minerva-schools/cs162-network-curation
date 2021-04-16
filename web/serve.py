@@ -199,9 +199,28 @@ def reset_token(token):
 def get_overdue(connections):
     overdue_connections = []
     for connection in connections:
-        if connection.contact_by is not None and connection.contact_by <= date.today():
-            overdue_connections.append(connection)
+        if connection.contact_by and connection.contact_by <= date.today():
+            if (
+                not connection.last_contacted
+                or connection.last_contacted < connection.contact_by
+            ):
+                overdue_connections.append(connection)
     return overdue_connections
+
+
+@app.route("/contact/<contactid>")
+@login_required
+def contact(contactid):
+    connection = (
+        UserConnections.query.filter_by(userid=current_user.id)
+        .filter_by(id=contactid)
+        .first()
+    )
+    print(connection)
+    if connection:
+        connection.last_contacted = date.today()
+        db.session.commit()
+    return redirect(url_for("main"))
 
 
 if __name__ == "__main__":

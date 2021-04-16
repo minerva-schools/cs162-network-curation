@@ -8,7 +8,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {% for connection in overdue_connections %}
-        <a class="dropdown-item" href="#">You need to contact {{ connection.name }}!</a> {% endfor %} {% if badge_num == 0 %}
+        <a class="dropdown-item" href="{{ url_for('contact', contactid=connection.id) }}">You need to contact {{ connection.name }}!</a> {% endfor %} {% if badge_num == 0 %}
         <a class="dropdown-item" href="#">All cleared!</a> {% endif %}
     </div>
 </div>
