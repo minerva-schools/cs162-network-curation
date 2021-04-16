@@ -25,10 +25,7 @@ def load_user(user_id):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if current_user is not None and current_user.is_authenticated and confirm_email:
-        print("Authenticated and Email confirmed")
-        return redirect(url_for('main'))
-    if current_user is not None and current_user.is_authenticated and not confirm_email:
+    if current_user is not None and current_user.is_authenticated:
         print("Authenticated and Email NOT confirmed")
         flash('A confirmation email has been sent via email.', 'success')
         return redirect(url_for('login'))
