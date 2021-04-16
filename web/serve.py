@@ -18,9 +18,13 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if current_user is not None and current_user.is_authenticated:
-        print("Authenticated")
+    if current_user is not None and current_user.is_authenticated and confirm_email:
+        print("Authenticated and Email confirmed")
         return redirect(url_for('main'))
+    if current_user is not None and current_user.is_authenticated and not confirm_email:
+        print("Authenticated and Email NOT confirmed")
+        flash('A confirmation email has been sent via email.', 'success')
+        return redirect(url_for('login'))
     return redirect(url_for('login'))
 
 def send_mail_confirmation(user):
@@ -41,7 +45,7 @@ def signup():
     # TODO: switch to a logging framework
     print("Signing up")
 
-    if current_user is not None and current_user.is_authenticated:
+    if current_user is not None and current_user.is_authenticated and email_confirmed:
         print("Authenticated")
         return redirect(url_for('main'))
 
@@ -63,8 +67,9 @@ def signup():
             db.session.commit()
             send_mail_confirmation(user)
             login_user(user, remember=form.remember_me.data)
-            flash('A confirmation email has been sent via email.', 'success')
             return redirect(url_for('unconfirmed'))
+            # flash('Please confirm your account!', 'warning')
+            # return redirect(url_for('login'))
 
     return render_template('signup.html', form=form)
 
@@ -84,7 +89,7 @@ def confirm_email(token):
 @login_required
 def unconfirmed():
     if current_user.email_confirmed:
-        return redirect('main')
+        return redirect('login')
     flash('Please confirm your account!', 'warning')
     return render_template('unconfirmed.html')
 

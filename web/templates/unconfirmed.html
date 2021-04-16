@@ -1,12 +1,11 @@
 {% extends "base.html" %} {% block navbutton %}
-<a href="{{ url_for('signup') }}" class="btn btn-info">Sign Up</a>
+<a href="{{ url_for('login') }}" class="btn btn-info">Log In</a>
 
 {% endblock %} {% block content %}
-<br>
-<h1>Welcome!</h1>
-<br>
-<p>You have not confirmed your account. Please check your inbox (and your spam folder) - you should have received an
-    email with a confirmation link.</p>
-<p>Didn't get the email? <a href="/">Resend</a>.</p>
+<div>
+    <h2>Welcome!</h2>
+    <br>
+    <p>You have not confirmed your account. Please check your inbox (and your spam folder) - you should have received an email with a confirmation link.</p>
+</div>
 
 {% endblock %}
