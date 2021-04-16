@@ -56,9 +56,9 @@
     size: 10px;
   }
 
-  .table th:nth-child(n):not(:first-child):not(:second-child) {
-    min-width: 100px;
-  }
+  /* .table th:nth-child(n):not(:first-child):not(:second-child) {
+    min-width: 160px;
+  } */
   a { color: inherit; } 
   .pagination li a{
     font-size: 12px;
@@ -66,6 +66,7 @@
   .page-item.active .page-link{
     background-color: grey;
   }
+ 
 </style>
 <!-- Table skeleton  -->
 <div class="container-md">
@@ -233,6 +234,7 @@
     ordering: true,
     lengthChange: false,
     pageLength: 10,
+    scrollX: true, 
     columnDefs: [
       {
         targets: 0,
