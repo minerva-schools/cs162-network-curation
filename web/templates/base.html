@@ -1,38 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Plink</title>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
+
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+    />
+    <link
+            type="text/css"
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+            rel="icon"
+            href="{{ url_for('static', filename='images/logo.png') }}"
+    />
+
+    <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Two+Tone"
+            rel="stylesheet"
+    >
+
+    <script src="https://use.fontawesome.com/ef8b4869a8.js"></script>
 </head>
-
-<body>
-
-<header>
-    <div class="nav-container">
-        <div class="wrapper">
-            <nav>
-                <div class="logo">
-                    <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Plink logo"
-                                     class="img-responsive"></a>
-                </div>
-
-                {% block navigation %}
-                    <!-- Navigation options -->
-                {% endblock %}
-            </nav>
-        </div>
+<body class="d-flex flex-column h-100">
+<nav
+        class="navbar sticky-top navbar-light bg-light navbar-expand-lg navbar-light"
+        id="navbar-custom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Plink</a>
+        <div class="navbar-nav ml-auto">{% block navbutton %} {% endblock %}</div>
     </div>
-</header>
+</nav>
 
-<main>
-    {% block content %}
-    {% endblock %}
-</main>
+<main>{% block content %} {% endblock %}</main>
 
-<script type="text/javascript"
-        src="{{ url_for('static', filename='js/main.js') }}"></script>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+    <span class="text-muted">
+        <div class="container">
+            © 2021 Copyright Text
+            <a class="float-right" href="https://minerva.kgi.edu">Minerva Institute</a>
+        </div>
+    </span>
+    </div>
+</footer>
+
+<!-- jQuery library -->
+<script
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"
+></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+</html>

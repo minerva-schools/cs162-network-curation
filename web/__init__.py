@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_mail import Mail
 
 db = SQLAlchemy()
 login = LoginManager()
+mail = Mail()
 
 
 def create_app():
@@ -18,6 +20,7 @@ def create_app():
     db.init_app(app)
     login.init_app(app)
     login.login_view = 'login'
+    mail.init_app(app)
 
     with app.app_context():
         # Imports
@@ -26,3 +29,4 @@ def create_app():
         db.create_all()
 
         return app
+
