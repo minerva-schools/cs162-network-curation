@@ -16,7 +16,6 @@ from flask_mail import Message
 from datetime import datetime, date
 
 
-
 @login.user_loader
 def load_user(user_id):
     """Finds the user given their id"""
@@ -140,7 +139,7 @@ def main():
         connections=connections,
         overdue_connections=overdue_connections,
         badge_num=badge_num,
-        form=form
+        form=form,
     )
 
 
