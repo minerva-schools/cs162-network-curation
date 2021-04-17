@@ -261,64 +261,56 @@ form .signup-link a:hover {
 }
 
 
-.info-header{
-  position: static;
-  width: 445px;
-  height: 112px;
-  right: 0px;
-  top: calc(50% - 112px/2);
-
-  /* H2 - bold 44 (56, 0.2px) */
-  font-family: Mulish;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 44px;
-  line-height: 56px;
-  /* or 127% */
-  letter-spacing: 0.2px;
-
-  /* Red */
-  color: #EB5757;
 
 
-  /* Inside Auto Layout */
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin: 12px 0px;
+
+/* Landing Page */
+
+#container{
+overflow: hidden;
+display: flex;
+flex-direction: row;
+justify-content: center;
+padding-top: 20px;
+height: 575px;
+}
+#bg-container{
+width: 50%;
+}
+#bg-container svg{
+width: 100%;
+height: 90%;
+}
+#content-container{
+width: 30%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+#content-container h1{
+color: #EB5757;
+font-weight: 900;
+font-size: 80px;
+line-height: 0.9em;
+margin-bottom: 30px;
+}
+#content-container p{
+line-height: 1.8em;
+font-weight: 500;
+}
+#content-container button{
+border: none;
+outline: none;
+color: #FFF;
+background-color: #6C63FF;
+padding: 16px 0px;
+border-radius: 40px;
+font-size: 16px;
+width: 160px;
+margin-top: 30px;
+cursor: pointer;
+}
+#content-container button:hover{
+opacity: 0.9;
 }
 
-.info-body{
-  position: static;
-  width: 445px;
-  height: 88px;
-  right: 0px;
-  top: calc(50% - 88px/2 + 76px);
-
-  /* Body 1 - regular 16 (22, 0.3px) */
-  font-family: Mulish;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 22px;
-  /* or 137% */
-  letter-spacing: 0.3px;
-
-  /* Light / Gray dark */
-  color: #737B7D;
-
-
-  /* Inside Auto Layout */
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  margin: 40px 0px;
-}
-
-.lading-illustration{
-  position: absolute;
-  width: 40px;
-  height: 40px; 
-  left: calc(50% - 40px/2);
-  top: calc(50% - 40px/2);
-}
