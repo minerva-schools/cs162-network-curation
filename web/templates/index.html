@@ -8,7 +8,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {% if badge_num > 0 %}
-        <span class="dropdown-item-text" href="#">Click after you have contacted each person.</a>
+        <span class="dropdown-item-text" href="#">Click after you have contacted each person.</span>
         <div class="dropdown-divider"></div>
         {% endif %} 
         {% for connection in overdue_connections %}
@@ -17,7 +17,7 @@
         {% endfor %} 
         
         {% if badge_num == 0 %}
-        <span class="dropdown-item-text" href="#">All cleared!</a> 
+        <span class="dropdown-item-text" href="#">All cleared!</span> 
         {% endif %}
     </div>
 </div>
