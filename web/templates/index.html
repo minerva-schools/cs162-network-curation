@@ -89,16 +89,30 @@
         {% for connection in connections %}
         <tr>
           <td><a href="#connection-modal"class = "modal-trigger"><span class="fa fa-edit table-icon"></a></td>
-          <td><a href="/delete/{{connection.id}}"><span class="fa fa-trash table-icon"></a></td>
+          <!-- Modal trigger for delete popup warning message-->
+          <td>
+              <a class="modal-trigger" href="#warning-modal"><span class="fa fa-trash table-icon" id="delete" value= "{{connection}}"></a></td>
           <td>{{ connection.name }}</td>
           <td>{{ connection.title }}</td>
           <td>{{ connection.email }}</td>
           <td>{{ connection.phone }}</td>
           <td>{{ connection.last_contacted }}</td>
           <td>{{ connection.contact_by }}</td>
-          <td>{{ connection.tags }}</td>
+          <td><div class="chip">{{ connection.tags }}</div></td>
           <td>{{ connection.note }}</td>
         </tr>
+
+         <!-- Modal Structure for delete popup warning message-->
+        <div id="warning-modal" class="modal">
+          <div class="modal-content">
+            <h4>Are you sure?</h4>
+            <p>This row will be permanently deleted from your connections table. This cannot be undone.</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            <a href="/delete/{{connection.id}}" class="modal-close waves-effect waves-light btn-flat red">Delete</a>
+          </div>
+        </div>
         {% endfor %}
       </tbody>
     </table>
@@ -111,6 +125,8 @@
     </div>
   </div>
   {% endif %}
+  
+ 
 
   <!-- Tap Target Structure -->
   <div
@@ -232,8 +248,6 @@
     ordering: true,
     lengthChange: false,
     pageLength: 10,
-    autoWidth: false,
-    scrollX: false, 
     columnDefs: [
       {
         targets: 0,
