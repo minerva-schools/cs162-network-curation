@@ -316,3 +316,10 @@ ul ul a {
 .reminders .badge {
     margin-top: 7px;
 }
+
+.alert {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 10px;
+    text-align: center;
+}
