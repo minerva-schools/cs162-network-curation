@@ -13,7 +13,6 @@ from .forms import (
 )
 from flask_mail import Message
 
-
 from datetime import datetime
 
 
@@ -27,9 +26,11 @@ def load_user(user_id):
 def index():
     if current_user is not None and current_user.is_authenticated:
         print("Authenticated and Email NOT confirmed")
-        flash('A confirmation email has been sent via email.', 'success')
-        return redirect(url_for('login'))
-    return redirect(url_for('login'))
+        flash("A confirmation email has been sent via email.", "success")
+        return redirect(url_for("login"))
+    return redirect(url_for("login"))
+
+
 def send_mail_confirmation(user):
     token = user.get_mail_confirm_token()
     msg = Message(
@@ -37,18 +38,23 @@ def send_mail_confirmation(user):
         sender="projectplink@gmail.com",
         recipients=[user.email],
     )
-    msg.body =f'''Welcome! Thanks for signing up. Please follow this link to activate your account: \
+    msg.body = f"""Welcome! Thanks for signing up. Please follow this link to activate your account: \
 {url_for('login', token=token, _external=True)} \
 If you did not make this request then simply ignore this email. \
-Cheers!'''
+Cheers!"""
     mail.send(msg)
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     # TODO: switch to a logging framework
     print("Signing up")
 
-    if current_user is not None and current_user.is_authenticated and email_confirmed:
+    if (
+        current_user is not None
+        and current_user.is_authenticated
+        and current_user.email_confirmed
+    ):
         print("Authenticated")
         return redirect(url_for("main"))
 
@@ -67,32 +73,36 @@ def signup():
             db.session.add(user)
             db.session.commit()
             send_mail_confirmation(user)
-            login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('unconfirmed'))
-            # flash('Please confirm your account!', 'warning')
-            # return redirect(url_for('login'))
+            return redirect(url_for("unconfirmed", user_id=user.id))
 
     return render_template("signup.html", form=form)
 
-@app.route('/confirm_email/<token>')
+
+@app.route("/confirm_email/<token>")
 def confirm_email(token):
-    email = User.verify_mail_confirm_token(token)
+    email = Users.verify_mail_confirm_token(token)
     if email:
-        user = db.session.query(User).filter(User.email == email).one_or_none()
+        user = db.session.query(Users).filter(Users.email == email).one_or_none()
         user.email_confirmed = True
         user.email_confirm_date = datetime.utcnow()
         db.session.add(user)
         db.session.commit()
-        flash(f"Your email has been verified and you can now login to your account", "success")
-        return redirect(url_for("login"))
+        flash(
+            f"Your email has been verified and you can now login to your account",
+            "success",
+        )
+        login_user(user)
+        return redirect(url_for("main"))
 
-@app.route('/unconfirmed')
-@login_required
-def unconfirmed():
-    if current_user.email_confirmed:
-        return redirect('login')
-    flash('Please confirm your account!', 'warning')
-    return render_template('unconfirmed.html')
+
+@app.route("/unconfirmed/<int:user_id>")
+def unconfirmed(user_id: int):
+    user: Users = Users.query.filter_by(id=user_id).one()
+    if user.email_confirmed:
+        return redirect("login")
+    flash("Please confirm your account!", "warning")
+    return render_template("unconfirmed.html")
+
 
 @app.route("/add_connection", methods=["GET", "POST"])
 @login_required
@@ -133,7 +143,11 @@ def add_connection():
 def login():
     # TODO: switch to a logging framework
     print("Logging in")
-    if current_user is not None and current_user.is_authenticated:
+    if (
+        current_user is not None
+        and current_user.is_authenticated
+        and current_user.email_confirmed
+    ):
         print("Authenticated")
         return redirect(url_for("main"))
     form = LoginForm()

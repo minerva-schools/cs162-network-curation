@@ -38,28 +38,27 @@ class Users(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def get_reset_token(self, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
-
+        s = Serializer(app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"user_id": self.id}).decode("utf-8")
 
     @staticmethod
     def verify_reset_token(token):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)
         return s.dumps({"user_id": self.id}).decode("utf-8")
-  
+
     def get_mail_confirm_token(self, expires_sec=1800):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)
-        return s.dumps({'user_id': self.email}).decode('utf-8')
-      
+        return s.dumps({"user_id": self.email}).decode("utf-8")
+
     @staticmethod
     def verify_reset_token(token):
         try:
-            s = Serializer(app.config['SECRET_KEY'])
-            user_id = s.loads(token)['user_id']
+            s = Serializer(app.config["SECRET_KEY"])
+            user_id = s.loads(token)["user_id"]
             return Users.query.get(user_id)
         except (SignatureExpired, BadSignature):
             return None
-    
+
     def verify_mail_confirm_token(token):
         try:
             s = Serializer(app.config["SECRET_KEY"])
@@ -67,7 +66,8 @@ class Users(UserMixin, db.Model):
             return email
         except (SignatureExpired, BadSignature):
             return None
-            
+
+
 class UserConnections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer, db.ForeignKey("users.id"))
