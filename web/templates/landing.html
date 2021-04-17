@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block navbutton %}
+<a href="{{ url_for('signup') }}" class="btn btn-info" id="navbar-button"
+  >Sign Up</a>
+  <br></br>
+<a href="{{ url_for('login') }}" class="btn btn-info" id="navbar-button"
+  >Log In</a>
+
+{% endblock %} {% block content %}
+
+<body>
+	
+<div class='content-landing'>
+	
+	<div class='landing-illustration'>
+
+		<img class='image' src="{{ url_for('static', filename='images/landing_pic.png') }}", width="150" height="150", style="top:03%; right:80%">
+
+	</div>
+
+	<div class='info-header'>
+		<h2> PLINK! We are the best and all that </h2>
+			<div class='info-body'>
+				<h4> More information about what we do and all that. we are the best </h4>
+			</div>
+	</div>
+
+
+
+</div>
+
+
+</body>
+
+{% endblock %}
