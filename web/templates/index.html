@@ -105,7 +105,7 @@
           <td>{{ connection.phone }}</td>
           <td>{{ connection.last_contacted }}</td>
           <td>{{ connection.contact_by }}</td>
-          <td><div class="chip">{{ connection.tags }}</div></td>
+          <td>{{ connection.tags }}</td>
           <td>{{ connection.note }}</td>
         </tr>
 
@@ -116,7 +116,7 @@
             <p>This row will be permanently deleted from your connections table. This cannot be undone.</p>
           </div>
           <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            <a href="" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
             <a href="/delete/{{connection.id}}" class="modal-close waves-effect waves-light btn-flat red">Delete</a>
           </div>
         </div>
@@ -344,7 +344,7 @@
       return true;
     });
 
-    // To format the date
+    // function that converts date to the appropriate format (yyyy-MM-dd)
     function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
