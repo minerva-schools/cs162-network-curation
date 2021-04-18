@@ -1,5 +1,5 @@
 from flask import current_app as app, session
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_user, current_user, login_required, logout_user
 
 from .models import Users, UserConnections, db
@@ -193,6 +193,14 @@ def delete_connection(connection_id):
     db.session.delete(connection)
     db.session.commit()
     return redirect(url_for("index"))
+
+
+@app.route("/edit/<int:connection_id>", methods=['GET', 'POST'])
+def edit_connection(connection_id: int):
+    if request.method == 'GET':
+        connection = UserConnections.query.filter_by(id=connection_id).first()
+        return jsonify(connection.serialize())
+    return
 
 
 if __name__ == '__main__':

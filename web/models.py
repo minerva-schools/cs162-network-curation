@@ -61,3 +61,15 @@ class UserConnections(db.Model):
     last_contacted = db.Column(db.Date())
     note = db.Column(db.String(2000))
     users = db.relationship('Users', foreign_keys=userid)
+
+    def serialize(self) -> dict:
+        return {
+            "name": self.name,
+            "title": self.title,
+            "email": self.email,
+            "phone": self.phone,
+            "tags": self.tags,
+            "contact_by": self.contact_by,
+            "last_contacted": self.last_contacted,
+            "note": self.note
+        }
