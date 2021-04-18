@@ -344,7 +344,18 @@
       return true;
     });
 
+    // To format the date
+    function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
 
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+} 
     const editButtonElems = document.querySelectorAll('.connection-edit');
     editButtonElems.forEach((editButtonElem) => {
       editButtonElem.addEventListener('click', ()=>{
@@ -356,9 +367,9 @@
             connectionModal.querySelector('#name').value=data['name']
             connectionModal.querySelector('#email').value=data['email']
             connectionModal.querySelector('#phone').value=data['phone']
-            connectionModal.querySelector('#contact_by').value=data['contact_by'] // the dates
+            connectionModal.querySelector('#contact_by').value=formatDate(data['contact_by']) // the dates
             connectionModal.querySelector('#tags').value=data['tags'] // figure out this one 
-            connectionModal.querySelector('#last_contacted').value=data['last_contacted'] // The dates
+            connectionModal.querySelector('#last_contacted').value=formatDate(data['last_contacted']) // The dates
             connectionModal.querySelector('#note').value=data['note']
             M.updateTextFields();
             connectionModalInstance.open();
