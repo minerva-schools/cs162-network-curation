@@ -89,14 +89,13 @@
           <th>Phone</th>
           <th>Last Contacted</th>
           <th>Contact By</th>
-          <th>Tags</th>
           <th>Note</th>
         </tr>
       </thead>
       <tbody>
         {% for connection in connections %}
         <tr id="{{ connection.id }}">
-          <td><a href="#connection-modal"class = "connection-edit modal-trigger"><span class="fa fa-edit table-icon"></a></td>
+          <td><a href="#edit-modal"class = "connection-edit modal-trigger"><span class="fa fa-edit table-icon"></a></td>
           <!-- Modal trigger for delete popup warning message-->
           <td><a class="modal-trigger" href="#warning-modal"><span class="fa fa-trash table-icon" id="delete" value= "{{connection}}"></a></td>
           <td>{{ connection.name }}</td>
@@ -105,7 +104,6 @@
           <td>{{ connection.phone }}</td>
           <td>{{ connection.last_contacted }}</td>
           <td>{{ connection.contact_by }}</td>
-          <td>{{ connection.tags }}</td>
           <td>{{ connection.note }}</td>
         </tr>
 
@@ -120,6 +118,8 @@
             <a href="/delete/{{connection.id}}" class="modal-close waves-effect waves-light btn-flat red">Delete</a>
           </div>
         </div>
+
+
         {% endfor %}
       </tbody>
     </table>
@@ -209,12 +209,6 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="input-field col s12">
-            <i class="material-icons prefix">label</i>
-            <div id="tags-chips" class="chips"></div>
-          </div>
-        </div>
 
         <div class="row">
           <div class="input-field col s12">
@@ -239,6 +233,8 @@
     </div>
   </div>
 </div>
+
+
 
 <!-- Compiled and minified JavaScript Materialize -->
 
