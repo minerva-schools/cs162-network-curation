@@ -277,12 +277,12 @@ height: 575px;
 #bg-container{
 width: 50%;
 }
-#bg-container svg{
+#bg-container img{
 width: 100%;
 height: 90%;
 }
 #content-container{
-width: 30%;
+width:30%;
 display: flex;
 flex-direction: column;
 justify-content: center;
