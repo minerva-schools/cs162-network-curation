@@ -33,6 +33,10 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     >
+    <link
+            rel="stylesheet"
+            href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
+    />
     <style>
         .modal {
             /* Override Boostrap options for Materialize CSS to work */
@@ -60,39 +64,100 @@
             align-items: center;
             text-align: center;
         }
+
+        label {
+            color: black;
+            font-size: 16px;
+        }
+
+        .dataTables_wrapper {
+            font-size: 15px;
+        }
+
+        .table th {
+            background-color: #eb5757;
+            color: white;
+        }
+
+        .page-link {
+            size: 10px;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .pagination li a {
+            font-size: 12px;
+        }
+
+        .page-item.active .page-link {
+            background-color: grey;
+        }
+
+        .table-icon {
+            font-size: 10px;
+        }
+
+        .btn {
+            background-color: #2d9cdb
+        }
+
+
     </style>
-
-    <div class="container">
-
+    <!-- Table skeleton  -->
+    <div class="container-md">
         {% if connections|length > 0 %}
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover connections-table">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Last Contacted</th>
-                        <th scope="col">Contact By</th>
-                        <th scope="col">Tags</th>
-                        <th scope="col">Note</th>
+                        <th></th>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Last Contacted</th>
+                        <th>Contact By</th>
+                        <th>Tags</th>
+                        <th>Note</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for connection in connections %}
-                        <tr>
-                            <th scope="row">{{ loop.index }}</th>
-                            <td>{{ connection.title }}</td>
+                        <tr id="{{ connection.id }}">
+                            <td><a class="connection-edit modal-trigger"><span class="fa fa-edit table-icon"></span></a>
+                            </td>
+                            <!-- Modal trigger for delete popup warning message-->
+                            <td><a class="modal-trigger" href="#warning-modal"><span class="fa fa-trash table-icon"
+                                                                                     id="delete"
+                                                                                     value="{{ connection }}"></span></a>
+                            </td>
                             <td>{{ connection.name }}</td>
-                            <td>{{ connection.phone }}</td>
+                            <td>{{ connection.title }}</td>
                             <td>{{ connection.email }}</td>
+                            <td>{{ connection.phone }}</td>
                             <td>{{ connection.last_contacted }}</td>
                             <td>{{ connection.contact_by }}</td>
                             <td>{{ connection.tags }}</td>
                             <td>{{ connection.note }}</td>
                         </tr>
+
+                        <!-- Modal Structure for delete popup warning message-->
+                        <div id="warning-modal" class="modal">
+                            <div class="modal-content">
+                                <h4>Are you sure?</h4>
+                                <p>This row will be permanently deleted from your connections table. This cannot be
+                                    undone.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                                <a href="/delete/{{ connection.id }}"
+                                   class="modal-close waves-effect waves-light btn-flat red">Delete</a>
+                            </div>
+                        </div>
+
                     {% endfor %}
                     </tbody>
                 </table>
