@@ -184,7 +184,7 @@ def delete_connection(connection_id):
     return redirect(url_for("index"))
 
 
-@app.route("/edit_connection/<int:connection_id>", methods=["GET", "POST"])
+@app.route("/edit_connection/<int:connection_id>", methods=["GET", "PUT"])
 def edit_connection(connection_id):
     connection: UserConnections = UserConnections.query.filter_by(
         id=connection_id

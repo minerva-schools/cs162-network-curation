@@ -287,6 +287,8 @@
             ],
         });
         document.addEventListener("DOMContentLoaded", function () {
+            let connectionFormMethod = "POST";
+
             const datePickerElems = document.querySelectorAll(".datepicker");
             const datePickerOptions = {
                 container: document.getElementsByTagName("body"),
@@ -324,6 +326,7 @@
             addConnectionElem.addEventListener('click', () => {
                 formElem.action = '{{ url_for('add_connection') }}';
                 formElem.reset();
+                connectionFormMethod = "POST";
                 M.updateTextFields();
             })
 
@@ -356,7 +359,7 @@
                 const tagsElem = document.getElementById("tags");
                 tagsElem.value = tagData;
                 fetch(formElem.action, {
-                    method: "POST",
+                    method: connectionFormMethod,
                     body: new URLSearchParams(new FormData(formElem)),
                 }).then((res) => {
                     console.log(res);
@@ -394,6 +397,7 @@
             editButtonElems.forEach((editButtonElem) => {
                 editButtonElem.addEventListener('click', () => {
                     const connection_id = editButtonElem.parentNode.parentNode.id;
+                    connectionFormMethod = "PUT";
                     const editUrl = `edit_connection/${connection_id}`
                     formElem.action = editUrl;
                     fetch(editUrl, {method: 'GET'})
