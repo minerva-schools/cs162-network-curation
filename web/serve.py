@@ -74,7 +74,7 @@ def add_connection():
         contact_by=filled_contact_by,
         last_contacted=filled_last_contacted,
         tags=form.tags.data,
-        note=form.note.data
+        note=form.note.data,
     )
     db.session.add(connection)
     db.session.commit()
@@ -187,8 +187,8 @@ def get_overdue(connections):
     for connection in connections:
         if connection.contact_by and connection.contact_by <= date.today():
             if (
-                    not connection.last_contacted
-                    or connection.last_contacted < connection.contact_by
+                not connection.last_contacted
+                or connection.last_contacted < connection.contact_by
             ):
                 overdue_connections.append(connection)
     return overdue_connections
@@ -199,8 +199,8 @@ def get_overdue(connections):
 def contact(contactid):
     connection = (
         UserConnections.query.filter_by(userid=current_user.id)
-            .filter_by(id=contactid)
-            .first()
+        .filter_by(id=contactid)
+        .first()
     )
     print(connection)
     if connection:
