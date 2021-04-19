@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from flask import current_app as app, session
 from flask import render_template, redirect, url_for, flash, request, jsonify
@@ -74,7 +74,7 @@ def add_connection():
         contact_by=filled_contact_by,
         last_contacted=filled_last_contacted,
         tags=form.tags.data,
-        note=form.note.data,
+        note=form.note.data
     )
     db.session.add(connection)
     db.session.commit()
@@ -116,10 +116,17 @@ def logout():
 @app.route("/main")
 @login_required
 def main():
-    print(current_user.id)
     connections = UserConnections.query.filter_by(userid=current_user.id).all()
     form = AddConnectionForm()
-    return render_template("index.html", connections=connections, form=form)
+    overdue_connections = get_overdue(connections)
+    badge_num = len(overdue_connections)
+    return render_template(
+        "index.html",
+        connections=connections,
+        overdue_connections=overdue_connections,
+        badge_num=badge_num,
+        form=form,
+    )
 
 
 def send_reset_email(user):
@@ -175,6 +182,51 @@ def reset_token(token):
     return render_template("reset_token.html", title="Reset Password", form=form)
 
 
+def get_overdue(connections):
+    overdue_connections = []
+    for connection in connections:
+        if connection.contact_by and connection.contact_by <= date.today():
+            if (
+                    not connection.last_contacted
+                    or connection.last_contacted < connection.contact_by
+            ):
+                overdue_connections.append(connection)
+    return overdue_connections
+
+
+@app.route("/contact/<contactid>")
+@login_required
+def contact(contactid):
+    connection = (
+        UserConnections.query.filter_by(userid=current_user.id)
+            .filter_by(id=contactid)
+            .first()
+    )
+    print(connection)
+    if connection:
+        connection.last_contacted = date.today()
+        db.session.commit()
+    return redirect(url_for("main"))
+
+
+def get_connection_form():
+    form = AddConnectionForm()
+    # Prevent raising errors when optional fields are not filled
+    filled_contact_by = None
+    try:
+        filled_contact_by = datetime.strptime(form.contact_by.data, "%Y-%m-%d").date()
+    except ValueError:
+        pass
+    filled_last_contacted = None
+    try:
+        filled_last_contacted = datetime.strptime(
+            form.last_contacted.data, "%Y-%m-%d"
+        ).date()
+    except ValueError:
+        pass
+    return filled_contact_by, filled_last_contacted, form
+
+
 @app.route("/delete/<int:connection_id>")
 def delete_connection(connection_id):
     """Delete connection row from connections table"""
@@ -203,24 +255,6 @@ def edit_connection(connection_id):
     connection.note = form.note.data
     db.session.commit()
     return redirect(url_for("index"))
-
-
-def get_connection_form():
-    form = AddConnectionForm()
-    # Prevent raising errors when optional fields are not filled
-    filled_contact_by = None
-    try:
-        filled_contact_by = datetime.strptime(form.contact_by.data, "%Y-%m-%d").date()
-    except ValueError:
-        pass
-    filled_last_contacted = None
-    try:
-        filled_last_contacted = datetime.strptime(
-            form.last_contacted.data, "%Y-%m-%d"
-        ).date()
-    except ValueError:
-        pass
-    return filled_contact_by, filled_last_contacted, form
 
 
 if __name__ == "__main__":
