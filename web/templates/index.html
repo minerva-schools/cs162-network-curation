@@ -328,6 +328,9 @@
             };
             const chipInstances = M.Chips.init(chipElems, chipOptions);
 
+            const tagsChipsElem = document.getElementById("tags-chips");
+            const tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
+
             const modalElems = document.querySelectorAll(".modal");
             const modalInstances = M.Modal.init(modalElems);
             const connectionModal = document.getElementById('connection-modal');
@@ -345,9 +348,17 @@
                 document.getElementById("add-connection-tap-target")
             );
 
+            const clearChips = () => {
+                const chipCount = tagsChipsInstance.chipsData.length;
+                for (i = 0; i < chipCount; i++) {
+                    tagsChipsInstance.deleteChip(0);
+                }
+            }
+
             addConnectionElem.addEventListener('click', () => {
                 formElem.action = '{{ url_for('add_connection') }}';
                 formElem.reset();
+                clearChips();
                 connectionFormMethod = "POST";
                 M.updateTextFields();
             })
@@ -364,9 +375,6 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-
-                const tagsChipsElem = document.getElementById("tags-chips");
-                const tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
                 const tagData = tagsChipsInstance.chipsData.reduce(
                     (accumulator, current_value, i, array) => {
                         accumulator += current_value.tag;
@@ -431,16 +439,23 @@
                             connectionModal.querySelector('#name').value = data['name']
                             connectionModal.querySelector('#email').value = data['email']
                             connectionModal.querySelector('#phone').value = data['phone']
-                            connectionModal.querySelector('#contact_by').value = formatDate(data['contact_by']) // the dates
-                            connectionModal.querySelector('#tags').value = data['tags'] // figure out this one
-                            connectionModal.querySelector('#last_contacted').value = formatDate(data['last_contacted']) // The dates
+                            connectionModal.querySelector('#contact_by').value = formatDate(data['contact_by']);
+                            clearChips();
+                            data['tags'].split(',').forEach((tag) => {
+                                tagsChipsInstance.addChip({
+                                    tag: tag,
+                                    image: '', // optional
+                                });
+                            });
+                            connectionModal.querySelector('#last_contacted').value = formatDate(data['last_contacted'])
                             connectionModal.querySelector('#note').value = data['note']
                             M.updateTextFields();
                             connectionModalInstance.open();
                         });
                 });
             });
-        });
+        })
+        ;
     </script>
 
     <!-- Compiled and minified JavaScript Materialize -->
