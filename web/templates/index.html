@@ -130,9 +130,10 @@
                             <td><a class="connection-edit modal-trigger"><span class="fa fa-edit table-icon"></span></a>
                             </td>
                             <!-- Modal trigger for delete popup warning message-->
-                            <td><a class="modal-trigger" href="#warning-modal"><span class="fa fa-trash table-icon"
-                                                                                     id="delete"
-                                                                                     value="{{ connection }}"></span></a>
+                            <td><a class="modal-trigger" href="#warning-modal-{{ connection.id }}"><span
+                                    class="fa fa-trash table-icon"
+                                    id="delete"
+                                    value="{{ connection }}"></span></a>
                             </td>
                             <td>{{ connection.name }}</td>
                             <td>{{ connection.title }}</td>
@@ -145,7 +146,7 @@
                         </tr>
 
                         <!-- Modal Structure for delete popup warning message-->
-                        <div id="warning-modal" class="modal">
+                        <div id="warning-modal-{{ connection.id }}" class="modal">
                             <div class="modal-content">
                                 <h4>Are you sure?</h4>
                                 <p>This row will be permanently deleted from your connections table. This cannot be
