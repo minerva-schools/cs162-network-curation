@@ -195,11 +195,15 @@ def delete_connection(connection_id):
     return redirect(url_for("index"))
 
 
-@app.route("/edit/<int:connection_id>", methods=['GET', 'POST'])
-def edit_connection(connection_id: int):
+@app.route("/edit_connection/<int:connection_id>", methods=['GET', 'POST'])
+def edit_connection(connection_id):
     if request.method == 'GET':
+        print("it is a get request")
         connection = UserConnections.query.filter_by(id=connection_id).first()
         return jsonify(connection.serialize())
+    else:
+        print("post request")
+        return
     return
 
 
