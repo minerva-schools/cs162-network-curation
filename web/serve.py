@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from flask import current_app as app, session
 from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_user, current_user, login_required, logout_user
+from flask_mail import Message
 
-from .models import Users, UserConnections, db
 from . import login, mail
 from .forms import (
     LoginForm,
@@ -11,10 +13,7 @@ from .forms import (
     RequestResetForm,
     ResetPasswordForm,
 )
-from flask_mail import Message
-
-
-from datetime import datetime
+from .models import Users, UserConnections, db
 
 
 @login.user_loader
@@ -200,12 +199,36 @@ def delete_connection(connection_id):
 
 @app.route("/edit_connection/<int:connection_id>", methods=["GET", "POST"])
 def edit_connection(connection_id):
+    connection: UserConnections = UserConnections.query.filter_by(
+        id=connection_id
+    ).first()
     if request.method == "GET":
-        connection = UserConnections.query.filter_by(id=connection_id).first()
         return jsonify(connection.serialize())
-    else:
-        return
-    return
+    print("Editing Connection")
+    form = AddConnectionForm()
+    # Prevent raising errors when optional fields are not filled
+    filled_contact_by = None
+    try:
+        filled_contact_by = datetime.strptime(form.contact_by.data, "%Y-%m-%d").date()
+    except ValueError:
+        pass
+    filled_last_contacted = None
+    try:
+        filled_last_contacted = datetime.strptime(
+            form.last_contacted.data, "%Y-%m-%d"
+        ).date()
+    except ValueError:
+        pass
+    connection.name = form.name.data
+    connection.title = form.title.data
+    connection.email = form.email.data
+    connection.phone = form.phone.data
+    connection.contact_by = filled_contact_by
+    connection.last_contacted = filled_last_contacted
+    connection.tags = form.tags.data
+    connection.note = form.note.data
+    db.session.commit()
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
