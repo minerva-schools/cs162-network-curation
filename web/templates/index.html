@@ -120,7 +120,7 @@
                         <th>Phone</th>
                         <th>Last Contacted</th>
                         <th>Contact By</th>
-                        <th>Tags</th>
+                        <th>Labels</th>
                         <th>Note</th>
                     </tr>
                     </thead>
@@ -141,7 +141,11 @@
                             <td>{{ connection.phone }}</td>
                             <td>{{ connection.last_contacted }}</td>
                             <td>{{ connection.contact_by }}</td>
-                            <td>{{ connection.tags }}</td>
+                            <td>
+                            {% for tag in connection.tags.replace(',', '').split() %}
+                            <span class="chip"> {{tag}} </span>
+                            {% endfor %}
+                            </td>
                             <td>{{ connection.note }}</td>
                         </tr>
 
