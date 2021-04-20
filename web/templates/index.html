@@ -115,12 +115,11 @@
                         <th></th>
                         <th></th>
                         <th>Name</th>
-                        <th>Title</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Last Contacted</th>
                         <th>Contact By</th>
-                        <th>Labels</th>
+                        <th>Associations</th>
                         <th>Note</th>
                     </tr>
                     </thead>
@@ -136,7 +135,6 @@
                                     value="{{ connection }}"></span></a>
                             </td>
                             <td>{{ connection.name }}</td>
-                            <td>{{ connection.title }}</td>
                             <td>{{ connection.email }}</td>
                             <td>{{ connection.phone }}</td>
                             <td>{{ connection.last_contacted }}</td>
@@ -220,10 +218,6 @@
                     {{ form.hidden_tag() }}
                     <h2>Add a Connection</h2>
                     <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">person</i>
-                            {{ form.title(size=32, class="validate") }} {{ form.title.label(class="active") }}
-                        </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">person</i>
                             {{ form.name(size=32, class="validate") }} {{ form.name.label(class="active") }}
@@ -327,8 +321,8 @@
 
             const chipElems = document.querySelectorAll(".chips");
             const chipOptions = {
-                placeholder: "Tags",
-                secondaryPlaceholder: "+ Add a tag",
+                placeholder: "Associations",
+                secondaryPlaceholder: "Add association",
             };
             const chipInstances = M.Chips.init(chipElems, chipOptions);
 
@@ -439,7 +433,6 @@
                             return response.json();
                         })
                         .then(data => {
-                            connectionModal.querySelector('#title').value = data['title']
                             connectionModal.querySelector('#name').value = data['name']
                             connectionModal.querySelector('#email').value = data['email']
                             connectionModal.querySelector('#phone').value = data['phone']

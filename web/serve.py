@@ -68,7 +68,6 @@ def add_connection():
     connection = UserConnections(
         userid=current_user.id,
         name=form.name.data,
-        title=form.title.data,
         email=form.email.data,
         phone=form.phone.data,
         contact_by=filled_contact_by,
@@ -90,8 +89,10 @@ def login():
         return redirect(url_for("main"))
     form = LoginForm()
     if form.validate_on_submit():
-        user_name = Users.query.filter_by(name=form.email_or_username.data).first()
-        user_email = Users.query.filter_by(email=form.email_or_username.data).first()
+        user_name = Users.query.filter_by(
+            name=form.email_or_username.data).first()
+        user_email = Users.query.filter_by(
+            email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
             flash("Invalid email or username")
@@ -149,8 +150,10 @@ def reset_request():
         return redirect(url_for("main"))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user_name = Users.query.filter_by(name=form.email_or_username.data).first()
-        user_email = Users.query.filter_by(email=form.email_or_username.data).first()
+        user_name = Users.query.filter_by(
+            name=form.email_or_username.data).first()
+        user_email = Users.query.filter_by(
+            email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
             flash(
@@ -214,7 +217,8 @@ def get_connection_form():
     # Prevent raising errors when optional fields are not filled
     filled_contact_by = None
     try:
-        filled_contact_by = datetime.strptime(form.contact_by.data, "%Y-%m-%d").date()
+        filled_contact_by = datetime.strptime(
+            form.contact_by.data, "%Y-%m-%d").date()
     except ValueError:
         pass
     filled_last_contacted = None
@@ -246,7 +250,6 @@ def edit_connection(connection_id):
     print("Editing Connection")
     filled_contact_by, filled_last_contacted, form = get_connection_form()
     connection.name = form.name.data
-    connection.title = form.title.data
     connection.email = form.email.data
     connection.phone = form.phone.data
     connection.contact_by = filled_contact_by

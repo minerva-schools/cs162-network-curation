@@ -53,7 +53,6 @@ class UserConnections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String(200))
-    title = db.Column(db.String(600))
     email = db.Column(db.String(128))
     phone = db.Column(db.String(50))
     tags = db.Column(db.String(200))
@@ -65,7 +64,6 @@ class UserConnections(db.Model):
     def serialize(self) -> dict:
         return {
             "name": self.name,
-            "title": self.title,
             "email": self.email,
             "phone": self.phone,
             "tags": self.tags,
