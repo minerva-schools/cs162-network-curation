@@ -1,24 +1,265 @@
-{% extends "base.html" %} 
-{% block navbutton %} 
-<a>
-<span class="fa fa-bell" id = "notification"></span>
-</a>
+{% extends "base.html" %} {% block navbutton %}
 
-  <a href="{{ url_for('logout') }}"   class="btn btn-info my-2 my-sm-0"
-  id="navbar-button">Log Out</a>
-{% endblock %}
+<div class="dropdown-container">
+    <button type="button" class="btn btn-info my-2 my-sm-0 reminders" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Reminders
+        <span class="badge badge-light">{{ badge_num }}</span>
+        <span class="sr-only">unread reminders</span>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {% if badge_num > 0 %}
+        <span class="dropdown-item-text" href="#">Click after you have contacted each person.</span>
+        <div class="dropdown-divider"></div>
+        {% endif %} 
+        {% for connection in overdue_connections %}
+        <a class="dropdown-item" href="{{ url_for('contact', contactid=connection.id) }}">You need to contact {{
+            connection.name }}!</a> 
+        {% endfor %} 
+        
+        {% if badge_num == 0 %}
+        <span class="dropdown-item-text" href="#">All cleared!</span> 
+        {% endif %}
+    </div>
+</div>
 
-
+<a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a> 
+{% endblock %} 
 {% block content %}
 
-  <div class="header-container">
-    <div class="wrapper">
-      <header>
-        <div class="center">
-          <h1 class="LOGO_login">Main page</h1>
-        </div>
-      </header>
+{% if badge_num > 0 %}
+<div class="alert alert-info alert-dismissible fade show">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  You have one reminder. Click the Reminders button in the top right to see who you need to contact.
+</div>
+{% endif %}
+
+<!-- Compiled and minified CSS Materialize Used for the Date Picker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<style>
+    .modal {
+        /* Override Boostrap options for Materialize CSS to work */
+        height: auto;
+    }
+    
+    nav {
+        /* Override Materialize CSS options for Bootstrap to work*/
+        color: #111011;
+        height: auto;
+        line-height: normal;
+    }
+    
+    .empty-table {
+        display: grid;
+        height: 80vh;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .empty-table-child {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+
+    {% if connections|length > 0 %}
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Last Contacted</th>
+                    <th scope="col">Contact By</th>
+                    <th scope="col">Tags</th>
+                    <th scope="col">Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for connection in connections %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ connection.title }}</td>
+                    <td>{{ connection.name }}</td>
+                    <td>{{ connection.phone }}</td>
+                    <td>{{ connection.email }}</td>
+                    <td>{{ connection.last_contacted }}</td>
+                    <td>{{ connection.contact_by }}</td>
+                    <td>{{ connection.tags }}</td>
+                    <td>{{ connection.note }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-  </div>
-  {% endblock %}
-</ul>
+    {% else %}
+    <div class="empty-table">
+        <div class="empty-table-child">
+            <i class="large material-icons-two-tone">face</i>
+            <p class="flow-text">There are no connections here yet ...</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Tap Target Structure -->
+    <div id="add-connection-tap-target" class="tap-target light-blue accent-3" data-target="add-connection-btn">
+        <div class="tap-target-content">
+            <h5>Add a connection</h5>
+            <p class="text-body">Click to add a connection that you care about. We will make sure to help follow up with them.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal Trigger -->
+    <div class="fixed-action-btn tooltipped" data-position="left" data-tooltip="Add a connection">
+        <a id="add-connection-btn" class="btn-floating btn-large red modal-trigger light-blue accent-3" href="#connection-modal">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="connection-modal" class="modal">
+        <div class="modal-content">
+            <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <h2>Add a Connection</h2>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">person</i> {{ form.title(size=32, class="validate") }} {{ form.title.label }}
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">person</i> {{ form.name(size=32, class="validate") }} {{ form.name.label }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">email</i> {{ form.email(size=32, class="validate") }} {{ form.email.label }}
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">phone</i> {{ form.phone(size=32, class="validate") }} {{ form.phone.label }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">date_range</i> {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }} {{ form.last_contacted.label }}
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">date_range</i> {{ form.contact_by(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }} {{ form.contact_by.label }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">label</i>
+                        <div id="tags-chips" class="chips"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">description</i> {{ form.note(size=64, class="materialize-textarea") }} {{ form.note.label }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </div>
+                {% with messages = get_flashed_messages() %} 
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %} 
+                {% endwith %}
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const datePickerElems = document.querySelectorAll('.datepicker');
+        const datePickerOptions = {
+            container: document.getElementsByTagName('body'),
+            format: "yyyy-mm-dd"
+        }
+        const datePickerInstances = M.Datepicker.init(datePickerElems, datePickerOptions);
+
+        const chipElems = document.querySelectorAll('.chips');
+        const chipOptions = {
+            placeholder: "Tags",
+            secondaryPlaceholder: "+ Add a tag"
+        }
+        const chipInstances = M.Chips.init(chipElems, chipOptions);
+
+        const modalElems = document.querySelectorAll('.modal');
+        const modalInstances = M.Modal.init(modalElems);
+
+        const toolTipElems = document.querySelectorAll('.tooltipped');
+        const toolTipInstances = M.Tooltip.init(toolTipElems);
+
+        const tapTargetElems = document.querySelectorAll('.tap-target');
+        const tapTargetInstances = M.TapTarget.init(tapTargetElems);
+
+        const addConnectionTapTargetInstance = M.TapTarget.getInstance(
+            document.getElementById('add-connection-tap-target')
+        );
+
+        let connectionsCount = '{{ connections | length }}'
+        if (connectionsCount < 1) {
+            setTimeout(() => {
+                addConnectionTapTargetInstance.open();
+            }, 1000);
+        }
+
+        const formElem = document.getElementById("connection-form");
+        formElem.addEventListener('submit', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const tagsChipsElem = document.getElementById('tags-chips');
+            const tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
+            const tagData = tagsChipsInstance.chipsData.reduce((accumulator, current_value, i, array) => {
+                accumulator += current_value.tag
+                if (i !== array.length - 1) {
+                    accumulator += ','
+                }
+                return accumulator;
+            }, '');
+
+            const tagsElem = document.getElementById('tags');
+            tagsElem.value = tagData
+            fetch(formElem.action, {
+                method: 'POST',
+                body: new URLSearchParams(new FormData(formElem))
+            }).then((res) => {
+                console.log(res);
+                formElem.reset();
+                M.Chips.init(chipElems, chipOptions);
+                const addConnectionModalForm = M.Modal.getInstance(
+                    document.getElementById('connection-modal')
+                );
+                addConnectionModalForm.close();
+                if (res.redirected) {
+                    window.location.href = res.url;
+                }
+            });
+            return true;
+        })
+    });
+</script>
+
+<!-- Compiled and minified JavaScript Materialize -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+{% endblock %}
