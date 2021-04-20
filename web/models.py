@@ -41,10 +41,10 @@ class Users(UserMixin, db.Model):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)
         return s.dumps({"user_id": self.id}).decode("utf-8")
 
-    @staticmethod
-    def verify_reset_token(token):
-        s = Serializer(app.config["SECRET_KEY"], expires_sec)
-        return s.dumps({"user_id": self.id}).decode("utf-8")
+    # @staticmethod
+    # def verify_reset_token(token):
+    #     s = Serializer(app.config["SECRET_KEY"], expires_sec)
+    #     return s.dumps({"user_id": self.id}).decode("utf-8")
 
     def get_mail_confirm_token(self, expires_sec=1800):
         s = Serializer(app.config["SECRET_KEY"], expires_sec)

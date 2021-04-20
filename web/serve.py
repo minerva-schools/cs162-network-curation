@@ -15,7 +15,6 @@ from flask_mail import Message
 
 from datetime import datetime
 
-
 @login.user_loader
 def load_user(user_id):
     """Finds the user given their id"""
@@ -72,18 +71,25 @@ def signup():
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
+            # token = get_mail_confirm_token()
             send_mail_confirmation(user)
-            return redirect(url_for("unconfirmed", user_id=user.id))
-
+            login_user(user)
+            return redirect(url_for("unconfirmed", user_id=current_user.id))
     return render_template("signup.html", form=form)
 
 
-@app.route("/confirm_email/<token>")
+@app.route("/confirm_email/<token>", methods=["GET", "POST"])
+@login_required
 def confirm_email(token):
-    email = Users.verify_mail_confirm_token(token)
-    if email:
-        user = db.session.query(Users).filter(Users.email == email).one_or_none()
-        user.email_confirmed = True
+    try:
+        email = verify_mail_confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.email_confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        user.verify_mail_confirm_token = True
         user.email_confirm_date = datetime.utcnow()
         db.session.add(user)
         db.session.commit()
@@ -91,7 +97,6 @@ def confirm_email(token):
             f"Your email has been verified and you can now login to your account",
             "success",
         )
-        login_user(user)
         return redirect(url_for("main"))
 
 
@@ -146,10 +151,9 @@ def login():
     if (
         current_user is not None
         and current_user.is_authenticated
-        and current_user.email_confirmed
+        and current_user.email_confirmed is False
     ):
-        print("Authenticated")
-        return redirect(url_for("main"))
+        return redirect(url_for("unconfirmed", user_id=current_user.id))
     form = LoginForm()
     if form.validate_on_submit():
         user_name = Users.query.filter_by(name=form.email_or_username.data).first()
@@ -157,12 +161,12 @@ def login():
         user = user_name or user_email
         if user is None:
             flash("Invalid email or username")
-            return redirect(url_for("index"))
+            return redirect(url_for("main"))
         elif not user.check_password(form.password.data):
             flash("Invalid password")
-            return redirect(url_for("index"))
+            return redirect(url_for("main"))
         login_user(user, remember=form.remember_me.data)
-        return render_template("unconfirmed.html")
+        return redirect(url_for("main"))
     return render_template("login.html", form=form)
 
 
@@ -200,7 +204,11 @@ If you did not make this request then simply ignore this email."""
 
 @app.route("/reset_password", methods=["GET", "POST"])
 def reset_request():
-    if current_user is not None and current_user.is_authenticated:
+    if (
+        current_user is not None
+        and current_user.is_authenticated
+        and current_user.email_confirmed 
+    ):
         return redirect(url_for("main"))
     form = RequestResetForm()
     if form.validate_on_submit():
@@ -222,7 +230,11 @@ def reset_request():
 
 @app.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_token(token):
-    if current_user is not None and current_user.is_authenticated:
+    if (
+        current_user is not None
+        and current_user.is_authenticated
+        and current_user.email_confirmed is False
+    ):
         return redirect(url_for("main"))
     user = Users.verify_reset_token(token)
     if user is None:
