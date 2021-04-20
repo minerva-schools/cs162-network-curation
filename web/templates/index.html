@@ -102,11 +102,18 @@
         .btn {
             background-color: #2d9cdb
         }
+
         .prefix ~ .chips {
             margin-top: 0px;
         }
-        .row{margin-bottom: 0px;}
-        #connection-modal { max-height: 100% !important ; }
+
+        .row {
+            margin-bottom: 0px;
+        }
+
+        #connection-modal {
+            max-height: 100% !important;
+        }
 
     </style>
     <!-- Table skeleton  -->
@@ -130,7 +137,8 @@
                     <tbody>
                     {% for connection in connections %}
                         <tr id="{{ connection.id }}">
-                            <td><a class="connection-edit modal-trigger"><span class="fa fa-edit table-icon"></span></a>
+                            <td><a class="connection-edit modal-trigger" onclick="editRow(event)"><span
+                                    class="fa fa-edit table-icon"></span></a>
                             </td>
                             <!-- Modal trigger for delete popup warning message-->
                             <td><a class="modal-trigger" href="#warning-modal-{{ connection.id }}"><span
@@ -144,9 +152,9 @@
                             <td>{{ connection.last_contacted }}</td>
                             <td>{{ connection.contact_by }}</td>
                             <td>
-                            {% for tag in connection.tags.replace(',', '').split() %}
-                            <span class="chip"> {{tag}} </span>
-                            {% endfor %}
+                                {% for tag in connection.tags.replace(',', '').split() %}
+                                    <span class="chip"> {{ tag }} </span>
+                                {% endfor %}
                             </td>
                             <td>{{ connection.note }}</td>
                         </tr>
@@ -310,8 +318,69 @@
                 },
             ],
         });
+
+        let connectionFormMethod = "POST";
+
+        const formElem = document.getElementById("connection-form");
+        const connectionModal = document.getElementById('connection-modal');
+        let connectionModalInstance;
+
+        const tagsChipsElem = document.getElementById("tags-chips");
+        let tagsChipsInstance;
+
+        // function that converts date to the appropriate format (yyyy-MM-dd)
+        const formatDate = (date) => {
+            if (date) {
+                // If the date is not empty format it
+                let d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+
+                return [year, month, day].join('-');
+            }
+            return ''
+        }
+
+        const clearChips = () => {
+            const chipCount = tagsChipsInstance.chipsData.length;
+            for (i = 0; i < chipCount; i++) {
+                tagsChipsInstance.deleteChip(0);
+            }
+        }
+
+        const editRow = (event) => {
+            const connection_id = event.target.parentNode.parentNode.parentNode.id;
+            connectionFormMethod = "PUT";
+            const editUrl = `edit_connection/${connection_id}`
+            formElem.action = editUrl;
+            fetch(editUrl, {method: 'GET'})
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    connectionModal.querySelector('#name').value = data['name']
+                    connectionModal.querySelector('#email').value = data['email']
+                    connectionModal.querySelector('#phone').value = data['phone']
+                    connectionModal.querySelector('#contact_by').value = formatDate(data['contact_by']);
+                    clearChips();
+                    data['tags'].split(',').forEach((tag) => {
+                        tagsChipsInstance.addChip({
+                            tag: tag,
+                            image: '', // optional
+                        });
+                    });
+                    connectionModal.querySelector('#last_contacted').value = formatDate(data['last_contacted'])
+                    connectionModal.querySelector('#note').value = data['note']
+                    M.updateTextFields();
+                    connectionModalInstance.open();
+                });
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
-            let connectionFormMethod = "POST";
 
             const datePickerElems = document.querySelectorAll(".datepicker");
             const datePickerOptions = {
@@ -326,17 +395,12 @@
             const chipElems = document.querySelectorAll(".chips");
             const chipOptions = {
                 placeholder: "Associations",
-                secondaryPlaceholder: "Add association",
+                secondaryPlaceholder: "+Add association",
             };
             const chipInstances = M.Chips.init(chipElems, chipOptions);
 
-            const tagsChipsElem = document.getElementById("tags-chips");
-            const tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
-
             const modalElems = document.querySelectorAll(".modal");
             const modalInstances = M.Modal.init(modalElems);
-            const connectionModal = document.getElementById('connection-modal');
-            const connectionModalInstance = M.Modal.getInstance(connectionModal);
 
             const toolTipElems = document.querySelectorAll(".tooltipped");
             const toolTipInstances = M.Tooltip.init(toolTipElems);
@@ -349,13 +413,8 @@
             const addConnectionTapTargetInstance = M.TapTarget.getInstance(
                 document.getElementById("add-connection-tap-target")
             );
-
-            const clearChips = () => {
-                const chipCount = tagsChipsInstance.chipsData.length;
-                for (i = 0; i < chipCount; i++) {
-                    tagsChipsInstance.deleteChip(0);
-                }
-            }
+            tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
+            connectionModalInstance = M.Modal.getInstance(connectionModal);
 
             addConnectionElem.addEventListener('click', () => {
                 formElem.action = '{{ url_for('add_connection') }}';
@@ -372,7 +431,6 @@
                 }, 1000);
             }
 
-            const formElem = document.getElementById("connection-form");
             formElem.addEventListener("submit", (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -407,56 +465,7 @@
                 });
                 return true;
             });
-
-            // function that converts date to the appropriate format (yyyy-MM-dd)
-            const formatDate = (date) => {
-                if (date) {
-                    // If the date is not empty format it
-                    let d = new Date(date),
-                        month = '' + (d.getMonth() + 1),
-                        day = '' + d.getDate(),
-                        year = d.getFullYear();
-
-                    if (month.length < 2) month = '0' + month;
-                    if (day.length < 2) day = '0' + day;
-
-                    return [year, month, day].join('-');
-                }
-                return ''
-            }
-
-            const editButtonElems = document.querySelectorAll('.connection-edit');
-            editButtonElems.forEach((editButtonElem) => {
-                editButtonElem.addEventListener('click', () => {
-                    const connection_id = editButtonElem.parentNode.parentNode.id;
-                    connectionFormMethod = "PUT";
-                    const editUrl = `edit_connection/${connection_id}`
-                    formElem.action = editUrl;
-                    fetch(editUrl, {method: 'GET'})
-                        .then(response => {
-                            return response.json();
-                        })
-                        .then(data => {
-                            connectionModal.querySelector('#name').value = data['name']
-                            connectionModal.querySelector('#email').value = data['email']
-                            connectionModal.querySelector('#phone').value = data['phone']
-                            connectionModal.querySelector('#contact_by').value = formatDate(data['contact_by']);
-                            clearChips();
-                            data['tags'].split(',').forEach((tag) => {
-                                tagsChipsInstance.addChip({
-                                    tag: tag,
-                                    image: '', // optional
-                                });
-                            });
-                            connectionModal.querySelector('#last_contacted').value = formatDate(data['last_contacted'])
-                            connectionModal.querySelector('#note').value = data['note']
-                            M.updateTextFields();
-                            connectionModalInstance.open();
-                        });
-                });
-            });
-        })
-        ;
+        });
     </script>
 
     <!-- Compiled and minified JavaScript Materialize -->
