@@ -8,7 +8,7 @@ import sys
 topdir = os.path.join(os.path.dirname(__file__), "..")
 sys.path.append(topdir)
 # TODO: Fix issue with imports
-from web.models import User
+from web.models import Users
 from web import create_app, db
 
 
