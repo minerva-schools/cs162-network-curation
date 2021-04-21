@@ -26,6 +26,6 @@ pyparsing==2.4.7
 pytest==6.2.2
 requests==2.25.1
 six==1.15.0
-urllib3==1.26.3
+urllib3==1.26.4
 wcwidth==0.2.5
 zipp==3.4.0
