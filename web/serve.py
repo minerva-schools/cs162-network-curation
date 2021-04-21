@@ -43,10 +43,10 @@ def signup():
     if form.validate_on_submit():
         user_name = Users.query.filter_by(name=form.user_name.data).first()
         user_email = Users.query.filter_by(email=form.email.data).first()
-        if user_name:
-            flash("That username is taken. Please choose another one.")
-        elif user_email:
+        if user_email:
             flash("That email is taken. Please choose another one.")
+        elif user_name:
+            flash("That username is taken. Please choose another one.")
         else:
             # Create a new user
             user = Users(name=form.user_name.data, email=form.email.data)
