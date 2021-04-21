@@ -111,7 +111,7 @@ def login():
             return redirect(url_for("index"))
         elif not user.check_password(form.password.data):
             flash("Invalid password")
-            return redirect(url_for("index."))
+            return redirect(url_for("index"))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for("main"))
     return render_template("login.html", form=form)
