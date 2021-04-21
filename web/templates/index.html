@@ -130,6 +130,7 @@
             <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
                 {{ form.hidden_tag() }}
                 <h2>Add a Connection</h2>
+                <h6>Enter contact information about someone in your network.</h3>
                 <div class="row">
                     <div class="input-field col s6">
                         <i class="material-icons prefix">person</i> {{ form.title(size=32, class="validate") }} {{ form.title.label }}
