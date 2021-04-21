@@ -57,7 +57,7 @@ class UserConnections(db.Model):
     email = db.Column(db.String(128))
     phone = db.Column(db.String(50))
     tags = db.Column(db.String(200))
-    contact_by = db.Column(db.Date())
+    next_reminder = db.Column(db.Date())
     last_contacted = db.Column(db.Date())
     note = db.Column(db.String(2000))
     users = db.relationship("Users", foreign_keys=userid)

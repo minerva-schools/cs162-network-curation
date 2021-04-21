@@ -65,9 +65,9 @@ def add_connection():
     print("Adding Connection")
     form = AddConnectionForm()
     # Prevent raising errors when optional fields are not filled
-    filled_contact_by = None
+    filled_next_reminder = None
     try:
-        filled_contact_by = datetime.strptime(form.contact_by.data, "%Y-%m-%d").date()
+        filled_next_reminder = datetime.strptime(form.next_reminder.data, "%Y-%m-%d").date()
     except ValueError:
         pass
     filled_last_contacted = None
@@ -84,7 +84,7 @@ def add_connection():
         title=form.title.data,
         email=form.email.data,
         phone=form.phone.data,
-        contact_by=filled_contact_by,
+        next_reminder=filled_next_reminder,
         last_contacted=filled_last_contacted,
         tags=form.tags.data,
         note=form.note.data,
@@ -199,10 +199,10 @@ def reset_token(token):
 def get_overdue(connections):
     overdue_connections = []
     for connection in connections:
-        if connection.contact_by and connection.contact_by <= date.today():
+        if connection.next_reminder and connection.next_reminder <= date.today():
             if (
                 not connection.last_contacted
-                or connection.last_contacted < connection.contact_by
+                or connection.last_contacted < connection.next_reminder
             ):
                 overdue_connections.append(connection)
     return overdue_connections

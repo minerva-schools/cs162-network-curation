@@ -77,7 +77,7 @@
                     <th scope="col">Phone</th>
                     <th scope="col">Email</th>
                     <th scope="col">Last Contacted</th>
-                    <th scope="col">Contact By</th>
+                    <th scope="col">Next Reminder Date</th>
                     <th scope="col">Tags</th>
                     <th scope="col">Note</th>
                 </tr>
@@ -91,7 +91,7 @@
                     <td>{{ connection.phone }}</td>
                     <td>{{ connection.email }}</td>
                     <td>{{ connection.last_contacted }}</td>
-                    <td>{{ connection.contact_by }}</td>
+                    <td>{{ connection.next_reminder }}</td>
                     <td>{{ connection.tags }}</td>
                     <td>{{ connection.note }}</td>
                 </tr>
@@ -151,7 +151,7 @@
                         <i class="material-icons prefix">date_range</i> {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }} {{ form.last_contacted.label }}
                     </div>
                     <div class="input-field col s6">
-                        <i class="material-icons prefix">date_range</i> {{ form.contact_by(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }} {{ form.contact_by.label }}
+                        <i class="material-icons prefix">date_range</i> {{ form.next_reminder(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }} {{ form.next_reminder.label }}
                     </div>
                 </div>
 
