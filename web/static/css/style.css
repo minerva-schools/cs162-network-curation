@@ -318,8 +318,11 @@ ul ul a {
 }
 
 .alert {
+    text-align: center;
+}
+
+.alert .reminders {
+    margin-top: 10px;
     margin-left: 15%;
     margin-right: 15%;
-    margin-top: 10px;
-    text-align: center;
 }
