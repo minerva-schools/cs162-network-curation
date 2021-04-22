@@ -1,8 +1,10 @@
-from flask import current_app as app, session
-from flask import render_template, redirect, url_for, flash, request
-from flask_login import login_user, current_user, login_required, logout_user
+from datetime import datetime, date
 
-from .models import Users, UserConnections, db
+from flask import current_app as app, session
+from flask import render_template, redirect, url_for, flash, request, jsonify
+from flask_login import login_user, current_user, login_required, logout_user
+from flask_mail import Message
+
 from . import login, mail
 from .forms import (
     LoginForm,
@@ -11,9 +13,7 @@ from .forms import (
     RequestResetForm,
     ResetPasswordForm,
 )
-from flask_mail import Message
-
-from datetime import datetime, date
+from .models import Users, UserConnections, db
 
 
 @login.user_loader
@@ -63,25 +63,11 @@ def signup():
 @login_required
 def add_connection():
     print("Adding Connection")
-    form = AddConnectionForm()
-    # Prevent raising errors when optional fields are not filled
-    filled_next_reminder = None
-    try:
-        filled_next_reminder = datetime.strptime(form.next_reminder.data, "%Y-%m-%d").date()
-    except ValueError:
-        pass
-    filled_last_contacted = None
-    try:
-        filled_last_contacted = datetime.strptime(
-            form.last_contacted.data, "%Y-%m-%d"
-        ).date()
-    except ValueError:
-        pass
+    filled_next_reminder, filled_last_contacted, form = get_connection_form()
 
     connection = UserConnections(
         userid=current_user.id,
         name=form.name.data,
-        title=form.title.data,
         email=form.email.data,
         phone=form.phone.data,
         next_reminder=filled_next_reminder,
@@ -129,7 +115,6 @@ def logout():
 @app.route("/main")
 @login_required
 def main():
-    print("user:", current_user.id)
     connections = UserConnections.query.filter_by(userid=current_user.id).all()
     form = AddConnectionForm()
     overdue_connections = get_overdue(connections)
@@ -221,6 +206,53 @@ def contact(contactid):
         connection.last_contacted = date.today()
         db.session.commit()
     return redirect(url_for("main"))
+
+
+def get_connection_form():
+    form = AddConnectionForm()
+    # Prevent raising errors when optional fields are not filled
+    filled_next_reminder = None
+    try:
+        filled_next_reminder = datetime.strptime(form.next_reminder.data, "%Y-%m-%d").date()
+    except ValueError:
+        pass
+    filled_last_contacted = None
+    try:
+        filled_last_contacted = datetime.strptime(
+            form.last_contacted.data, "%Y-%m-%d"
+        ).date()
+    except ValueError:
+        pass
+    return filled_next_reminder, filled_last_contacted, form
+
+
+@app.route("/delete/<int:connection_id>")
+def delete_connection(connection_id):
+    """Delete connection row from connections table"""
+    connection = UserConnections.query.filter_by(id=connection_id).first()
+    db.session.delete(connection)
+    db.session.commit()
+    return redirect(url_for("index"))
+
+
+@app.route("/edit_connection/<int:connection_id>", methods=["GET", "PUT"])
+def edit_connection(connection_id):
+    connection: UserConnections = UserConnections.query.filter_by(
+        id=connection_id
+    ).first()
+    if request.method == "GET":
+        return jsonify(connection.serialize())
+    print("Editing Connection")
+    filled_next_reminder, filled_last_contacted, form = get_connection_form()
+    connection.name = form.name.data
+    connection.email = form.email.data
+    connection.phone = form.phone.data
+    connection.next_reminder = filled_next_reminder
+    connection.last_contacted = filled_last_contacted
+    connection.tags = form.tags.data
+    connection.note = form.note.data
+    db.session.commit()
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
