@@ -208,6 +208,10 @@ a:focus {
     transition: all 0.3s;
 }
 
+#tag-tutorial {
+    padding-top: 20px;
+}
+
 
 /* Side Bar*/
 

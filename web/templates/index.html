@@ -114,7 +114,10 @@
         #connection-modal {
             max-height: 100% !important;
         }
-        td a { cursor: pointer; }
+
+        td a {
+             cursor: pointer; 
+        }
     </style>
 
     {% if badge_num > 0 %}
@@ -266,14 +269,13 @@
             class="datepicker validate") }} {{ form.next_reminder.label }}
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">label</i>
                             <div id="tags-chips" class="chips"></div>
                         </div>
+                        <h6 id="tag-tutorial">Press Enter to add.</h6>
                     </div>
-
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">description</i>
@@ -404,7 +406,7 @@
             const chipElems = document.querySelectorAll(".chips");
             const chipOptions = {
                 placeholder: "Associations",
-                secondaryPlaceholder: "+Add association",
+                secondaryPlaceholder: "+Add",
             };
             const chipInstances = M.Chips.init(chipElems, chipOptions);
 
