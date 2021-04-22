@@ -117,6 +117,13 @@
         td a { cursor: pointer; }
     </style>
 
+    {% if badge_num > 0 %}
+    <div class="alert alert-info alert-dismissible fade show reminder-alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        You have a reminder due. Click the Reminders button in the top right to see who you need to contact.
+    </div>
+    {% endif %}
+
     <!-- Table skeleton  -->
     <div class="container-md">
         {% if connections|length > 0 %}
