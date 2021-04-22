@@ -86,3 +86,4 @@ def test_signup_login_logout(client):
 
     rv = login(client, app.config["USERNAME"], app.config["PASSWORD"] + "x")
     assert b'Invalid password' in rv.data
+    assert Users.query.filter_by(name=app.config["USERNAME"]).first() is not None
