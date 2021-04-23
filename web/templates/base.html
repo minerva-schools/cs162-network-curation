@@ -22,6 +22,7 @@
             href="{{ url_for('static', filename='images/logo.png') }}"
     />
 
+
     <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Two+Tone"
             rel="stylesheet"
@@ -34,7 +35,7 @@
         class="navbar sticky-top navbar-light bg-light navbar-expand-lg navbar-light"
         id="navbar-custom">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Plink</a>
+        <a class="navbar-brand" href="{{ url_for('index') }}">Plink</a>
         <div class="navbar-nav ml-auto">{% block navbutton %} {% endblock %}</div>
     </div>
 </nav>

@@ -1,11 +1,11 @@
 from flask_wtf import FlaskForm
 from wtforms import (
-    StringField,
-    SubmitField,
-    BooleanField,
-    PasswordField,
-    TextAreaField,
-    HiddenField,
+    StringField, 
+    SubmitField, 
+    BooleanField, 
+    PasswordField, 
+    TextAreaField, 
+    HiddenField
 )
 from wtforms.fields.html5 import EmailField, TelField, DateField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
@@ -33,7 +33,7 @@ class SignupForm(FlaskForm):
         ],
     )
     password = PasswordField(
-        "Password",
+        "Password (8 characters+)",
         validators=[
             DataRequired(),
             Length(min=8, message="Your password must have at least 8 characters"),
@@ -55,12 +55,12 @@ class SignupForm(FlaskForm):
 
 
 class AddConnectionForm(FlaskForm):
-    name = StringField("Full Name", validators=[DataRequired()])
+    name = StringField("Connection Name", validators=[DataRequired()])
     phone = TelField("Phone")
     email = EmailField("Email Address", validators=[Email("Enter a valid email")])
     tags = HiddenField("Tags")
     contact_by = StringField(
-        "Contact By",
+        "Next Reminder Date",
     )
     last_contacted = StringField(
         "Last Contacted",

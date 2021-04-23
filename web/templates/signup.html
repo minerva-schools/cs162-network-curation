@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block navbutton %}
-<a href="{{ url_for('login') }}" class="btn btn-info">Log In</a>
+<a href="{{ url_for('login') }}" class="btn btn-info">LOG IN</a>
 {% endblock %} {% block content %}
     <div class="header-container">
         <div class="wrapper">
@@ -42,11 +42,11 @@
                 </form>
 
                 {% with messages = get_flashed_messages() %} {% if messages %}
-                    <ul>
-                        {% for message in messages %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% for message in messages %}
+                    <div class="alert alert-info" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
                 {% endif %} {% endwith %}
             </div>
         </div>
