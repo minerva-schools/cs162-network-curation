@@ -60,14 +60,14 @@ def client():
     os.close(db_fd)
     os.unlink(app.config["DATABASE"])
 
-
-def test_incorrect_signup(client):
-
+def test_short_password_signup(client):
     # too short of a password
     rv = signup(client, app.config["USERNAME"], app.config["EMAIL"], "s", "s")
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is None
     assert b"Field must be at least 8 characters long" in rv.data
 
+
+def test_passwords_not_matching(client):
     # passwords don't match
     rv = signup(
         client, app.config["USERNAME"], app.config["EMAIL"], "Poodles1", "OzzyDogs1"
@@ -75,6 +75,8 @@ def test_incorrect_signup(client):
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is None
     assert b"Passwords must match" in rv.data
 
+
+def test_invalid_email_signup(client):
     # invalid email address
     rv = signup(
         client,
@@ -86,6 +88,8 @@ def test_incorrect_signup(client):
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is None
     assert b"Enter a valid email" in rv.data
 
+
+def test_short_username_signup(client):
     # too short of a username
     rv = signup(
         client,
@@ -97,6 +101,8 @@ def test_incorrect_signup(client):
     assert Users.query.filter_by(name="nope").first() is None
     assert b"Username must be between 5 &amp; 25 characters" in rv.data
 
+
+def test_invalid_username_signup(client):
     # username has a dollar sign
     rv = signup(
         client,
@@ -107,6 +113,7 @@ def test_incorrect_signup(client):
     )
     assert Users.query.filter_by(name=app.config["USERNAME"] + "$").first() is None
     assert b"Username must contain only letters, numbers or underscore" in rv.data
+
 
 def test_correct_signup(client):
     # valid signup
@@ -119,37 +126,49 @@ def test_correct_signup(client):
     )
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is not None
 
+def test_user_added(client):
+    assert Users.query.filter_by(name="test123").first() is None
+    test_user = Users(name="test123", email="email@email.com")
+    test_user.set_password("Poodles01$")
+    db.session.add(test_user)
+    db.session.commit()
+    assert Users.query.filter_by(name="test123").first() is not None
 
-def test_correct_login(client):
+def test_correct_loginlogout_username(client):
+
     # LOGIN VIA USERNAME
-    rv = login(client, app.config["USERNAME"], app.config["PASSWORD"])
+    rv = login(client, "test123", "Poodles01$")
     assert b"Add a Connection" in rv.data
     assert b"Login" not in rv.data
 
     rv = logout(client)
     assert b"Add a Connection" not in rv.data
 
+def test_correct_loginlogout_email(client):
     # LOGIN VIA EMAIL
-    rv = login(client, app.config["EMAIL"], app.config["PASSWORD"])
+    rv = login(client, "email@email.com", "Poodles01$")
     assert b"Add a Connection" in rv.data
     assert b"Login" not in rv.data
 
     rv = logout(client)
     assert b"Add a Connection" not in rv.data
 
-    assert Users.query.filter_by(name=app.config["USERNAME"]).first() is not None
-
-
-def test_invalid_login_credentials(client):
+def test_invalid_username_login(client):
     # invalid username
-    rv = login(client, app.config["USERNAME"] + "x", app.config["PASSWORD"])
+    rv = login(client, "test123" + "x", "Poodles01$")
     assert b"Invalid email or username" in rv.data
 
+def test_invalid_email_login(client):
     # invalid email
-    rv = login(client, app.config["EMAIL"] + "x", app.config["PASSWORD"])
+    rv = login(client, "email@email.com" + "x", "Poodles01$")
     assert b"Invalid email or username" in rv.data
 
-    # invalid password
-    rv = login(client, app.config["USERNAME"], app.config["PASSWORD"] + "x")
+def test_invalid_password_login(client):
+    # invalid password with correct username
+    rv = login(client, "test123", "Poodles01$" + "x")
     assert b"Invalid password" in rv.data
-    assert Users.query.filter_by(name=app.config["USERNAME"]).first() is not None
+
+    # invalid password with correct email
+    rv = login(client, "email@email.com", "Poodles01$" + "x")
+    assert b"Invalid password" in rv.data
+    assert Users.query.filter_by(name="test123").first() is not None
