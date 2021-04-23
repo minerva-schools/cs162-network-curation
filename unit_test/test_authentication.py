@@ -182,11 +182,6 @@ def test_template_access(client):
     rv = client.get('/message-templates', follow_redirects=True)
     assert rv.status_code == 200
 
-def test_template_access(client):
-    rv = login(client, "test123", "Poodles01$")
-    rv = client.get('/message-templates', follow_redirects=True)
-    assert rv.status_code == 200
-
 def test_aboutus_loggedin_access(client):
     rv = client.get('/aboutus', follow_redirects=True)
     assert rv.status_code == 200
