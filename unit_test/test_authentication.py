@@ -39,7 +39,7 @@ def logout(client):
 
 @pytest.fixture
 def client():
-    
+
     db_fd, app.config["DATABASE"] = tempfile.mkstemp()
     app.config["TESTING"] = True
     app.config["WTF_CSRF_ENABLED"] = False
@@ -79,20 +79,34 @@ def test_incorrect_signup(client):
     rv = signup(
         client,
         app.config["USERNAME"],
-        'lol',
+        "lol",
         app.config["PASSWORD"],
         app.config["PASSWORD"],
     )
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is None
-    assert b'Enter a valid email' in rv.data
+    assert b"Enter a valid email" in rv.data
 
     # too short of a username
     rv = signup(
-        client, 'nope', app.config["EMAIL"], app.config["PASSWORD"], app.config["PASSWORD"],
+        client,
+        "nope",
+        app.config["EMAIL"],
+        app.config["PASSWORD"],
+        app.config["PASSWORD"],
     )
-    assert Users.query.filter_by(name=app.config["USERNAME"]).first() is None
-    assert b'Username must be between 5 &amp; 25 characters' in rv.data
+    assert Users.query.filter_by(name="nope").first() is None
+    assert b"Username must be between 5 &amp; 25 characters" in rv.data
 
+    # username has a dollar sign
+    rv = signup(
+        client,
+        app.config["USERNAME"] + "$",
+        app.config["EMAIL"],
+        app.config["PASSWORD"],
+        app.config["PASSWORD"],
+    )
+    assert Users.query.filter_by(name=app.config["USERNAME"] + "$").first() is None
+    assert b"Username must contain only letters, numbers or underscore" in rv.data
 
 def test_correct_signup(client):
     # valid signup
