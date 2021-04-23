@@ -100,10 +100,10 @@ def login():
         user = user_name or user_email
         if user is None:
             flash("Invalid email or username.")
-            return redirect(url_for("index"))
+            return redirect(url_for("login"))
         elif not user.check_password(form.password.data):
             flash("Invalid password.")
-            return redirect(url_for("index"))
+            return redirect(url_for("login"))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for("main"))
     return render_template("login.html", form=form)
