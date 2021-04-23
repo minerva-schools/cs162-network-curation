@@ -43,6 +43,8 @@ def test_userconnection_add(client):
     assert UserConnections.query.filter_by(id=1).first() is not None
 
 def test_overdue_checker(client):
+    db.drop_all()
+    db.create_all()
     test_user = UserConnections(
         id=1,
         contact_by=date.today(),
@@ -52,7 +54,7 @@ def test_overdue_checker(client):
     db.session.commit()
     connections = UserConnections.query.all()
     overdue_connections = get_overdue(connections)
-    assert overdue_connections[0].id is 2
+    assert overdue_connections[0].id is 1
 
     
 
