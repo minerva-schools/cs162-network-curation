@@ -12,112 +12,84 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
 
 
 class LoginForm(FlaskForm):
-    email_or_username = StringField('Email Address or Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    email_or_username = StringField(
+        "Email Address or Username", validators=[DataRequired()]
+    )
+    password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Remember Me")
+    submit = SubmitField("Sign In")
 
 
 class SignupForm(FlaskForm):
     user_name = StringField(
-        'Username',
+        "Username",
         validators=[
             DataRequired(),
             Regexp(
-                r'^\w+$',
-                message="Username must contain only letters, numbers or underscore"
+                r"^\w+$",
+                message="Username must contain only letters, numbers or underscore",
             ),
-            Length(
-                min=5,
-                max=25,
-                message="Username must be between 5 & 25 characters"
-            )
-        ]
+            Length(min=5, max=25, message="Username must be between 5 & 25 characters"),
+        ],
     )
     password = PasswordField(
-        'Password',
+        "Password",
         validators=[
             DataRequired(),
-            Length(
-                min=8,
-                message="Your password must have at least 8 characters"
-            )
-        ]
+            Length(min=8, message="Your password must have at least 8 characters"),
+        ],
     )
     confirm_password = PasswordField(
-        'Confirm Password',
+        "Confirm Password",
         validators=[
             DataRequired(),
             Length(min=8),
-            EqualTo(
-                'password',
-                message='Passwords must match'
-            )
-        ]
+            EqualTo("password", message="Passwords must match"),
+        ],
     )
     email = StringField(
-        'Email Address',
-        validators=[
-            DataRequired(),
-            Email('Enter a valid email')
-        ]
+        "Email Address", validators=[DataRequired(), Email("Enter a valid email")]
     )
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign Up')
+    remember_me = BooleanField("Remember Me")
+    submit = SubmitField("Sign Up")
 
 
 class AddConnectionForm(FlaskForm):
-    name = StringField(
-        'Full Name',
-        validators=[DataRequired()]
-    )
-    title = StringField('Title')
-    phone = TelField('Phone')
-    email = EmailField(
-        'Email Address',
-        validators=[Email('Enter a valid email')]
-    )
-    tags = HiddenField('Tags')
+    name = StringField("Full Name", validators=[DataRequired()])
+    phone = TelField("Phone")
+    email = EmailField("Email Address", validators=[Email("Enter a valid email")])
+    tags = HiddenField("Tags")
     contact_by = StringField(
-        'Contact By',
+        "Contact By",
     )
     last_contacted = StringField(
-        'Last Contacted',
+        "Last Contacted",
     )
-    note = TextAreaField('Note')
-    submit = SubmitField('Add Connection')
+    note = TextAreaField("Note")
+    submit = SubmitField("Add Connection")
 
 
 class RequestResetForm(FlaskForm):
     email_or_username = StringField(
-        'Email Address or Username',
-        validators=[
-            DataRequired()
-        ]
+        "Email Address or Username", validators=[DataRequired()]
     )
-    submit = SubmitField('Request Password Reset')
+    submit = SubmitField("Request Password Reset")
 
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField(
-        'Password',
+        "Password",
         validators=[
             DataRequired(),
-            Length(
-                min=8,
-                message="Your password must have at least 8 characters"
-            )
-        ]
+            Length(min=8, message="Your password must have at least 8 characters"),
+        ],
     )
     confirm_password = PasswordField(
-        'Confirm Password',
+        "Confirm Password",
         validators=[
             DataRequired(),
             Length(min=8),
-            EqualTo(
-                'confirm_password',
-                message='Passwords must match'
-            )
-        ]
+            EqualTo("confirm_password", message="Passwords must match"),
+        ],
     )
-    submit = SubmitField('Reset Password')
+    submit = SubmitField("Reset Password")

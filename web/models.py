@@ -34,14 +34,14 @@ class Users(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def get_reset_token(self, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+        s = Serializer(app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"user_id": self.id}).decode("utf-8")
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(app.config["SECRET_KEY"])
         try:
-            user_id = s.loads(token)['user_id']
+            user_id = s.loads(token)["user_id"]
 
         # TODO: use a narrower exception
         except Exception:
@@ -51,13 +51,23 @@ class Users(UserMixin, db.Model):
 
 class UserConnections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userid = db.Column(db.Integer, db.ForeignKey('users.id'))
+    userid = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String(200))
-    title = db.Column(db.String(600))
     email = db.Column(db.String(128))
     phone = db.Column(db.String(50))
     tags = db.Column(db.String(200))
     contact_by = db.Column(db.Date())
     last_contacted = db.Column(db.Date())
     note = db.Column(db.String(2000))
-    users = db.relationship('Users', foreign_keys=userid)
+    users = db.relationship("Users", foreign_keys=userid)
+
+    def serialize(self) -> dict:
+        return {
+            "name": self.name,
+            "email": self.email,
+            "phone": self.phone,
+            "tags": self.tags,
+            "contact_by": self.contact_by,
+            "last_contacted": self.last_contacted,
+            "note": self.note,
+        }

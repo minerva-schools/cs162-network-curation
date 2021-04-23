@@ -1,6 +1,29 @@
 {% extends "base.html" %}
 {% block navbutton %}
 
+    <div class="dropdown-container">
+        <button type="button" class="btn btn-info my-2 my-sm-0 reminders" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            Reminders
+            <span class="badge badge-light">{{ badge_num }}</span>
+            <span class="sr-only">unread reminders</span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {% if badge_num > 0 %}
+                <span class="dropdown-item-text" href="#">Click after you have contacted each person.</span>
+                <div class="dropdown-divider"></div>
+            {% endif %}
+            {% for connection in overdue_connections %}
+                <a class="dropdown-item" href="{{ url_for('contact', contactid=connection.id) }}">You need to
+                    contact {{ connection.name }}!</a>
+            {% endfor %}
+
+            {% if badge_num == 0 %}
+                <span class="dropdown-item-text" href="#">All cleared!</span>
+            {% endif %}
+        </div>
+    </div>
+
     <a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
 
 {% endblock %}
@@ -10,6 +33,10 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     >
+    <link
+            rel="stylesheet"
+            href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
+    />
     <style>
         .modal {
             /* Override Boostrap options for Materialize CSS to work */
@@ -37,39 +64,115 @@
             align-items: center;
             text-align: center;
         }
+
+        label {
+            color: black;
+            font-size: 16px;
+        }
+
+        .dataTables_wrapper {
+            font-size: 15px;
+        }
+
+        .table th {
+            background-color: #eb5757;
+            color: white;
+        }
+
+        .page-link {
+            size: 10px;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .pagination li a {
+            font-size: 12px;
+        }
+
+        .page-item.active .page-link {
+            background-color: grey;
+        }
+
+        .table-icon {
+            font-size: 18px;
+        }
+
+        .btn {
+            background-color: #2d9cdb
+        }
+
+        .prefix ~ .chips {
+            margin-top: 0px;
+        }
+
+        .row {
+            margin-bottom: 0px;
+        }
+
+        #connection-modal {
+            max-height: 100% !important;
+        }
+        td a { cursor: pointer; }
     </style>
-
-    <div class="container">
-
+    <!-- Table skeleton  -->
+    <div class="container-md">
         {% if connections|length > 0 %}
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover connections-table">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Last Contacted</th>
-                        <th scope="col">Contact By</th>
-                        <th scope="col">Tags</th>
-                        <th scope="col">Note</th>
+                        <th></th>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Last Contacted</th>
+                        <th>Contact By</th>
+                        <th>Associations</th>
+                        <th>Note</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for connection in connections %}
-                        <tr>
-                            <th scope="row">{{ loop.index }}</th>
-                            <td>{{ connection.title }}</td>
+                        <tr id="{{ connection.id }}">
+                            <td><a class="connection-edit modal-trigger" onclick="editRow(event)"><span
+                                    class="fa fa-edit table-icon"></span></a>
+                            </td>
+                            <!-- Modal trigger for delete popup warning message-->
+                            <td><a class="modal-trigger" href="#warning-modal-{{ connection.id }}"><span
+                                    class="fa fa-trash table-icon"
+                                    id="delete"
+                                    value="{{ connection }}"></span></a>
+                            </td>
                             <td>{{ connection.name }}</td>
-                            <td>{{ connection.phone }}</td>
                             <td>{{ connection.email }}</td>
+                            <td>{{ connection.phone }}</td>
                             <td>{{ connection.last_contacted }}</td>
                             <td>{{ connection.contact_by }}</td>
-                            <td>{{ connection.tags }}</td>
+                            <td>
+                                {% for tag in connection.tags.replace(',', '').split() %}
+                                    <span class="chip"> {{ tag }} </span>
+                                {% endfor %}
+                            </td>
                             <td>{{ connection.note }}</td>
                         </tr>
+
+                        <!-- Modal Structure for delete popup warning message-->
+                        <div id="warning-modal-{{ connection.id }}" class="modal">
+                            <div class="modal-content">
+                                <h4>Are you sure?</h4>
+                                <p>This row will be permanently deleted from your connections table. This cannot be
+                                    undone.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                                <a href="/delete/{{ connection.id }}"
+                                   class="modal-close waves-effect waves-light btn-flat red">Delete</a>
+                            </div>
+                        </div>
+
                     {% endfor %}
                     </tbody>
                 </table>
@@ -83,12 +186,20 @@
             </div>
         {% endif %}
 
+
+
         <!-- Tap Target Structure -->
-        <div id="add-connection-tap-target" class="tap-target light-blue accent-3" data-target="add-connection-btn">
+        <div
+                id="add-connection-tap-target"
+                class="tap-target light-blue accent-3"
+                data-target="add-connection-btn"
+        >
             <div class="tap-target-content">
                 <h5>Add a connection</h5>
-                <p class="text-body">Click to add a connection that you care about. We will make sure to help follow up
-                    with them.</p>
+                <p class="text-body">
+                    Click to add a connection that you care about. We will make sure to help
+                    follow up with them.
+                </p>
             </div>
         </div>
 
@@ -107,46 +218,43 @@
             </a>
         </div>
 
-        <!-- Modal Structure -->
+        <!-- Modal Structure to add a new connection -->
         <div id="connection-modal" class="modal">
             <div class="modal-content">
-                <form id="connection-form" class="col s12" action="{{ url_for('add_connection') }}" method="POST">
+                <form
+                        id="connection-form"
+                        class="col s12"
+                        action="{{ url_for('add_connection') }}"
+                        method="POST"
+                >
                     {{ form.hidden_tag() }}
                     <h2>Add a Connection</h2>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">person</i>
-                            {{ form.title(size=32, class="validate") }}
-                            {{ form.title.label }}
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">person</i>
-                            {{ form.name(size=32, class="validate") }}
-                            {{ form.name.label }}
+                            {{ form.name(size=32, class="validate") }} {{ form.name.label(class="active") }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">email</i>
-                            {{ form.email(size=32, class="validate") }}
-                            {{ form.email.label }}
+                            {{ form.email(size=32, class="validate") }} {{ form.email.label(class="active") }}
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">phone</i>
-                            {{ form.phone(size=32, class="validate") }}
-                            {{ form.phone.label }}
+                            {{ form.phone(size=32, class="validate") }} {{ form.phone.label(class="active") }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">date_range</i>
-                            {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
-                            {{ form.last_contacted.label }}
+                            {{ form.last_contacted(size=32, placeholder="yyyy-mm-dd",
+            class="datepicker validate") }} {{ form.last_contacted.label }}
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">date_range</i>
-                            {{ form.contact_by(size=32, placeholder="yyyy-mm-dd", class="datepicker validate") }}
-                            {{ form.contact_by.label }}
+                            {{ form.contact_by(size=32, placeholder="yyyy-mm-dd",
+            class="datepicker validate") }} {{ form.contact_by.label }}
                         </div>
                     </div>
 
@@ -160,8 +268,7 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">description</i>
-                            {{ form.note(size=64, class="materialize-textarea") }}
-                            {{ form.note.label }}
+                            {{ form.note(size=64, class="materialize-textarea") }} {{ form.note.label }}
                         </div>
                     </div>
                     <div class="row">
@@ -175,75 +282,181 @@
                                 <li>{{ message }}</li>
                             {% endfor %}
                         </ul>
-                    {% endif %} {% endwith %}
+                    {% endif %}
+                    {% endwith %}
                 </form>
             </div>
         </div>
+        <!-- end modal structure for add new connection  -->
+    </div>
 
     </div>
 
+    <!-- Compiled and minified JavaScript Materialize -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const datePickerElems = document.querySelectorAll('.datepicker');
+        $(".connections-table").DataTable({
+            fixedHeader: true,
+            order: [[2, "asc"]],
+            info: false,
+            ordering: true,
+            lengthChange: false,
+            pageLength: 10,
+            columnDefs: [
+                {
+                    targets: 0,
+                    orderable: false,
+                },
+                {
+                    targets: 1,
+                    orderable: false,
+                },
+            ],
+        });
+
+        let connectionFormMethod = "POST";
+
+        const formElem = document.getElementById("connection-form");
+        const connectionModal = document.getElementById('connection-modal');
+        let connectionModalInstance;
+
+        const tagsChipsElem = document.getElementById("tags-chips");
+        let tagsChipsInstance;
+
+        // function that converts date to the appropriate format (yyyy-MM-dd)
+        const formatDate = (date) => {
+            if (date) {
+                // If the date is not empty format it
+                let d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+
+                return [year, month, day].join('-');
+            }
+            return ''
+        }
+
+        const clearChips = () => {
+            const chipCount = tagsChipsInstance.chipsData.length;
+            for (i = 0; i < chipCount; i++) {
+                tagsChipsInstance.deleteChip(0);
+            }
+        }
+
+        const editRow = (event) => {
+            const connection_id = event.target.parentNode.parentNode.parentNode.id;
+            connectionFormMethod = "PUT";
+            const editUrl = `edit_connection/${connection_id}`
+            formElem.action = editUrl;
+            fetch(editUrl, {method: 'GET'})
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    connectionModal.querySelector('#name').value = data['name']
+                    connectionModal.querySelector('#email').value = data['email']
+                    connectionModal.querySelector('#phone').value = data['phone']
+                    connectionModal.querySelector('#contact_by').value = formatDate(data['contact_by']);
+                    clearChips();
+                    data['tags'].split(',').forEach((tag) => {
+                        tagsChipsInstance.addChip({
+                            tag: tag,
+                            image: '', // optional
+                        });
+                    });
+                    connectionModal.querySelector('#last_contacted').value = formatDate(data['last_contacted'])
+                    connectionModal.querySelector('#note').value = data['note']
+                    M.updateTextFields();
+                    connectionModalInstance.open();
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const datePickerElems = document.querySelectorAll(".datepicker");
             const datePickerOptions = {
-                container: document.getElementsByTagName('body'),
-                format: "yyyy-mm-dd"
-            }
-            const datePickerInstances = M.Datepicker.init(datePickerElems, datePickerOptions);
-
-            const chipElems = document.querySelectorAll('.chips');
-            const chipOptions = {
-                placeholder: "Tags",
-                secondaryPlaceholder: "+ Add a tag"
-            }
-            const chipInstances = M.Chips.init(chipElems, chipOptions);
-
-            const modalElems = document.querySelectorAll('.modal');
-            const modalInstances = M.Modal.init(modalElems);
-
-            const toolTipElems = document.querySelectorAll('.tooltipped');
-            const toolTipInstances = M.Tooltip.init(toolTipElems);
-
-            const tapTargetElems = document.querySelectorAll('.tap-target');
-            const tapTargetInstances = M.TapTarget.init(tapTargetElems);
-
-            const addConnectionTapTargetInstance = M.TapTarget.getInstance(
-                document.getElementById('add-connection-tap-target')
+                container: document.getElementsByTagName("body"),
+                format: "yyyy-mm-dd",
+            };
+            const datePickerInstances = M.Datepicker.init(
+                datePickerElems,
+                datePickerOptions
             );
 
-            let connectionsCount = '{{ connections | length }}'
+            const chipElems = document.querySelectorAll(".chips");
+            const chipOptions = {
+                placeholder: "Associations",
+                secondaryPlaceholder: "+Add association",
+            };
+            const chipInstances = M.Chips.init(chipElems, chipOptions);
+
+            const modalElems = document.querySelectorAll(".modal");
+            const modalInstances = M.Modal.init(modalElems);
+
+            const toolTipElems = document.querySelectorAll(".tooltipped");
+            const toolTipInstances = M.Tooltip.init(toolTipElems);
+
+            const tapTargetElems = document.querySelectorAll(".tap-target");
+            const tapTargetInstances = M.TapTarget.init(tapTargetElems);
+
+            const addConnectionElem = document.getElementById('add-connection-btn');
+
+            const addConnectionTapTargetInstance = M.TapTarget.getInstance(
+                document.getElementById("add-connection-tap-target")
+            );
+            tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
+            connectionModalInstance = M.Modal.getInstance(connectionModal);
+
+            addConnectionElem.addEventListener('click', () => {
+                formElem.action = '{{ url_for('add_connection') }}';
+                formElem.reset();
+                clearChips();
+                connectionFormMethod = "POST";
+                M.updateTextFields();
+            })
+
+            let connectionsCount = "{{ connections | length }}";
             if (connectionsCount < 1) {
                 setTimeout(() => {
                     addConnectionTapTargetInstance.open();
                 }, 1000);
             }
 
-            const formElem = document.getElementById("connection-form");
-            formElem.addEventListener('submit', (e) => {
+            formElem.addEventListener("submit", (e) => {
                 e.preventDefault();
                 e.stopPropagation();
 
-                const tagsChipsElem = document.getElementById('tags-chips');
-                const tagsChipsInstance = M.Chips.getInstance(tagsChipsElem);
-                const tagData = tagsChipsInstance.chipsData.reduce((accumulator, current_value, i, array) => {
-                    accumulator += current_value.tag
-                    if (i !== array.length - 1) {
-                        accumulator += ','
-                    }
-                    return accumulator;
-                }, '');
+                const tagData = tagsChipsInstance.chipsData.reduce(
+                    (accumulator, current_value, i, array) => {
+                        accumulator += current_value.tag;
+                        if (i !== array.length - 1) {
+                            accumulator += ", ";
+                        }
+                        return accumulator;
+                    },
+                    ""
+                );
 
-                const tagsElem = document.getElementById('tags');
-                tagsElem.value = tagData
+                const tagsElem = document.getElementById("tags");
+                tagsElem.value = tagData;
                 fetch(formElem.action, {
-                    method: 'POST',
-                    body: new URLSearchParams(new FormData(formElem))
+                    method: connectionFormMethod,
+                    body: new URLSearchParams(new FormData(formElem)),
                 }).then((res) => {
                     console.log(res);
                     formElem.reset();
                     M.Chips.init(chipElems, chipOptions);
                     const addConnectionModalForm = M.Modal.getInstance(
-                        document.getElementById('connection-modal')
+                        document.getElementById("connection-modal")
                     );
                     addConnectionModalForm.close();
                     if (res.redirected) {
@@ -251,11 +464,10 @@
                     }
                 });
                 return true;
-            })
+            });
         });
     </script>
 
     <!-- Compiled and minified JavaScript Materialize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 {% endblock %}
-
