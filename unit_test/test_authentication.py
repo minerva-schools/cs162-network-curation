@@ -71,6 +71,8 @@ def test_aboutus_access(client):
     assert rv.status_code == 200
 
 def test_short_password_signup(client):
+    db.drop_all()
+    db.create_all()
     # too short of a password
     rv = signup(client, app.config["USERNAME"], app.config["EMAIL"], "s", "s")
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is None
@@ -78,6 +80,8 @@ def test_short_password_signup(client):
 
 
 def test_passwords_not_matching(client):
+    db.drop_all()
+    db.create_all()
     # passwords don't match
     rv = signup(
         client, app.config["USERNAME"], app.config["EMAIL"], "Poodles1", "OzzyDogs1"
@@ -87,6 +91,8 @@ def test_passwords_not_matching(client):
 
 
 def test_invalid_email_signup(client):
+    db.drop_all()
+    db.create_all()
     # invalid email address
     rv = signup(
         client,
@@ -100,6 +106,8 @@ def test_invalid_email_signup(client):
 
 
 def test_short_username_signup(client):
+    db.drop_all()
+    db.create_all()
     # too short of a username
     rv = signup(
         client,
@@ -113,6 +121,8 @@ def test_short_username_signup(client):
 
 
 def test_invalid_username_signup(client):
+    db.drop_all()
+    db.create_all()
     # username has a dollar sign
     rv = signup(
         client,
@@ -126,6 +136,8 @@ def test_invalid_username_signup(client):
 
 
 def test_correct_signup(client):
+    db.drop_all()
+    db.create_all()
     # valid signup
     rv = signup(
         client,
@@ -134,9 +146,12 @@ def test_correct_signup(client):
         app.config["PASSWORD"],
         app.config["PASSWORD"],
     )
+    print(rv.data)
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is not None
 
 def test_user_added(client):
+    db.drop_all()
+    db.create_all()
     assert Users.query.filter_by(name="test123").first() is None
     test_user = Users(name="test123", email="email@email.com")
     test_user.set_password("Poodles01$")
@@ -144,8 +159,9 @@ def test_user_added(client):
     db.session.commit()
     assert Users.query.filter_by(name="test123").first() is not None
 
-def test_correct_loginlogout_username(client):
+# Test login/logout/add connection using test user
 
+def test_correct_loginlogout_username(client):
     # LOGIN VIA USERNAME
     rv = login(client, "test123", "Poodles01$")
     assert b"Add a Connection" in rv.data
