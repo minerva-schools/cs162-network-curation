@@ -1,6 +1,12 @@
 {% extends "base.html" %} {% block navbutton %}
+<div class="dropdown-container">
 
-<a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
+    <a href="{{ url_for('main') }}" class="btn btn-info my-2 my-sm-0">Contacts</a>
+
+    <a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
+
+    
+</div>
 {% endblock %} {% block content %}
 <style>
     grid-container {
@@ -41,33 +47,10 @@
 
 </style>
 <div class="wrapper">
-  <nav id="sidebar">
-    <div class="sidebar-header">
-      <h3>User Information</h3>
-    </div>
-    <ul class="lisst-unstyled components">
-      <li class="active"></li>
-      <li>
-        <a href="{{ url_for('main') }}"
-          ><span class="fa fa-address-book sidebar-icons"></span>Contacts</a
-        >
-      </li>
-      <li>
-        <a href="#"
-          ><span class="fa fa-clock-o sidebar-icons"></span>Reminders</a
-        >
-      </li>
 
-      <li>
-        <a href="{{ url_for('msg_templates') }}#"><span class="fa fa-file sidebar-icons"></span>Templates</a>
-      </li>
-    </ul>
-  </nav>
 
   <div id="content">
-    <button type="button" id="sidebarCollapse" class="btn btn-info">
-      <i class="fa fa-bars"></i>
-    </button>
+    
     <grid-container>
             <grid-item>  
                 <img src="../static/images/mail.svg" />

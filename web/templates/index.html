@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block navbutton %}
 
 <div class="dropdown-container">
+
+    <a href="{{ url_for('msg_templates') }}" class="btn btn-info my-2 my-sm-0">Templates</a> 
     <button type="button" class="btn btn-info my-2 my-sm-0 reminders" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Reminders
             <span class="badge badge-light">{{ badge_num }}</span>
