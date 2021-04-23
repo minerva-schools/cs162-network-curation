@@ -43,10 +43,10 @@ def signup():
     if form.validate_on_submit():
         user_name = Users.query.filter_by(name=form.user_name.data).first()
         user_email = Users.query.filter_by(email=form.email.data).first()
-        if user_name:
-            flash("That username is taken. Please choose another one.")
-        elif user_email:
+        if user_email:
             flash("That email is taken. Please choose another one.")
+        elif user_name:
+            flash("That username is taken. Please choose another one.")
         else:
             # Create a new user
             user = Users(name=form.user_name.data, email=form.email.data)
@@ -93,10 +93,10 @@ def login():
         user_email = Users.query.filter_by(email=form.email_or_username.data).first()
         user = user_name or user_email
         if user is None:
-            flash("Invalid email or username")
+            flash("Invalid email or username.")
             return redirect(url_for("index"))
         elif not user.check_password(form.password.data):
-            flash("Invalid password")
+            flash("Invalid password.")
             return redirect(url_for("index"))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for("main"))
@@ -160,7 +160,7 @@ def reset_request():
         flash(
             "An email has been sent with instructions to reset your password.", "info"
         )
-        return redirect(url_for("login"))
+        return redirect(request.url)
     return render_template("reset_request.html", title="Reset Password", form=form)
 
 
