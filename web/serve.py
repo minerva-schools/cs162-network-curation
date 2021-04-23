@@ -21,13 +21,19 @@ def load_user(user_id):
     """Finds the user given their id"""
     return Users.query.get(int(user_id))
 
+@app.route('/', methods = ['GET'])
+def landing():  
+    return render_template('landing.html')
 
-@app.route("/", methods=["GET", "POST"])
+
+
+@app.route('/aboutus', methods=['GET', 'POST'])
 def index():
     if current_user is not None and current_user.is_authenticated:
         print("Authenticated")
-        return redirect(url_for("main"))
-    return redirect(url_for("login"))
+        return redirect(url_for('main'))
+    return redirect(url_for('landing'))
+
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -127,6 +133,10 @@ def main():
         form=form,
     )
 
+@app.route("/message-templates")
+@login_required
+def msg_templates():
+    return render_template('msg_templates.html')
 
 def send_reset_email(user):
     token = user.get_reset_token()
