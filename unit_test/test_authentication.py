@@ -60,6 +60,10 @@ def client():
     os.close(db_fd)
     os.unlink(app.config["DATABASE"])
 
+def test_aboutus_access(client):
+    rv = client.get('/aboutus', follow_redirects=True)
+    assert rv.status_code == 200
+
 def test_short_password_signup(client):
     # too short of a password
     rv = signup(client, app.config["USERNAME"], app.config["EMAIL"], "s", "s")
@@ -172,3 +176,21 @@ def test_invalid_password_login(client):
     rv = login(client, "email@email.com", "Poodles01$" + "x")
     assert b"Invalid password" in rv.data
     assert Users.query.filter_by(name="test123").first() is not None
+
+def test_template_access(client):
+    rv = login(client, "test123", "Poodles01$")
+    rv = client.get('/message-templates', follow_redirects=True)
+    assert rv.status_code == 200
+
+def test_template_access(client):
+    rv = login(client, "test123", "Poodles01$")
+    rv = client.get('/message-templates', follow_redirects=True)
+    assert rv.status_code == 200
+
+def test_aboutus_loggedin_access(client):
+    rv = client.get('/aboutus', follow_redirects=True)
+    assert rv.status_code == 200
+
+def test_home_loggedin_access(client):
+    rv = client.get('/', follow_redirects=True)
+    assert rv.status_code == 200
