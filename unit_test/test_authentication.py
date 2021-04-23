@@ -7,7 +7,7 @@ import tempfile
 import pytest
 
 from web import create_app, db
-from web.models import Users
+from web.models import Users, UserConnections
 
 app = create_app()
 
@@ -36,6 +36,12 @@ def login(client, email_or_username, password):
 def logout(client):
     return client.get("/logout", follow_redirects=True)
 
+def add_connection(client, name):
+    return client.post(
+        "/add_connection",
+        data=dict(name=name),
+        follow_redirects=True,
+    )
 
 @pytest.fixture
 def client():
@@ -176,16 +182,30 @@ def test_invalid_password_login(client):
     rv = login(client, "email@email.com", "Poodles01$" + "x")
     assert b"Invalid password" in rv.data
     assert Users.query.filter_by(name="test123").first() is not None
-
+    
 def test_template_access(client):
     rv = login(client, "test123", "Poodles01$")
     rv = client.get('/message-templates', follow_redirects=True)
     assert rv.status_code == 200
 
 def test_aboutus_loggedin_access(client):
+    rv = login(client, "test123", "Poodles01$")
     rv = client.get('/aboutus', follow_redirects=True)
     assert rv.status_code == 200
+    rv = logout(client)
 
 def test_home_loggedin_access(client):
+    rv = login(client, "test123", "Poodles01$")
     rv = client.get('/', follow_redirects=True)
     assert rv.status_code == 200
+    rv = logout(client)
+
+def test_add_connection(client):
+    rv = login(client, "test123", "Poodles01$")
+    assert UserConnections.query.filter_by(name="ConnectionAdded").first() is None
+    rv = add_connection(client, "ConnectionAdded")
+    assert rv.status_code == 200
+    assert UserConnections.query.filter_by(name="ConnectionAdded").first() is not None
+    rv = client.get('/', follow_redirects=True)
+    rv = logout(client)
+
