@@ -207,5 +207,6 @@ def test_add_connection(client):
     assert rv.status_code == 200
     assert UserConnections.query.filter_by(name="ConnectionAdded").first() is not None
     rv = client.get('/', follow_redirects=True)
+    assert rv.status_code == 200
     rv = logout(client)
 
