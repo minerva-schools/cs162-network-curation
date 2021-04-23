@@ -126,7 +126,7 @@ def main():
     overdue_connections = get_overdue(connections)
     badge_num = len(overdue_connections)
     return render_template(
-        "mainPage.html",
+        "index.html",
         connections=connections,
         overdue_connections=overdue_connections,
         badge_num=badge_num,
