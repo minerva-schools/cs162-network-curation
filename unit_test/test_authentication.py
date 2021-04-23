@@ -145,6 +145,10 @@ def test_invalid_login_credentials(client):
     rv = login(client, app.config["USERNAME"] + "x", app.config["PASSWORD"])
     assert b"Invalid email or username" in rv.data
 
+    # invalid email
+    rv = login(client, app.config["EMAIL"] + "x", app.config["PASSWORD"])
+    assert b"Invalid email or username" in rv.data
+
     # invalid password
     rv = login(client, app.config["USERNAME"], app.config["PASSWORD"] + "x")
     assert b"Invalid password" in rv.data
