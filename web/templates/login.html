@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block navbutton %}
-<a href="{{ url_for('signup') }}" class="btn btn-info">Sign Up</a>
+<a href="{{ url_for('signup') }}" class="btn btn-info">SIGN UP</a>
 
 {% endblock %} {% block content %}
 
@@ -35,11 +35,11 @@
                 </form>
 
                 {% with messages = get_flashed_messages() %} {% if messages %}
-                    <ul>
-                        {% for message in messages %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% for message in messages %}
+                        <div class="alert alert-primary" role="alert">
+                        {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endif %} {% endwith %}
             </div>
         </div>
