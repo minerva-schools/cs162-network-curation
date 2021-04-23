@@ -35,7 +35,7 @@ def index():
     return redirect(url_for('landing'))
 
 
-
+#signup
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     # TODO: switch to a logging framework

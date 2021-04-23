@@ -385,7 +385,7 @@
         connectionModalInstance = M.Modal.getInstance(connectionModal);
 
         addConnectionElem.addEventListener('click', () => {
-            formElem.action = '{{ url_for('add_connection') }}';
+            formElem.action = "{{ url_for('add_connection') }}";
             formElem.reset();
             clearChips();
             connectionFormMethod = "POST";
