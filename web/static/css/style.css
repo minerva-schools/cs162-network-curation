@@ -208,6 +208,10 @@ a:focus {
     transition: all 0.3s;
 }
 
+#tag-tutorial {
+    padding-top: 20px;
+}
+
 
 /* Side Bar*/
 
@@ -319,8 +323,14 @@ ul ul a {
 }
 
 .alert {
+    text-align: center;
+}
+
+.reminder-alert {
+    margin-top: 10px;
     margin-left: 15%;
     margin-right: 15%;
+
     margin-top: 10px;
     text-align: center;
 }
@@ -376,3 +386,5 @@ cursor: pointer;
 #content-container button:hover{
 opacity: 0.9;
 }
+
+
