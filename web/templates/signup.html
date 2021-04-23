@@ -20,7 +20,6 @@
                     {% for error in form.user_name.errors %}
                         <div class="form-feedback">{{ error }}</div>
                     {% endfor %}
-                    <h6>Passwords must be at least 8 characters.</h6>
                     <div class="field mb-3">
                         {{ form.password(size=32, class="form-control") }} {{ form.password.label }}
                     </div>

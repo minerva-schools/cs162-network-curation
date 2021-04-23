@@ -33,7 +33,7 @@ class SignupForm(FlaskForm):
         ],
     )
     password = PasswordField(
-        "Password",
+        "Password (8 characters+)",
         validators=[
             DataRequired(),
             Length(min=8, message="Your password must have at least 8 characters"),
