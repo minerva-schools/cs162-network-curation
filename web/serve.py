@@ -63,14 +63,14 @@ def signup():
 @login_required
 def add_connection():
     print("Adding Connection")
-    filled_next_reminder, filled_last_contacted, form = get_connection_form()
+    filled_contact_by, filled_last_contacted, form = get_connection_form()
 
     connection = UserConnections(
         userid=current_user.id,
         name=form.name.data,
         email=form.email.data,
         phone=form.phone.data,
-        next_reminder=filled_next_reminder,
+        contact_by=filled_contact_by,
         last_contacted=filled_last_contacted,
         tags=form.tags.data,
         note=form.note.data,
@@ -184,10 +184,10 @@ def reset_token(token):
 def get_overdue(connections):
     overdue_connections = []
     for connection in connections:
-        if connection.next_reminder and connection.next_reminder <= date.today():
+        if connection.contact_by and connection.contact_by <= date.today():
             if (
                 not connection.last_contacted
-                or connection.last_contacted < connection.next_reminder
+                or connection.last_contacted < connection.contact_by
             ):
                 overdue_connections.append(connection)
     return overdue_connections
@@ -211,9 +211,9 @@ def contact(contactid):
 def get_connection_form():
     form = AddConnectionForm()
     # Prevent raising errors when optional fields are not filled
-    filled_next_reminder = None
+    filled_contact_by = None
     try:
-        filled_next_reminder = datetime.strptime(form.next_reminder.data, "%Y-%m-%d").date()
+        filled_contact_by = datetime.strptime(form.contact_by.data, "%Y-%m-%d").date()
     except ValueError:
         pass
     filled_last_contacted = None
@@ -223,7 +223,7 @@ def get_connection_form():
         ).date()
     except ValueError:
         pass
-    return filled_next_reminder, filled_last_contacted, form
+    return filled_contact_by, filled_last_contacted, form
 
 
 @app.route("/delete/<int:connection_id>")
@@ -243,11 +243,11 @@ def edit_connection(connection_id):
     if request.method == "GET":
         return jsonify(connection.serialize())
     print("Editing Connection")
-    filled_next_reminder, filled_last_contacted, form = get_connection_form()
+    filled_contact_by, filled_last_contacted, form = get_connection_form()
     connection.name = form.name.data
     connection.email = form.email.data
     connection.phone = form.phone.data
-    connection.next_reminder = filled_next_reminder
+    connection.contact_by = filled_contact_by
     connection.last_contacted = filled_last_contacted
     connection.tags = form.tags.data
     connection.note = form.note.data

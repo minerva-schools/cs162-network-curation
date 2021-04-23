@@ -59,7 +59,7 @@ class AddConnectionForm(FlaskForm):
     phone = TelField("Phone")
     email = EmailField("Email Address", validators=[Email("Enter a valid email")])
     tags = HiddenField("Tags")
-    next_reminder = StringField(
+    contact_by = StringField(
         "Next Reminder Date",
     )
     last_contacted = StringField(
