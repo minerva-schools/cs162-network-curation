@@ -1,0 +1,100 @@
+{% extends "base.html" %} {% block navbutton %}
+
+<a href="{{ url_for('logout') }}" class="btn btn-info my-2 my-sm-0">Log Out</a>
+{% endblock %} {% block content %}
+<style>
+    grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 75px;
+    grid-gap: 10px;
+    text-align: center;
+    width: 80%; /* Can be in percentage also. */
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+    }
+
+    grid-item {
+    display: flex;
+    position: relative;
+    text-align: center;
+    margin: 10%;
+    }
+
+    h2 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+    img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    }
+
+</style>
+<div class="wrapper">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>User Information</h3>
+    </div>
+    <ul class="lisst-unstyled components">
+      <li class="active"></li>
+      <li>
+        <a href="{{ url_for('main') }}"
+          ><span class="fa fa-address-book sidebar-icons"></span>Contacts</a
+        >
+      </li>
+      <li>
+        <a href="#"
+          ><span class="fa fa-clock-o sidebar-icons"></span>Reminders</a
+        >
+      </li>
+
+      <li>
+        <a href="{{ url_for('msg_templates') }}#"><span class="fa fa-file sidebar-icons"></span>Templates</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="content">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+      <i class="fa fa-bars"></i>
+    </button>
+    <grid-container>
+            <grid-item>  
+                <img src="../static/images/mail.svg" />
+            </grid-item>
+            <grid-item>
+            <img src="../static/images/messaging.svg" />
+            </grid-item>
+            <grid-item>
+                <h2>Cold email</h2>
+            </grid-item>
+            <grid-item>
+            <h2>LinkedIn message</h2>
+            </grid-item>
+            <grid-item>
+                <img src="../static/images/text.svg" />
+            </grid-item>
+            <grid-item>
+                <img src="../static/images/add-sign.svg" />
+            </grid-item>
+            <grid-item>    
+                <h2>Catch up message</h2>
+            </grid-item>
+            <grid-item>
+                <h2>Create your own template</h2>
+            </grid-item>
+    </grid-container>
+    </div>
+  </div>
+</div>
+{% endblock %}
