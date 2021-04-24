@@ -1,3 +1,6 @@
+# Project Plink - Network Curation Platform
+### https://network-curation-db.herokuapp.com/ 
+
 # Welcome to CS162 Final Project
 
 ## Run Virtual Environment
