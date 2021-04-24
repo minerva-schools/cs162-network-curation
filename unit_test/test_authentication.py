@@ -7,7 +7,7 @@ import tempfile
 import pytest
 
 from web import create_app, db
-from web.models import Users
+from web.models import Users, UserConnections
 
 app = create_app()
 
@@ -36,6 +36,12 @@ def login(client, email_or_username, password):
 def logout(client):
     return client.get("/logout", follow_redirects=True)
 
+def add_connection(client, name):
+    return client.post(
+        "/add_connection",
+        data=dict(name=name),
+        follow_redirects=True,
+    )
 
 @pytest.fixture
 def client():
@@ -60,7 +66,13 @@ def client():
     os.close(db_fd)
     os.unlink(app.config["DATABASE"])
 
+def test_aboutus_access(client):
+    rv = client.get('/aboutus', follow_redirects=True)
+    assert rv.status_code == 200
+
 def test_short_password_signup(client):
+    db.drop_all()
+    db.create_all()
     # too short of a password
     rv = signup(client, app.config["USERNAME"], app.config["EMAIL"], "s", "s")
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is None
@@ -68,6 +80,8 @@ def test_short_password_signup(client):
 
 
 def test_passwords_not_matching(client):
+    db.drop_all()
+    db.create_all()
     # passwords don't match
     rv = signup(
         client, app.config["USERNAME"], app.config["EMAIL"], "Poodles1", "OzzyDogs1"
@@ -77,6 +91,8 @@ def test_passwords_not_matching(client):
 
 
 def test_invalid_email_signup(client):
+    db.drop_all()
+    db.create_all()
     # invalid email address
     rv = signup(
         client,
@@ -90,6 +106,8 @@ def test_invalid_email_signup(client):
 
 
 def test_short_username_signup(client):
+    db.drop_all()
+    db.create_all()
     # too short of a username
     rv = signup(
         client,
@@ -103,6 +121,8 @@ def test_short_username_signup(client):
 
 
 def test_invalid_username_signup(client):
+    db.drop_all()
+    db.create_all()
     # username has a dollar sign
     rv = signup(
         client,
@@ -116,6 +136,8 @@ def test_invalid_username_signup(client):
 
 
 def test_correct_signup(client):
+    db.drop_all()
+    db.create_all()
     # valid signup
     rv = signup(
         client,
@@ -124,9 +146,12 @@ def test_correct_signup(client):
         app.config["PASSWORD"],
         app.config["PASSWORD"],
     )
+    print(rv.data)
     assert Users.query.filter_by(name=app.config["USERNAME"]).first() is not None
 
 def test_user_added(client):
+    db.drop_all()
+    db.create_all()
     assert Users.query.filter_by(name="test123").first() is None
     test_user = Users(name="test123", email="email@email.com")
     test_user.set_password("Poodles01$")
@@ -134,8 +159,9 @@ def test_user_added(client):
     db.session.commit()
     assert Users.query.filter_by(name="test123").first() is not None
 
-def test_correct_loginlogout_username(client):
+# Test login/logout/add connection using test user
 
+def test_correct_loginlogout_username(client):
     # LOGIN VIA USERNAME
     rv = login(client, "test123", "Poodles01$")
     assert b"Add a Connection" in rv.data
@@ -172,3 +198,31 @@ def test_invalid_password_login(client):
     rv = login(client, "email@email.com", "Poodles01$" + "x")
     assert b"Invalid password" in rv.data
     assert Users.query.filter_by(name="test123").first() is not None
+    
+def test_template_access(client):
+    rv = login(client, "test123", "Poodles01$")
+    rv = client.get('/message-templates', follow_redirects=True)
+    assert rv.status_code == 200
+
+def test_aboutus_loggedin_access(client):
+    rv = login(client, "test123", "Poodles01$")
+    rv = client.get('/aboutus', follow_redirects=True)
+    assert rv.status_code == 200
+    rv = logout(client)
+
+def test_home_loggedin_access(client):
+    rv = login(client, "test123", "Poodles01$")
+    rv = client.get('/', follow_redirects=True)
+    assert rv.status_code == 200
+    rv = logout(client)
+
+def test_add_connection(client):
+    rv = login(client, "test123", "Poodles01$")
+    assert UserConnections.query.filter_by(name="ConnectionAdded").first() is None
+    rv = add_connection(client, "ConnectionAdded")
+    assert rv.status_code == 200
+    assert UserConnections.query.filter_by(name="ConnectionAdded").first() is not None
+    rv = client.get('/', follow_redirects=True)
+    assert rv.status_code == 200
+    rv = logout(client)
+
