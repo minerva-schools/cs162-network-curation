@@ -1,11 +1,10 @@
 {% extends "base.html" %} {% block navbutton %}
 
 <a href="{{ url_for('login') }}" class="btn btn-info" id="navbar-button"
-  >Log In</a>
+  >LOG IN</a>
 
 {% endblock %} {% block content %}
 
-<body>
 <style>
    button {
       position:relative;
@@ -16,38 +15,30 @@
       left: 20px;
    }
 
-   image {
-      padding: 20px;
-      position: relative;
-   }
-
    h1 {
       padding: 15px;
+      margin-top: 30px;
       left: 20px;
    }
 
    p {
       padding: 15px;
       left: 20px;
+      margin: auto;
    }
 </style>
-	
-<div id="container", style="width: 100%;">
-   <p></p>
+
+<div id="container">
    <div id="content-container">
       <h1 style="color: #EB5757">Make and keep meaningful connections.</h1>
-      <p style="color: black;"> We'll make it easy. With us, you can curate your network on the palm of your hand. Let us remind you when you need to call a friend, when you need to reach out to new contacts or how to cold email a professional figure. We are Plink!</p>
-      <button style="background-color: #2D9CDB;"><a href="{{ url_for('signup') }}" id="navbar-button"
-  >Sign Up Now!</a></button>
+      <button style="background-color: #2D9CDB;"><a href="{{ url_for('signup') }}" id="navbar-button">Sign Up Now!</a></button>
    </div>
-   <p></p>
    <div id="bg-container">
-      <img class='image' src="{{ url_for('static', filename='images/logo.png') }}", width="300" height="300">
+      <p style="color: black;"> We are Plink! With us, you can curate your network on the palm of your hand. Let us remind you
+               when you need to call a friend, when you need to reach out to new contacts or how to cold email a professional
+               figure. </p>
    </div>
 </div>
-
-
-</body>
 
 {% endblock %}
 
