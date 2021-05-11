@@ -14,4 +14,4 @@ Werkzeug==1.0.1
 pytest==6.2.3
 wtforms[email]==2.3.3
 Flask-Mail==0.9.1
-eventlet==0.30.2
+eventlet==0.31.0
